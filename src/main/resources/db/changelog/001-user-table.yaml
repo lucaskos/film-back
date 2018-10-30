@@ -1,0 +1,141 @@
+databaseChangeLog:
+- changeSet:
+    id: user table creationi
+    author: lkosmala
+    changes:
+    - createTable:
+        tableName: user
+        columns:
+        - column:
+            name: id
+            type: number(15)
+        - column:
+            name: username
+            type: varchar(255)
+        - column:
+            name: password
+            type: varchar(255)
+        - column:
+            name: enabled
+            type: boolean
+        - column:
+            name: email
+            type: varchar(255)
+        - addPrimaryKey:
+            tableName: user
+            constraintName: user_id
+            columnNames: id
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_USER_ID
+            startValue: 1
+- changeSet:
+    id: role table creation
+    author: lkosmala
+    changes:
+    - createTable:
+        tableName: role
+        columns:
+        - column:
+            name: id
+            type: number(15)
+        - column:
+            name: name
+            type: varchar(255)
+        - addPrimaryKey:
+            tableName: roles
+            constraintName: role_id
+            columnName: id
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_ROLE_ID
+            startValue: 1
+- changeSet:
+    id: user_role table creationi
+    author: lkosmala
+    changes:
+    - createTable:
+        tableName: users_roles
+        columns:
+        - column:
+            name: users_id
+            type: number(15)
+        - column:
+            name: roles_id
+            type: number(15)
+        - addForeignKeyConstraint:
+            baseTableName: user
+            baseColumnNames: users_id
+            referencedTableName: user_role
+            referenceColumnNames: user_id
+        - addForeignKeyConstraint:
+            baseTableName: role
+            baseColumnNames: roles_id
+            referencedTableName: user_role
+            referenceColumnNames: role_id
+- changeSet:
+    id: role person creation
+    author: lkosmala
+    changes:
+    - createTable:
+        tableName: person
+        columns:
+        - column:
+            name: id
+            type: number(15)
+        - column:
+            name: first_name
+            type: varchar(255)
+        - column:
+            name: last_name
+            type: varchar(255)
+        - column:
+            name: born_date
+            type: date
+        - column:
+            name: died_date
+            type: date
+        - column:
+            name: biography
+            type: varchar(255)
+        - addPrimaryKey:
+            tableName: person
+            constraintName: person_id
+            columnName: id
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_PERSON_ID
+            startValue: 1
+- changeSet:
+    id: film creation
+    author: lkosmala
+    changes:
+    - createTable:
+        tableName: film
+        columns:
+        - column:
+            name: id
+            type: number(15)
+        - column:
+            name: title
+            type: varchar(255)
+        - column:
+            name: release_year
+            type: number(4)
+        - column:
+            name: description
+            type: varchar(255)
+        - column:
+            name: died_date
+            type: date
+        - column:
+            name: biography
+            type: varchar(255)
+        - addPrimaryKey:
+            tableName: film
+            constraintName: film_id
+            columnName: id
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_FILM_ID
+            startValue: 1
