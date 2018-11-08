@@ -1,9 +1,8 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

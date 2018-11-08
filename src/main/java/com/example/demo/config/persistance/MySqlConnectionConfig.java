@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.config.persistance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,7 +18,6 @@ import java.util.Properties;
 @Configuration
 @Profile("runtime")
 @ConfigurationProperties("mysql")
-@EnableTransactionManagement
 public class MySqlConnectionConfig {
 
     @NotNull
@@ -58,9 +57,9 @@ public class MySqlConnectionConfig {
 
     @Autowired
     @Bean
-    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(emf);
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
         return jpaTransactionManager;
     }
 

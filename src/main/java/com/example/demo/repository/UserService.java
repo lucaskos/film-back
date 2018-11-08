@@ -1,9 +1,9 @@
-package com.example.demo.config;
+package com.example.demo.repository;
 
-import com.example.demo.Role;
-import com.example.demo.User;
-import com.example.demo.UserRepository;
-import com.example.demo.config.model.NewUser;
+import com.example.demo.config.UserNotFoundException;
+import com.example.demo.model.Role;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.config.service.TokenService;
 import com.example.demo.config.service.UsernameTakenException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.Collections;
 
 /**

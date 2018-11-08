@@ -4,3 +4,5 @@ databaseChangeLog:
     file: db/changelog/001-user-table.yaml
 - include:
     file: db/changelog/liquibase/001-insert-test-user-data.yaml
+- include:
+    file: db/changelog/liquibase/002-insert-film-data.yaml

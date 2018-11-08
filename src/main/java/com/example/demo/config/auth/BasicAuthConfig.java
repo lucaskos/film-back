@@ -1,5 +1,7 @@
 package com.example.demo.config.auth;
 
+import com.example.demo.auth.JWTAuthorizationFilter;
+import com.example.demo.auth.JwtAuthenticationFilter;
 import com.example.demo.config.TokenAuthenticationFilter;
 import com.example.demo.config.service.UsernamePasswordDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,65 +18,67 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import static com.example.demo.config.SecurityConstants.SIGN_UP_URL;
 
 /**
  * Created by Luke on 24.10.2018.
  */
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 //@Order(1)
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
-    private UsernamePasswordDetailsService service;
-    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public BasicAuthConfig(UsernamePasswordDetailsService service, PasswordEncoder passwordEncoder) {
-        this.service = service;
-        this.passwordEncoder = passwordEncoder;
+    private UserDetailsService userDetailsService;
+
+    public BasicAuthConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
-    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .antMatcher("/api/token")
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//    }
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/api/user")
-                .authorizeRequests()
-                .mvcMatchers(HttpMethod.POST, "/api/user").anonymous()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(authFilter(), RequestHeaderAuthenticationFilter.class)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .csrf().disable();
-    }
 
+//        http.cors().and().csrf().disable().authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/**").permitAll()
+//                .and()
+//                .authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsServiceBean()))
+//                // this disables session creation on Spring Security
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2_console/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+    }
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(service)
-                .passwordEncoder(passwordEncoder);
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(getBCryptPasswordEncoder());
+    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
     }
 
-
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    @Bean
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
 }

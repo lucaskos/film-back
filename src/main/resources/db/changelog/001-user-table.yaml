@@ -125,12 +125,6 @@ databaseChangeLog:
         - column:
             name: description
             type: varchar(255)
-        - column:
-            name: died_date
-            type: date
-        - column:
-            name: biography
-            type: varchar(255)
         - addPrimaryKey:
             tableName: film
             constraintName: film_id
@@ -139,3 +133,33 @@ databaseChangeLog:
             incrementBy: 1
             sequenceName: SEQ_FILM_ID
             startValue: 1
+- changeSet:
+    id: filmrealation table
+    author: lkosmala
+    changes:
+    - createTable:
+        tableName: film_relation
+        columns:
+        - column:
+            name: id
+            type: number(15)
+        - column:
+            name: role
+            type: varchar(100)
+        - column:
+            name: film
+            type: number(15)
+        - addPrimaryKey:
+            tableName: film_relation
+            constraintName: film_relation_id
+            columnName: id
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_FILM_REL_ID
+            startValue: 1
+        - addForeignKeyConstraint:
+            baseColumnNames: film
+            baseTableName: film_relation
+            constraintName: fk_film_relation_film
+            referencedColumnNames: id
+            referencedTableName: film

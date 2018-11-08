@@ -1,8 +1,6 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;

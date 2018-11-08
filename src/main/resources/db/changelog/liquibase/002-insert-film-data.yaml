@@ -1,0 +1,36 @@
+databaseChangeLog:
+- changeSet:
+    id: insert film data
+    author: lkosmala
+    changes:
+    - insert:
+        columns:
+        - column:
+            name: id
+            value: 1
+        - column:
+            name: title
+            value: 'test'
+        - column:
+            name: release_year
+            value: 1999
+        - column:
+            name: description
+            value: 'test description'
+        tableName: film
+- changeSet:
+    id: insert film relation data
+    author: lkosmala
+    changes:
+    - insert:
+        columns:
+        - column:
+            name: id
+            value: 1
+        - column:
+            name: role
+            value: 'test role'
+        - column:
+            name: film
+            value: 1
+        tableName: film_relation

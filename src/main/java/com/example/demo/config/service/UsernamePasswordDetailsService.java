@@ -1,18 +1,16 @@
 package com.example.demo.config.service;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.demo.Role;
-import com.example.demo.User;
+import com.example.demo.model.Role;
+import com.example.demo.model.User;
 import com.example.demo.config.UserNotFoundException;
-import com.example.demo.config.UserService;
+import com.example.demo.repository.UserService;
 import com.example.demo.config.model.TokenProperties;
 import com.example.demo.config.model.TokenUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

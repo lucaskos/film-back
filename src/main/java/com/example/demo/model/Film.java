@@ -1,9 +1,12 @@
-package com.example.demo;
+package com.example.demo.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 //@XmlRootElement
 @Entity
@@ -16,7 +19,7 @@ public class Film implements Serializable {
     private String title;
     private Integer year;
     private String description;
-//    private Set<FilmRelations> filmRelations = new HashSet<>();
+    private Set<FilmRelations> filmRelations = new HashSet<>();
 //    private LocalDate creationDate;
 //    private LocalDate modificationDate;
 //    private Set<FilmComments> filmComments = new LinkedHashSet<>();
@@ -31,23 +34,23 @@ public class Film implements Serializable {
         this.description = description;
     }
 
-//    @JsonIgnore
-//    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType
-//            .ALL)
-//    public Set<FilmRelations> getFilmRelations() {
-//        return filmRelations;
-//    }
-//
-//    public void setFilmRelations(Set<FilmRelations> filmRelations) {
-//        this.filmRelations = filmRelations;
-//    }
-//
-//    public void addRelation(FilmRelations relation) {
-//        if(filmRelations == null || filmRelations.isEmpty()) {
-//            filmRelations = new HashSet<>();
-//        }
-//        filmRelations.add(relation);
-//    }
+    @JsonIgnore//todo delete this ?
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType
+            .ALL)
+    public Set<FilmRelations> getFilmRelations() {
+        return filmRelations;
+    }
+
+    public void setFilmRelations(Set<FilmRelations> filmRelations) {
+        this.filmRelations = filmRelations;
+    }
+
+    public void addRelation(FilmRelations relation) {
+        if(filmRelations == null || filmRelations.isEmpty()) {
+            filmRelations = new HashSet<>();
+        }
+        filmRelations.add(relation);
+    }
 
     public Film(String title, int year) {
         this.title = title;
