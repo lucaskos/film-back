@@ -12,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SampleLiquibaseApplicationTests {
 
-    @Rule
+//    @Rule
     public OutputCapture outputCapture = new OutputCapture();
 
-    @Test
+//    @Test
     public void testDefaultSettings() throws Exception {
         try {
             DemoApplication.main(new String[] { "--server.port=0" });

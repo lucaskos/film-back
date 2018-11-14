@@ -3,8 +3,7 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
-@SequenceGenerator(name = "idgen", sequenceName = "SEQ_ROLE_ID")
+@Table
 public class Role {
 
 	private Long id;

@@ -28,19 +28,11 @@ databaseChangeLog:
     - insert:
         columns:
         - column:
-            name: id
-            value: 1
-            #valueComputed: SEQ_ROLE_ID.nextval
-        - column:
             name: name
             value: 'ROLE_USER'
         tableName: role
     - insert:
         columns:
-        - column:
-            name: id
-            value: 2
-            #valueComputed: SEQ_ROLE_ID.nextval
         - column:
             name: name
             value: 'ROLE_ADMIN'

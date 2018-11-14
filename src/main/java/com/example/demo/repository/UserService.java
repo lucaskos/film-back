@@ -1,9 +1,10 @@
 package com.example.demo.repository;
 
+import com.example.demo.application.dto.UserDTO;
+import com.example.demo.application.dto.mapper.UserMapper;
 import com.example.demo.config.UserNotFoundException;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.config.service.TokenService;
 import com.example.demo.config.service.UsernameTakenException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,11 @@ public class UserService {
     private UserRepository repository;
     private PasswordEncoder passwordEncoder;
     private TokenService tokenService;
+    private UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public UserService(UserMapper userMapper, UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+        this.userMapper = userMapper;
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
@@ -34,15 +37,30 @@ public class UserService {
         return repository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
+//    @Transactional
+//    public UserDTO save(String email, String username, String password) {
+//        if (repository.findByEmail(email).isPresent()) {
+//            throw new UsernameTakenException("Username is already taken");
+//        }
+//        Role role = new Role(email, USER_ROLE);
+//        User user = repository.saveAndFlush(new User(email, username, passwordEncoder.encode(password), true, Collections.singletonList(role)));
+//        return userMapper.userDtoToUser(user);
+//        //return tokenService.encode(user);
+//
+//    }
+
     @Transactional
-    public String save(String email, String username, String password) {
-        if (repository.findByEmail(email).isPresent()) {
+    public UserDTO save(UserDTO userDTO) {
+        if (repository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new UsernameTakenException("Username is already taken");
         }
-        Role role = new Role(email, USER_ROLE);
-        User user = repository.saveAndFlush(new User(email, username, passwordEncoder.encode(password), true, Collections.singletonList(role)));
-        return tokenService.encode(user);
+        Role role = new Role(userDTO.getEmail(), USER_ROLE);
+        User user = repository.saveAndFlush(new User(userDTO.getEmail(), userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()), true, Collections.singletonList(role)));
+        return userMapper.userDtoToUser(user);
+        //return tokenService.encode(user);
+
     }
+
 
 //    @PostConstruct
 //    public void register() {

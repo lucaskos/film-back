@@ -46,10 +46,10 @@ databaseChangeLog:
             tableName: roles
             constraintName: role_id
             columnName: id
-        - createSequence:
+        - addAutoIncrement:
+            ordered: true
             incrementBy: 1
-            sequenceName: SEQ_ROLE_ID
-            startValue: 1
+            startWith: 1
 - changeSet:
     id: user_role table creationi
     author: lkosmala

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-@SequenceGenerator(name = "idgen", sequenceName = "SEQ_USER_ID")
+//@SequenceGenerator(name = "idgen", sequenceName = "SEQ_USER_ID")
 public class User {
 
     public Long id;
