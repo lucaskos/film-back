@@ -1,0 +1,672 @@
+databaseChangeLog:
+- changeSet:
+    id: 1542224623996-1
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: FILM_ID
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: DESCRIPTION
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: TITLE
+            type: VARCHAR(60)
+        - column:
+            name: PUBLISH_YEAR
+            type: INT
+        - column:
+            name: CREATION_DATE
+            type: date
+        - column:
+            name: MODIFICATION_DATE
+            type: date
+        tableName: film
+- changeSet:
+    id: 1542224623996-2
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            name: COMMENT_ID
+            type: INT
+        - column:
+            name: film_FILM_ID
+            type: INT
+        - column:
+            name: CREATED_DATE
+            type: date
+        - column:
+            name: DEPTH
+            type: INT
+        - column:
+            name: PARENT_COMMENT_ID
+            type: INT
+        - column:
+            name: TEXT
+            type: TEXT
+        - column:
+            name: TITLE
+            type: VARCHAR(255)
+        - column:
+            name: OWNER_ID
+            type: INT
+        tableName: film_comments
+- changeSet:
+    id: 1542224623996-3
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: ID_FILM_RELATION
+            type: INT
+        - column:
+            name: film_FILM_ID
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: person_PERSON_ID
+            type: INT
+        - column:
+            name: PERSON_ROLE_TYPE
+            type: INT
+        - column:
+            name: ROLE
+            type: VARCHAR(100)
+        - column:
+            name: personRoleDictionary_SL_PERSON_ROLE_ID
+            type: INT
+        tableName: film_relation
+- changeSet:
+    id: 1542224623996-4
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            name: next_val
+            type: BIGINT
+        tableName: hibernate_sequence
+- changeSet:
+    id: 1542224623996-5
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: username
+            type: VARCHAR(64)
+        - column:
+            constraints:
+              primaryKey: true
+            name: series
+            type: VARCHAR(64)
+        - column:
+            constraints:
+              nullable: false
+            name: token
+            type: VARCHAR(64)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: last_used
+            type: timestamp
+        tableName: persistent_logins
+- changeSet:
+    id: 1542224623996-6
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: PERSON_ID
+            type: INT
+        - column:
+            name: BIOGRAPHY
+            type: TEXT
+        - column:
+            name: BORN_DATE
+            type: date
+        - column:
+            name: DIED_DATE
+            type: date
+        - column:
+            constraints:
+              nullable: false
+            name: FIRST_NAME
+            type: VARCHAR(255)
+        - column:
+            name: LAST_NAME
+            type: VARCHAR(255)
+        - column:
+            name: CREATION_DATE
+            type: date
+        - column:
+            name: MODIFICATION_DATE
+            type: date
+        - column:
+            name: PERSON_COMMENTS
+            type: INT
+        tableName: person
+- changeSet:
+    id: 1542224623996-7
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: COMMENT_ID
+            type: INT
+        - column:
+            name: person_PERSON_ID
+            type: INT
+        - column:
+            name: CREATED_DATE
+            type: datetime
+        - column:
+            name: DEPTH
+            type: INT
+        - column:
+            name: PARENT_COMMENT_ID
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: TEXT
+            type: VARCHAR(255)
+        - column:
+            name: TITLE
+            type: VARCHAR(255)
+        - column:
+            name: OWNER_ID
+            type: INT
+        tableName: person_comments
+- changeSet:
+    id: 1542224623996-8
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: ratinId
+            type: INT
+        - column:
+            name: rating
+            type: INT
+        - column:
+            name: filmId
+            type: INT
+        - column:
+            name: user_id
+            type: INT
+        tableName: rating
+- changeSet:
+    id: 1542224623996-9
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: rating_id
+            type: BIGINT
+        - column:
+            name: filmId
+            type: INT
+        - column:
+            name: person_id
+            type: INT
+        - column:
+            name: rating
+            type: INT
+        - column:
+            name: user_id
+            type: INT
+        tableName: rating_films
+- changeSet:
+    id: 1542224623996-10
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: INT
+        - column:
+            name: role
+            type: VARCHAR(255)
+        tableName: roles
+- changeSet:
+    id: 1542224623996-11
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: SL_GENRES_ID
+            type: INT
+        - column:
+            name: SL_GENRES_TYPE
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: SL_GENRES_KEY
+            type: VARCHAR(30)
+        tableName: sl_genres
+- changeSet:
+    id: 1542224623996-12
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: SL_PERSON_ROLE_ID
+            type: INT
+        - column:
+            name: SL_PERSON_ROLE_KEY
+            type: VARCHAR(255)
+        - column:
+            name: SL_PERSON_ROLE_TYPE
+            type: VARCHAR(255)
+        tableName: sl_person_role
+- changeSet:
+    id: 1542224623996-13
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: INT
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: enabled
+            type: BIT(1)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: VARCHAR(80)
+        - column:
+            constraints:
+              nullable: false
+            name: username
+            type: VARCHAR(45)
+        tableName: users
+- changeSet:
+    id: 1542224623996-14
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: roles_id
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: users_id
+            type: INT
+        tableName: users_roles
+- changeSet:
+    id: 1542224623996-15
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: film_FILM_ID
+        indexName: FILM_ID
+        tableName: film_comments
+- changeSet:
+    id: 1542224623996-16
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: filmId
+        indexName: FKej8yur1ov17ypdv25grdrs3xo
+        tableName: rating
+- changeSet:
+    id: 1542224623996-17
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: film_FILM_ID
+        indexName: FKfqfxsrdadhrp1h4sywwrdclmq
+        tableName: film_relation
+- changeSet:
+    id: 1542224623996-18
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: person_PERSON_ID
+        indexName: FKtijdyq0jyy5bn2d22wajdwljl
+        tableName: film_relation
+- changeSet:
+    id: 1542224623996-19
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: OWNER_ID
+        indexName: OWNER_ID
+        tableName: person_comments
+- changeSet:
+    id: 1542224623996-20
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: PERSON_COMMENTS
+        indexName: PERSON_COMMENTS
+        tableName: person
+- changeSet:
+    id: 1542224623996-21
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: personRoleDictionary_SL_PERSON_ROLE_ID
+        indexName: personRoleDictionary_SL_PERSON_ROLE_ID
+        tableName: film_relation
+- changeSet:
+    id: 1542224623996-22
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: person_PERSON_ID
+        indexName: person_PERSON_ID
+        tableName: person_comments
+- changeSet:
+    id: 1542224623996-23
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: filmId
+        indexName: rating_films_film_FILM_ID_fk
+        tableName: rating_films
+- changeSet:
+    id: 1542224623996-24
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: person_id
+        indexName: rating_films_person_PERSON_ID_fk
+        tableName: rating_films
+- changeSet:
+    id: 1542224623996-25
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: user_id
+        indexName: user_id
+        tableName: rating
+#- changeSet:
+#    id: 1542224623996-26
+#    author: Luke (generated)
+#    changes:
+#    - createIndex:
+#        columns:
+#        - column:
+#            name: roles_id
+#        indexName: users_roles_roles_id_fk
+#        tableName: users_roles
+#- changeSet:
+#    id: 1542224623996-27
+#    author: Luke (generated)
+#    changes:
+#    - createIndex:
+#        columns:
+#        - column:
+#            name: users_id
+#        indexName: users_roles_users_id_fk
+#        tableName: users_roles
+- changeSet:
+    id: 1542224623996-28
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: film_FILM_ID
+        baseTableName: film_comments
+        constraintName: FILM_ID
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: FILM_ID
+        referencedTableName: film
+        validate: true
+- changeSet:
+    id: 1542224623996-29
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: filmId
+        baseTableName: rating
+        constraintName: FKej8yur1ov17ypdv25grdrs3xo
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: FILM_ID
+        referencedTableName: film
+        validate: true
+- changeSet:
+    id: 1542224623996-30
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: film_FILM_ID
+        baseTableName: film_relation
+        constraintName: FKfqfxsrdadhrp1h4sywwrdclmq
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: FILM_ID
+        referencedTableName: film
+        validate: true
+- changeSet:
+    id: 1542224623996-31
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: person_PERSON_ID
+        baseTableName: film_relation
+        constraintName: FKtijdyq0jyy5bn2d22wajdwljl
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: PERSON_ID
+        referencedTableName: person
+        validate: true
+- changeSet:
+    id: 1542224623996-32
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: OWNER_ID
+        baseTableName: person_comments
+        constraintName: OWNER_ID
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1542224623996-33
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: PERSON_COMMENTS
+        baseTableName: person
+        constraintName: PERSON_COMMENTS
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: COMMENT_ID
+        referencedTableName: person_comments
+        validate: true
+- changeSet:
+    id: 1542224623996-34
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: personRoleDictionary_SL_PERSON_ROLE_ID
+        baseTableName: film_relation
+        constraintName: personRoleDictionary_SL_PERSON_ROLE_ID
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: SL_PERSON_ROLE_ID
+        referencedTableName: sl_person_role
+        validate: true
+- changeSet:
+    id: 1542224623996-35
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: person_PERSON_ID
+        baseTableName: person_comments
+        constraintName: person_PERSON_ID
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: PERSON_ID
+        referencedTableName: person
+        validate: true
+- changeSet:
+    id: 1542224623996-36
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: filmId
+        baseTableName: rating_films
+        constraintName: rating_films_film_FILM_ID_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: FILM_ID
+        referencedTableName: film
+        validate: true
+- changeSet:
+    id: 1542224623996-37
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: person_id
+        baseTableName: rating_films
+        constraintName: rating_films_person_PERSON_ID_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: PERSON_ID
+        referencedTableName: person
+        validate: true
+- changeSet:
+    id: 1542224623996-38
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: rating
+        constraintName: user_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1542224623996-39
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: roles_id
+        baseTableName: users_roles
+        constraintName: users_roles_roles_id_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: roles
+        validate: true
+- changeSet:
+    id: 1542224623996-40
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: users_id
+        baseTableName: users_roles
+        constraintName: users_roles_users_id_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+

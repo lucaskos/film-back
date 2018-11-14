@@ -1,14 +1,22 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "roles")
 public class Role {
 
-	private Long id;
+	private int id;
 	private String role;
-	private String email;
+	private User user;
 
 	public Role() {
 
@@ -18,29 +26,40 @@ public class Role {
 		this.role = role;
 	}
 
-	public Role(String role, String email) {
-		this.role = role;
-		this.email = email;
+	public Role(String email, String userRole) {
 	}
 
-	@Id
+    @Id
 	@GeneratedValue
 	@Column(name = "id")
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	@Column(name = "name")
+	@Column(name = "role")
 	public String getRole() {
 		return role;
 	}
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	@ManyToOne(cascade= CascadeType.MERGE)
+	@JoinTable(name="users_roles",
+			joinColumns = {@JoinColumn(name="users_id", referencedColumnName="id")},
+			inverseJoinColumns = {@JoinColumn(name="roles_id", referencedColumnName="id")}
+	)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

@@ -12,15 +12,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@DataJpaTest
+//@SpringBootTest
 public class FilmRepoTest {
 
     @Autowired
     private FilmRepo filmRepo;
 
-    @Test
+//    @Test
     public void check() {
         List<Film> all = filmRepo.findAll();
 

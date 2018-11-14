@@ -1,43 +1,62 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
-//@SequenceGenerator(name = "idgen", sequenceName = "SEQ_USER_ID")
+@Table(name = "users")
 public class User {
 
-    public Long id;
     public String username;
+    public Integer id;
     public String password;
     public boolean enabled;
     public String email;
     public List<Role> roles;
     //    public Set<Rating> rating = new HashSet<>();
-//    private Set<PersonComments> personComments;
-
+    private Set<PersonComments> personComments;
 
     public User() {
-    }
-
-    public User(String username, String password, boolean enabled, boolean b, boolean b1, boolean b2, Collection<? extends GrantedAuthority> authorities) {
 
     }
-    public User(String email, String username, String password, boolean enabled, List roles) {
-        this.id = id;
-        this.email = email;
+
+    public User(String username, String password, List<Role> role) {
         this.username = username;
         this.password = password;
+        this.roles = role;
+    }
+
+    public User(String username, Integer id, String password, boolean enabled, String email, List<Role> roles) {
+        this.username = username;
+        this.id = id;
+        this.password = password;
         this.enabled = enabled;
+        this.email = email;
         this.roles = roles;
     }
 
+    public <T> User(String email, String username, String encode, boolean b, List<T> ts) {
+        this.email = email;
+        this.username = username;
+        this.enabled = b;
+        this.roles = (List<Role>) ts;
+    }
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -56,14 +75,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    @NotBlank
     @Size(min = 5, max = 45)
     @Column(name = "username")
     public String getUsername() {
@@ -74,6 +94,7 @@ public class User {
         this.username = username;
     }
 
+    @NotBlank
     @Size(min = 5, max = 80)
     @Column(name = "password")
     public String getPassword() {
@@ -93,6 +114,7 @@ public class User {
         this.enabled = enabled;
     }
 
+    @Email
     @Column(name = "email")
     public String getEmail() {
         return email;
@@ -102,15 +124,15 @@ public class User {
         this.email = email;
     }
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "OWNER_ID")
-//    public Set<PersonComments> getPersonComments() {
-//        return personComments;
-//    }
-//
-//    public void setPersonComments(Set<PersonComments> comments) {
-//        this.personComments = comments;
-//    }
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "OWNER_ID")
+    public Set<PersonComments> getPersonComments() {
+        return personComments;
+    }
+
+    public void setPersonComments(Set<PersonComments> comments) {
+        this.personComments = comments;
+    }
 
     //    @JsonManagedReference
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId", cascade = CascadeType.ALL)

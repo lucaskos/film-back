@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -49,7 +48,7 @@ public class FilmRelations implements Serializable {
         this.role = role;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Film getFilm() {
         return film;
     }
@@ -59,13 +58,13 @@ public class FilmRelations implements Serializable {
     }
 
 //    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    public Person getPerson() {
-//        return person;
-//    }
-//
-//    public void setPerson(Person person) {
-//        this.person = person;
-//    }
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
 //    private PersonRole personRoleDictionary;
 //
