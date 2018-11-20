@@ -16,8 +16,8 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-@Qualifier("cacheServiceImpl")
+//@Service
+//@Qualifier("cacheServiceImpl")
 public class CacheServiceImpl implements CacheService {
 
     private final CacheManager cacheManager;
@@ -31,7 +31,7 @@ public class CacheServiceImpl implements CacheService {
         this.cacheManager = cacheManager;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         getGenres();
         getRoles();

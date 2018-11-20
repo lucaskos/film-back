@@ -37,16 +37,16 @@ databaseChangeLog:
             name: name
             value: 'ROLE_ADMIN'
         tableName: role
-- changeSet:
-    id: insert role-user
-    author: lkosmala
-    changes:
-    - insert:
-        columns:
-        - column:
-            name: users_id
-            value: 1
-        - column:
-            name: roles_id
-            value: 1
-        tableName: users_roles
+#- changeSet:
+#    id: insert role-user
+#    author: lkosmala
+#    changes:
+#    - insert:
+#        columns:
+#        - column:
+#            name: users_id
+#            value: 1
+#        - column:
+#            name: roles_id
+#            value: 1
+#        tableName: users_roles

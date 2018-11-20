@@ -49,17 +49,17 @@ public class Role {
 		this.role = role;
 	}
 
-	@ManyToOne(cascade= CascadeType.MERGE)
-	@JoinTable(name="users_roles",
-			joinColumns = {@JoinColumn(name="users_id", referencedColumnName="id")},
-			inverseJoinColumns = {@JoinColumn(name="roles_id", referencedColumnName="id")}
-	)
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	@ManyToOne(cascade= CascadeType.MERGE)
+//	@JoinTable(name="users_roles",
+//			joinColumns = {@JoinColumn(name="users_id", referencedColumnName="id")},
+//			inverseJoinColumns = {@JoinColumn(name="roles_id", referencedColumnName="id")}
+//	)
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 }
