@@ -13,7 +13,7 @@ public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessin
 
     @Override
     protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
-        logger.debug("Retrieving principal from token");
+        logger.info("Retrieving principal from token");
         return request.getHeader("X-Token");
     }
 

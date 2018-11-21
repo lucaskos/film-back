@@ -21,7 +21,7 @@ databaseChangeLog:
             name: TITLE
             type: VARCHAR(60)
         - column:
-            name: PUBLISH_YEAR
+            name: RELEASE_YEAR
             type: INT
         - column:
             name: CREATION_DATE
@@ -29,6 +29,15 @@ databaseChangeLog:
         - column:
             name: MODIFICATION_DATE
             type: date
+        tableName: film
+- changeSet:
+    id: films auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: film_id
+        startWith: 1
         tableName: film
 - changeSet:
     id: 1542224623996-2
@@ -326,6 +335,15 @@ databaseChangeLog:
               nullable: false
             name: username
             type: VARCHAR(45)
+        tableName: users
+- changeSet:
+    id: users auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
         tableName: users
 - changeSet:
     id: 1542224623996-14

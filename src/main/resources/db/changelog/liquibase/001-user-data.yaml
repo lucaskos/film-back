@@ -1,0 +1,22 @@
+databaseChangeLog:
+- changeSet:
+    id: example users insert
+    author: lkosmala
+    changes:
+#    - sql:
+#        sql: insert into users(email, password, username) values ('test@gmail.com', 'test', 'test')
+    - insert:
+        columns:
+        - column:
+            name: username
+            value: 'test'
+        - column:
+            name: password
+            value: '$2a$10$MK.ieB.c3QVRUNmkdg3XD..quhzYDDMByCJLhkZgOQXQtrulV8QFe'
+        - column:
+            name: email
+            value: 'test@test.pl'
+        - column:
+            name: enabled
+            value: 1
+        tableName: users

@@ -1,9 +1,9 @@
-package com.example.demo.config.service;
+package com.example.demo.security;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.config.service.TokenService;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
-import com.example.demo.config.UserNotFoundException;
 import com.example.demo.repository.UserService;
 import com.example.demo.config.model.TokenProperties;
 import com.example.demo.config.model.TokenUserDetails;

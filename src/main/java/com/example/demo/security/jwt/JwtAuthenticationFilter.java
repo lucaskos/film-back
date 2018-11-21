@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.demo.security.jwt;
 
 import com.example.demo.config.SecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;

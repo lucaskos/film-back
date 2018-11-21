@@ -10,7 +10,7 @@ import java.io.Serializable;
 public abstract class DataModelObject implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
     private Long id;
 
     public Long getId() {

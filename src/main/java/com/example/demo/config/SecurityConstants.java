@@ -1,11 +1,15 @@
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SecurityConstants {
-    public static final String SECRET = "SecretKeyToGenJWTs";
+    @Value("${security.token.secret}")
+    public static String SECRET;
+
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";

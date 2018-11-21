@@ -98,7 +98,7 @@ public class Film implements Serializable {
     }
 
     @Min(1800)
-    @Column(name = "PUBLISH_YEAR")
+    @Column(name = "RELEASE_YEAR")
     public Integer getYear() {
         return year;
     }

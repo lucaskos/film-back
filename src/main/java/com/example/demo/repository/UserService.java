@@ -2,17 +2,19 @@ package com.example.demo.repository;
 
 import com.example.demo.application.dto.UserDTO;
 import com.example.demo.application.dto.mapper.UserMapper;
-import com.example.demo.config.UserNotFoundException;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.config.service.TokenService;
 import com.example.demo.config.service.UsernameTakenException;
+import com.example.demo.security.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Luke on 24.10.2018.
@@ -37,6 +39,10 @@ public class UserService {
         return repository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
+    public User findByUserName(String username) {
+        return repository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    }
+
 //    @Transactional
 //    public UserDTO save(String email, String username, String password) {
 //        if (repository.findByEmail(email).isPresent()) {
@@ -55,12 +61,17 @@ public class UserService {
             throw new UsernameTakenException("Username is already taken");
         }
         Role role = new Role(userDTO.getEmail(), USER_ROLE);
-        User user = repository.saveAndFlush(new User(userDTO.getEmail(), userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()), true, Collections.singletonList(role)));
-        return userMapper.userDtoToUser(user);
-        //return tokenService.encode(user);
+        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()), true, Collections.singletonList(role)));
+        return userMapper.userToUserDto(user);
 
     }
 
+    public List<UserDTO> getAllUsers() {
+        List<User> all = repository.findAll();
+        List<UserDTO> userDTOList = new ArrayList<>();
+        all.stream().forEach(e->userDTOList.add(userMapper.userToUserDto(e)));
+        return userDTOList;
+    }
 
 //    @PostConstruct
 //    public void register() {
