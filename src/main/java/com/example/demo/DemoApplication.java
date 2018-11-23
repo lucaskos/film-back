@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages = "com.example.demo.repository")
+@EnableJpaRepositories(basePackages = "com.example.demo.application.repository")
 public class DemoApplication {
 
 	public static void main(String[] args) {

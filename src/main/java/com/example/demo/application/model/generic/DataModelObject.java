@@ -1,0 +1,21 @@
+package com.example.demo.application.model.generic;
+
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+
+@MappedSuperclass
+public abstract class DataModelObject implements Serializable {
+
+    @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+}

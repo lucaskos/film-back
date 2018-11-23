@@ -1,0 +1,54 @@
+package com.example.demo.application.services;
+
+import com.example.demo.application.DTO.FilmDTO;
+import com.example.demo.application.DTO.mapper.FilmMapper;
+import com.example.demo.application.model.Film;
+import com.example.demo.application.repository.FilmRepo;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class FilmServices {
+
+    private FilmRepo filmDao;
+    private FilmMapper mapper;
+
+    public FilmServices(FilmRepo filmDao, FilmMapper mapper) {
+        this.filmDao = filmDao;
+        this.mapper = mapper;
+    }
+
+    public List<FilmDTO> getAllFilms() {
+        List<FilmDTO> filmList = new ArrayList<>();
+        filmDao.findAll().forEach(film -> filmList.add(mapper.filmToFilmDTO(film)));
+        return filmList;
+    }
+
+    public FilmDTO getFilmById(Long id) {
+        return mapper.filmToFilmDTO(filmDao.findById(id).get());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public FilmDTO addFilm(FilmDTO film) {
+        Film save = filmDao.save(mapper.filmDTOToFilm(film));
+        return mapper.filmToFilmDTO(save);
+
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deleteFilm(FilmDTO filmDTO) {
+        filmDao.delete(filmDao.findById(filmDTO.getFilmId()).get());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public FilmDTO updateFilm(Film film) {
+        film.setModificationDate(new Date());
+        Film updatedFilm = filmDao.saveAndFlush(film);
+        return mapper.filmToFilmDTO(updatedFilm);
+    }
+
+}

@@ -8,11 +8,9 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-            name: FILM_ID
+            name: ID
             type: INT
         - column:
-            constraints:
-              nullable: false
             name: DESCRIPTION
             type: TEXT
         - column:
@@ -29,16 +27,16 @@ databaseChangeLog:
         - column:
             name: MODIFICATION_DATE
             type: date
-        tableName: film
+        tableName: FILM
 - changeSet:
     id: films auto increment
     author: Luke
     changes:
     - addAutoIncrement:
         columnDataType: int
-        columnName: film_id
+        columnName: ID
         startWith: 1
-        tableName: film
+        tableName: FILM
 - changeSet:
     id: 1542224623996-2
     author: Luke (generated)
@@ -46,10 +44,10 @@ databaseChangeLog:
     - createTable:
         columns:
         - column:
-            name: COMMENT_ID
+            name: ID
             type: INT
         - column:
-            name: film_FILM_ID
+            name: FILM_ID
             type: INT
         - column:
             name: CREATED_DATE
@@ -82,12 +80,12 @@ databaseChangeLog:
             name: ID_FILM_RELATION
             type: INT
         - column:
-            name: film_FILM_ID
+            name: FILM_ID
             type: INT
         - column:
             constraints:
               nullable: false
-            name: person_PERSON_ID
+            name: PERSON_ID
             type: INT
         - column:
             name: PERSON_ROLE_TYPE
@@ -99,16 +97,16 @@ databaseChangeLog:
             name: personRoleDictionary_SL_PERSON_ROLE_ID
             type: INT
         tableName: film_relation
-- changeSet:
-    id: 1542224623996-4
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            name: next_val
-            type: BIGINT
-        tableName: hibernate_sequence
+#- changeSet:
+#    id: 1542224623996-4
+#    author: Luke (generated)
+#    changes:
+#    - createTable:
+#        columns:
+#        - column:
+#            name: next_val
+#            type: BIGINT
+#        tableName: hibernate_sequence
 - changeSet:
     id: 1542224623996-5
     author: Luke (generated)
@@ -146,7 +144,7 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-            name: PERSON_ID
+            name: ID
             type: INT
         - column:
             name: BIOGRAPHY
@@ -184,10 +182,10 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-            name: COMMENT_ID
+            name: ID
             type: INT
         - column:
-            name: person_PERSON_ID
+            name: PERSON_ID
             type: INT
         - column:
             name: CREATED_DATE
@@ -369,7 +367,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: film_FILM_ID
+            name: FILM_ID
         indexName: FILM_ID
         tableName: film_comments
 - changeSet:
@@ -389,7 +387,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: film_FILM_ID
+            name: FILM_ID
         indexName: FKfqfxsrdadhrp1h4sywwrdclmq
         tableName: film_relation
 - changeSet:
@@ -399,7 +397,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: person_PERSON_ID
+            name: PERSON_ID
         indexName: FKtijdyq0jyy5bn2d22wajdwljl
         tableName: film_relation
 - changeSet:
@@ -439,7 +437,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: person_PERSON_ID
+            name: PERSON_ID
         indexName: person_PERSON_ID
         tableName: person_comments
 - changeSet:
@@ -497,14 +495,14 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: film_FILM_ID
+        baseColumnNames: FILM_ID
         baseTableName: film_comments
         constraintName: FILM_ID
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: FILM_ID
+        referencedColumnNames: ID
         referencedTableName: film
         validate: true
 - changeSet:
@@ -519,7 +517,7 @@ databaseChangeLog:
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: FILM_ID
+        referencedColumnNames: ID
         referencedTableName: film
         validate: true
 - changeSet:
@@ -527,29 +525,29 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: film_FILM_ID
+        baseColumnNames: FILM_ID
         baseTableName: film_relation
         constraintName: FKfqfxsrdadhrp1h4sywwrdclmq
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: FILM_ID
-        referencedTableName: film
+        referencedColumnNames: ID
+        referencedTableName: FILM
         validate: true
 - changeSet:
     id: 1542224623996-31
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: person_PERSON_ID
-        baseTableName: film_relation
+        baseColumnNames: PERSON_ID
+        baseTableName: FILM_RELATION
         constraintName: FKtijdyq0jyy5bn2d22wajdwljl
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: PERSON_ID
+        referencedColumnNames: ID
         referencedTableName: person
         validate: true
 - changeSet:
@@ -579,7 +577,7 @@ databaseChangeLog:
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: COMMENT_ID
+        referencedColumnNames: ID
         referencedTableName: person_comments
         validate: true
 - changeSet:
@@ -602,15 +600,15 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: person_PERSON_ID
-        baseTableName: person_comments
-        constraintName: person_PERSON_ID
+        baseColumnNames: PERSON_ID
+        baseTableName: PERSON_COMMENTS
+        constraintName: PERSON_ID
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: PERSON_ID
-        referencedTableName: person
+        referencedColumnNames: ID
+        referencedTableName: PERSON
         validate: true
 - changeSet:
     id: 1542224623996-36
@@ -624,8 +622,8 @@ databaseChangeLog:
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: FILM_ID
-        referencedTableName: film
+        referencedColumnNames: ID
+        referencedTableName: FILM
         validate: true
 - changeSet:
     id: 1542224623996-37
@@ -639,8 +637,8 @@ databaseChangeLog:
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: PERSON_ID
-        referencedTableName: person
+        referencedColumnNames: ID
+        referencedTableName: PERSON
         validate: true
 - changeSet:
     id: 1542224623996-38
