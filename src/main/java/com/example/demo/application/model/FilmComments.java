@@ -1,5 +1,7 @@
 package com.example.demo.application.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,89 +10,26 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Entity()
+@Entity
 @Table(name = "FILM_COMMENTS")
+@Data
 public class FilmComments {
-    private int commentId;
-    private Integer filmId;
-    private Date createdDate;
-    private int depth;
-    private Integer parentCommentId;
-    private String text;
-    private String title;
-    private Integer userIdl;
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
-    }
-
+    private Long id;
     @Column(name = "FILM_ID")
-    public Integer getFilmId() {
-        return filmId;
-    }
-
-    public void setFilmId(Integer filmId) {
-        this.filmId = filmId;
-    }
-
+    private Integer filmId;
     @Column(name = "CREATED_DATE")
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
+    private Date createdDate;
     @Column(name = "DEPTH")
-    public int getDepth() {
-        return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
+    private int depth;
     @Column(name = "PARENT_COMMENT_ID")
-    public Integer getParentCommentId() {
-        return parentCommentId;
-    }
-
-    public void setParentCommentId(Integer parentCommentId) {
-        this.parentCommentId = parentCommentId;
-    }
-
+    private Long parentCommentId;
     @Column(name = "TEXT", nullable = false, columnDefinition = "TEXT")
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
+    private String text;
     @Column(name = "TITLE", nullable = false)
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    private String title;
     @Column(name = "OWNER_ID")
-    public Integer getUserIdl() {
-        return userIdl;
-    }
-
-    public void setUserIdl(Integer userIdl) {
-        this.userIdl = userIdl;
-    }
+    private Long userIdl;
 }

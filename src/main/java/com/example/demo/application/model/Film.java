@@ -1,12 +1,19 @@
 package com.example.demo.application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -16,17 +23,19 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@XmlRootElement
+//@XmlRootElement
 @Entity
 @Table(name = "FILM")
+//@Getter
+//@Setter
+//@ToString
 @Data
-public class Film implements Serializable {
+public class Film {
 
-    private static final long serialVersionUID = -8915838577868975194L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Long filmId;
+    private Long id;
     @Size(max = 60)
     @Column(name = "TITLE")
     private String title;
@@ -35,7 +44,10 @@ public class Film implements Serializable {
     private Integer year;
     @Column(name = "DESCRIPTION", columnDefinition = "text")
     private String description;
-//    private Set<FilmRelations> filmRelations = new HashSet<>();
+//    @JsonIgnore
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType
+            .ALL)
+    private Set<FilmRelations> filmRelations = new HashSet<>();
     @Column(name = "CREATION_DATE")
     private Date creationDate;
     @Column(name = "MODIFICATION_DATE")
@@ -69,10 +81,48 @@ public class Film implements Serializable {
     }
 
     public Film(Long id, String title, int year, String description) {
-        this.filmId = id;
+        this.id = id;
         this.title = title;
         this.year = year;
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Film)) return false;
+        if (!super.equals(o)) return false;
+
+        Film film = (Film) o;
+
+        if (id != null ? !id.equals(film.id) : film.id != null) return false;
+        if (title != null ? !title.equals(film.title) : film.title != null) return false;
+        if (year != null ? !year.equals(film.year) : film.year != null) return false;
+        if (description != null ? !description.equals(film.description) : film.description != null) return false;
+        if (creationDate != null ? !creationDate.equals(film.creationDate) : film.creationDate != null) return false;
+        return modificationDate != null ? modificationDate.equals(film.modificationDate) : film.modificationDate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
+        result = 31 * result + (modificationDate != null ? modificationDate.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", year=" + year +
+                ", description='" + description + '\'' +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 }

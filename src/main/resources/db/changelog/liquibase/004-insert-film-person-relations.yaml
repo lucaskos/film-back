@@ -1,0 +1,8 @@
+databaseChangeLog:
+- changeSet:
+    id: insert film person data
+    author: lkosmala
+    changes:
+      - sql:
+          sql: insert into FILM_RELATION (ROLE, FILM_ID, PERSON_ID) values ('ROLE', 1, 1);
+

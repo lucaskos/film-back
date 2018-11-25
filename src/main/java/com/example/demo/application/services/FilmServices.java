@@ -4,6 +4,8 @@ import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.mapper.FilmMapper;
 import com.example.demo.application.model.Film;
 import com.example.demo.application.repository.FilmRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class FilmServices {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private FilmRepo filmDao;
     private FilmMapper mapper;
@@ -29,7 +33,9 @@ public class FilmServices {
     }
 
     public FilmDTO getFilmById(Long id) {
-        return mapper.filmToFilmDTO(filmDao.findById(id).get());
+        Film film = filmDao.findById(id).get();
+        logger.info("SINGLE FILM : " + film);
+        return mapper.filmToFilmDTO(film);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -36,6 +36,8 @@ spring:
   h2:
     console:
       enabled: true
+    tcp:
+      enabled: rtue
   liquibase:
     contexts: dev
   devtools:

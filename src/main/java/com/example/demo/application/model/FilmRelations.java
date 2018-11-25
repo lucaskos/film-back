@@ -1,10 +1,20 @@
 package com.example.demo.application.model;
 
+import com.example.demo.application.model.cache.dictionaries.PersonRole;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -13,57 +23,24 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "FILM_RELATION")
-public class FilmRelations implements Serializable {
-
-    private static final long serialVersionUID = -3368604415829986784L;
-    private Integer filmRelationId;
-    private String role;
-    private Film film;
-    private Person person;
-
-    public FilmRelations() {
-
-    }
+@Getter
+@Setter
+public class FilmRelations {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer getFilmRelationId() {
-        return filmRelationId;
-    }
-
-    public void setFilmRelationId(Integer filmRelationId) {
-        this.filmRelationId = filmRelationId;
-    }
-
+    private Long id;
     @Column(name = "ROLE")
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public Film getFilm() {
-        return film;
-    }
-
-    public void setFilm(Film film) {
-        this.film = film;
-    }
-
-//    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-//    private PersonRole personRoleDictionary;
+    private String role;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "FILM_ID")
+    private Film film;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Person person;
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "PERSON_ROLE_ID")
+    private PersonRole personRoleDictionary;
 //
 //    @ManyToOne(fetch = FetchType.EAGER, optional = false)
 //    public PersonRole getPersonRoleDictionary() {

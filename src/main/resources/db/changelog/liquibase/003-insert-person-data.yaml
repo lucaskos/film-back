@@ -1,0 +1,8 @@
+databaseChangeLog:
+- changeSet:
+    id: insert person data
+    author: lkosmala
+    changes:
+      - sql:
+          sql: insert into person (FIRST_NAME, LAST_NAME) values ('test1 first firstName', 'test1 first lastName');
+               insert into person (FIRST_NAME, LAST_NAME) values ('test2 second firstName', 'test2 second lastName');

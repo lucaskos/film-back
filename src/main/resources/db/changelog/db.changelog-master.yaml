@@ -6,3 +6,7 @@ databaseChangeLog:
     file: db/changelog/liquibase/001-user-data.yaml
 - include:
     file: db/changelog/liquibase/002-insert-film-data.yaml
+- include:
+    file: db/changelog/liquibase/003-insert-person-data.yaml
+- include:
+    file: db/changelog/liquibase/004-insert-film-person-relations.yaml

@@ -77,7 +77,7 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-            name: ID_FILM_RELATION
+            name: ID
             type: INT
         - column:
             name: FILM_ID
@@ -88,15 +88,21 @@ databaseChangeLog:
             name: PERSON_ID
             type: INT
         - column:
-            name: PERSON_ROLE_TYPE
-            type: INT
-        - column:
             name: ROLE
             type: VARCHAR(100)
         - column:
-            name: personRoleDictionary_SL_PERSON_ROLE_ID
+            name: PERSON_ROLE_ID
             type: INT
-        tableName: film_relation
+        tableName: FILM_RELATION
+- changeSet:
+    id: film_relation auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: ID
+        startWith: 1
+        tableName: FILM_RELATION
 #- changeSet:
 #    id: 1542224623996-4
 #    author: Luke (generated)
@@ -173,6 +179,15 @@ databaseChangeLog:
             name: PERSON_COMMENTS
             type: INT
         tableName: person
+- changeSet:
+    id: person auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: ID
+        startWith: 1
+        tableName: PERSON
 - changeSet:
     id: 1542224623996-7
     author: Luke (generated)
@@ -297,7 +312,7 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-            name: SL_PERSON_ROLE_ID
+            name: ID
             type: INT
         - column:
             name: SL_PERSON_ROLE_KEY
@@ -305,7 +320,16 @@ databaseChangeLog:
         - column:
             name: SL_PERSON_ROLE_TYPE
             type: VARCHAR(255)
-        tableName: sl_person_role
+        tableName: SL_PERSON_ROLE
+- changeSet:
+    id: add autoincrement to sl_person_role
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: ID
+        startWith: 1
+        tableName: SL_PERSON_ROLE
 - changeSet:
     id: 1542224623996-13
     author: Luke (generated)
@@ -420,16 +444,6 @@ databaseChangeLog:
             name: PERSON_COMMENTS
         indexName: PERSON_COMMENTS
         tableName: person
-- changeSet:
-    id: 1542224623996-21
-    author: Luke (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: personRoleDictionary_SL_PERSON_ROLE_ID
-        indexName: personRoleDictionary_SL_PERSON_ROLE_ID
-        tableName: film_relation
 - changeSet:
     id: 1542224623996-22
     author: Luke (generated)
@@ -548,7 +562,7 @@ databaseChangeLog:
         onDelete: NO ACTION
         onUpdate: NO ACTION
         referencedColumnNames: ID
-        referencedTableName: person
+        referencedTableName: PERSON
         validate: true
 - changeSet:
     id: 1542224623996-32
@@ -585,15 +599,15 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: personRoleDictionary_SL_PERSON_ROLE_ID
-        baseTableName: film_relation
-        constraintName: personRoleDictionary_SL_PERSON_ROLE_ID
+        baseColumnNames: PERSON_ROLE_ID
+        baseTableName: FILM_RELATION
+        constraintName: PERSON_ROLE_ID
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
         onUpdate: NO ACTION
-        referencedColumnNames: SL_PERSON_ROLE_ID
-        referencedTableName: sl_person_role
+        referencedColumnNames: ID
+        referencedTableName: SL_PERSON_ROLE
         validate: true
 - changeSet:
     id: 1542224623996-35

@@ -1,5 +1,7 @@
 package com.example.demo.application.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,41 +10,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles")
+@Data
 public class Role {
-
-	private int id;
-	private String role;
-	private User user;
-
-	public Role() {
-
-	}
-
-	public Role(String role) {
-		this.role = role;
-	}
-
-	public Role(String email, String userRole) {
-	}
-
-    @Id
+	@Id
 	@GeneratedValue
 	@Column(name = "id")
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	private Long id;
 	@Column(name = "role")
-	public String getRole() {
-		return role;
-	}
+	private String role;
+//	private User user;
 
-	public void setRole(String role) {
-		this.role = role;
+	public Role(String email, String userRole) {
+
 	}
 
 //	@ManyToOne(cascade= CascadeType.MERGE)
