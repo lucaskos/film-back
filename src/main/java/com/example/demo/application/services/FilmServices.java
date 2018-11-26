@@ -52,7 +52,8 @@ public class FilmServices {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public FilmDTO updateFilm(Film film) {
-        film.setModificationDate(new Date());
+        //fixme
+//        film.setModificationDate(new Date());
         Film updatedFilm = filmDao.saveAndFlush(film);
         return mapper.filmToFilmDTO(updatedFilm);
     }

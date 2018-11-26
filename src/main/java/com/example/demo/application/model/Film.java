@@ -1,10 +1,6 @@
 package com.example.demo.application.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,9 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,9 +43,9 @@ public class Film {
             .ALL)
     private Set<FilmRelations> filmRelations = new HashSet<>();
     @Column(name = "CREATION_DATE")
-    private Date creationDate;
+    private LocalDate creationDate;
     @Column(name = "MODIFICATION_DATE")
-    private Date modificationDate;
+    private LocalDate modificationDate;
 
     public Film() {
 

@@ -19,6 +19,7 @@ import java.util.Set;
 public interface FilmMapper {
 
     @Mapping(source = "film", target = "personList", qualifiedByName = "peopleRolesMap")
+    @Mapping(target = "filmId", source = "id")
     FilmDTO filmToFilmDTO(Film film);
 
     @Named("peopleRolesMap")
@@ -36,6 +37,7 @@ public interface FilmMapper {
         return people;
     }
 
+    @Mapping(target = "id", source = "filmId")
     Film filmDTOToFilm(FilmDTO filmDTO);
 
     PersonDTO personToPersonDTO(Person person);
