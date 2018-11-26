@@ -8,16 +8,18 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-  logging:
-    level:
-      ROOT: DEBUG
-      liquibase: DEBUG
-      com.example.demo: DEBUG
-      org.hibernate: DEBUG
-      org.springframework.web: DEBUG
+
     pattern:
       console: %d{yyyy-MM-dd HH:mm:ss} - %msg%n
       file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+---
+logging:
+  level:
+    ROOT: DEBUG
+    liquibase: DEBUG
+    com.example.demo: DEBUG
+    org.hibernate: DEBUG
+    org.springframework.web: DEBUG
 ---
 security:
   token:

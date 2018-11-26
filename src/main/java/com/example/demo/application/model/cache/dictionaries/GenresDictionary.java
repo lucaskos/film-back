@@ -1,5 +1,7 @@
 package com.example.demo.application.model.cache.dictionaries;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,44 +14,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SL_GENRES")
-public class GenresDictionary extends CacheAbstract {
+@Data
+public class GenresDictionary {
 
     @Id
     @Column(name = "SL_GENRES_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "SL_GENRES_TYPE")
     private String type;
 
     @Column(name = "SL_GENRES_KEY")
     private String key;
-
-    public GenresDictionary() {
-
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer genreId) {
-        this.id = genreId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String genreName) {
-        this.type = genreName;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
 }

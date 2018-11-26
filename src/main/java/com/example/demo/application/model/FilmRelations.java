@@ -38,16 +38,7 @@ public class FilmRelations {
     private Film film;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Person person;
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PERSON_ROLE_ID")
     private PersonRole personRoleDictionary;
-//
-//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-//    public PersonRole getPersonRoleDictionary() {
-//        return personRoleDictionary;
-//    }
-//
-//    public void setPersonRoleDictionary(PersonRole personRoleDictionary) {
-//        this.personRoleDictionary = personRoleDictionary;
-//    }
 }

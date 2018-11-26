@@ -26,16 +26,4 @@ public class PersonRole {
     private String type;
     @Column(name = "SL_PERSON_ROLE_KEY")
     private String key;
-
-
-//    private Set<FilmRelations> filmRelations;
-//
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personRoleDictionary")
-//    public Set<FilmRelations> getFilmRelations() {
-//        return filmRelations;
-//    }
-//
-//    public void setFilmRelations(Set<FilmRelations> filmRelations) {
-//        this.filmRelations = filmRelations;
-//    }
 }

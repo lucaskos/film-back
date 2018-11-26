@@ -1,8 +1,23 @@
 databaseChangeLog:
 - changeSet:
+    id: insert role data
+    author: lkosmala
+    changes:
+      - sql:
+          sql: insert into SL_PERSON_ROLE (SL_PERSON_ROLE_TYPE, SL_PERSON_ROLE_KEY) values ('actor', 'actor'); #1
+      - sql:
+          sql: insert into SL_PERSON_ROLE (SL_PERSON_ROLE_TYPE, SL_PERSON_ROLE_KEY) values ('director', 'director'); #2
+      - sql:
+          sql: insert into SL_PERSON_ROLE (SL_PERSON_ROLE_TYPE, SL_PERSON_ROLE_KEY) values ('musician', 'musician'); #3
+- changeSet:
     id: insert film person data
     author: lkosmala
     changes:
       - sql:
-          sql: insert into FILM_RELATION (ROLE, FILM_ID, PERSON_ID) values ('ROLE', 1, 1);
-
+          sql: insert into FILM_RELATION (ROLE, FILM_ID, PERSON_ID, PERSON_ROLE_ID) values ('ROLE', 1, 1, 1); #1
+#- changeSet:
+#    id: insert film person data
+#    author: lkosmala
+#    changes:
+#      - sql:
+#          sql: insert into FILM_RELATION (ROLE, FILM_ID, PERSON_ID) values ('ROLE', 1, 1); #1

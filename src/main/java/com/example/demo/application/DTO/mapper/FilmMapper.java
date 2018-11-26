@@ -8,6 +8,8 @@ import com.example.demo.application.model.Person;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +22,18 @@ public interface FilmMapper {
     FilmDTO filmToFilmDTO(Film film);
 
     @Named("peopleRolesMap")
-    default List<PersonDTO> personToPersonDTO(Film film) {
+    default MultiValueMap<String, PersonDTO> personToPersonDTO(Film film) {
         Set<FilmRelations> filmRelations = film.getFilmRelations();
 
-//        MultiMap<String, PersonDTO> people = new MultiMap<>();
-        List<PersonDTO> list = new ArrayList();
+        MultiValueMap<String, PersonDTO> people = new LinkedMultiValueMap<>();
         filmRelations.stream().forEach(filmRelations1 -> {
-//                    people.add(filmRelations1.getRole(), personToPersonDTO(filmRelations1.getPerson()));
-                    if (filmRelations1.getPersonRoleDictionary() != null) {
-                        list.add(personToPersonDTO(filmRelations1.getPerson()));
-                    }
+            PersonDTO personDTO = personToPersonDTO(filmRelations1.getPerson());
+            personDTO.setRole(filmRelations1.getRole());
+            people.add(filmRelations1.getPersonRoleDictionary().getType(), personDTO);
                 }
         );
 
-        return list;
+        return people;
     }
 
     Film filmDTOToFilm(FilmDTO filmDTO);
