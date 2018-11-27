@@ -69,7 +69,7 @@ public class Rating {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id")
     public Long getRatingId() {
         return ratingId;

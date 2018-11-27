@@ -13,13 +13,13 @@ spring:
       console: %d{yyyy-MM-dd HH:mm:ss} - %msg%n
       file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
 ---
-logging:
-  level:
-    ROOT: DEBUG
-    liquibase: DEBUG
-    com.example.demo: DEBUG
-    org.hibernate: DEBUG
-    org.springframework.web: DEBUG
+logging.level.org.hibernate.validator.internal: DEBUG
+logging.level.org.hibernate.jpa.internal: DEBUG
+logging.level.org.hibernate.integrator.internal: DEBUG
+logging.level.org.hibernate.boot.registry.internal: DEBUG
+logging.level.org.hibernate.id.factory.internal: DEBUG  #id generation info
+logging.level.org.hibernate.internal: DEBUG  #Display properties of the session factory
+logging.level.org.event.internal: DEBUG  #Display properties of the session factory
 ---
 security:
   token:

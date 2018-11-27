@@ -84,7 +84,7 @@ databaseChangeLog:
             type: INT
         - column:
             constraints:
-              nullable: false
+#              nullable: false
             name: PERSON_ID
             type: INT
         - column:
@@ -178,7 +178,7 @@ databaseChangeLog:
         - column:
             name: PERSON_COMMENTS
             type: INT
-        tableName: person
+        tableName: PERSON
 - changeSet:
     id: person auto increment
     author: Luke

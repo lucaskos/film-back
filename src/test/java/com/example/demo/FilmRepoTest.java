@@ -1,8 +1,11 @@
 package com.example.demo;
 
 import com.example.demo.application.model.Film;
+import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
+import com.example.demo.application.model.cache.dictionaries.PersonRole;
 import com.example.demo.application.repository.FilmRepo;
+import com.example.demo.application.repository.PersonRepo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -21,6 +25,8 @@ public class FilmRepoTest {
 
     @Autowired
     private FilmRepo filmRepo;
+
+    private final static String FILM_ROLE_TEST = "TEST";
 
     @Test
     public void insertFilm() {
@@ -32,6 +38,21 @@ public class FilmRepoTest {
         Film saved = filmRepo.getByTitle("TITLE");
 
         Assert.assertNotNull(saved);
+
+        Set<FilmRelations> filmRelationsSet = new LinkedHashSet<>();
+        FilmRelations filmRelations = new FilmRelations();
+        filmRelations.setPerson(getPerson());
+        filmRelations.setPersonRoleDictionary(new PersonRole());
+        filmRelations.setRole(FILM_ROLE_TEST);
+        filmRelationsSet.add(filmRelations);
+        film.setFilmRelations(filmRelationsSet);
+
+        Film savedFilmWithRelations = filmRepo.save(film);
+
+        Assert.assertNotNull(savedFilmWithRelations.getFilmRelations());
+        Assert.assertNotNull(savedFilmWithRelations.getFilmRelations().iterator().next().getPerson());
+        Assert.assertEquals(savedFilmWithRelations.getFilmRelations().iterator().next().getRole(), FILM_ROLE_TEST);
+
     }
 
     @Test

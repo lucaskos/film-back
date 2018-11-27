@@ -16,7 +16,7 @@ import java.util.Date;
 public class FilmComments {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "FILM_ID")
     private Integer filmId;

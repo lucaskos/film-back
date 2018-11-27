@@ -20,9 +20,6 @@ import java.util.Set;
 //@XmlRootElement
 @Entity
 @Table(name = "FILM")
-//@Getter
-//@Setter
-//@ToString
 @Data
 public class Film {
 
