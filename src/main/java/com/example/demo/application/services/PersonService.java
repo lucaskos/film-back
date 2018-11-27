@@ -25,7 +25,7 @@ public class PersonService {
     }
 
     public List<PersonDTO> findByName(String name) {
-        List<Person> byFirstNameOrLastName = personRepo.findByFirstNameOrLastName(name);
+        List<Person> byFirstNameOrLastName = personRepo.autocompleteByFirstNameOrLastName(name);
         List<PersonDTO> list = new ArrayList<>();
         byFirstNameOrLastName.forEach(person -> list.add(personMapper.personToPersonDTO(person)));
         return list;

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SL_GENRES")
 @Data
-public class GenresDictionary {
+public class GenresDictionary{
 
     @Id
     @Column(name = "SL_GENRES_ID")

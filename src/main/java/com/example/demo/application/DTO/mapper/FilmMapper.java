@@ -11,8 +11,6 @@ import org.mapstruct.Named;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Mapper(componentModel = "spring")

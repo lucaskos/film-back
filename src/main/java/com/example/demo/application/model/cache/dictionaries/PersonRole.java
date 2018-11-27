@@ -22,8 +22,10 @@ public class PersonRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
+
     @Column(name = "SL_PERSON_ROLE_TYPE")
     private String type;
+
     @Column(name = "SL_PERSON_ROLE_KEY")
     private String key;
 }
