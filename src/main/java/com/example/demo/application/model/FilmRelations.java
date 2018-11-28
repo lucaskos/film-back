@@ -1,7 +1,6 @@
 package com.example.demo.application.model;
 
-import com.example.demo.application.model.cache.dictionaries.PersonRole;
-import lombok.Data;
+import com.example.demo.application.model.dictionaries.PersonRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 /**
  * Created by Luke on 29.10.2017.

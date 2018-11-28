@@ -1,4 +1,4 @@
-package com.example.demo.application.model.cache.dictionaries;
+package com.example.demo.application.model.dictionaries;
 
 
 import lombok.Data;

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,24 +39,29 @@ public class FilmServices {
         return mapper.filmToFilmDTO(film);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or ('ROLE_EDITOR')")
     public FilmDTO addFilm(FilmDTO film) {
         Film save = filmDao.save(mapper.filmDTOToFilm(film));
         return mapper.filmToFilmDTO(save);
-
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteFilm(FilmDTO filmDTO) {
-        filmDao.delete(filmDao.findById(filmDTO.getFilmId()).get());
+        logger.info("Deleting film: " + filmDTO.toString());
+        //filmDao.delete(filmDao.findById(filmDTO.getFilmId()).get());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public FilmDTO updateFilm(Film film) {
-        //fixme
-//        film.setModificationDate(new Date());
-        Film updatedFilm = filmDao.saveAndFlush(film);
+    @PreAuthorize("hasRole('ROLE_ADMIN') or ('ROLE_EDITOR')")
+    public FilmDTO updateFilm(FilmDTO film) {
+        film.setModificationDate(LocalDate.now());
+        Film updatedFilm = filmDao.saveAndFlush(mapper.filmDTOToFilm(film));
         return mapper.filmToFilmDTO(updatedFilm);
+    }
+
+    public List<FilmDTO> getFilmsByTitle(String title) {
+        List<FilmDTO> filmList = new ArrayList<>();
+        filmDao.autocompleteByTitle(title).forEach(film -> filmList.add(mapper.filmToFilmDTO(film)));
+        return filmList;
     }
 
 }

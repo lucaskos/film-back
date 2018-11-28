@@ -1,8 +1,8 @@
-package com.example.demo.application.model.cache.service;
+package com.example.demo.application.services;
 
 import com.example.demo.commons.CacheConstants;
-import com.example.demo.application.model.cache.dictionaries.GenresDictionary;
-import com.example.demo.application.model.cache.dictionaries.PersonRole;
+import com.example.demo.application.model.dictionaries.GenresDictionary;
+import com.example.demo.application.model.dictionaries.PersonRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,7 +15,7 @@ import java.util.List;
 
 //@Service
 //@Qualifier("cacheServiceImpl")
-public class CacheServiceImpl implements CacheService {
+public class CacheServiceImpl {
 
     private final CacheManager cacheManager;
 
@@ -34,7 +34,6 @@ public class CacheServiceImpl implements CacheService {
         getRoles();
     }
 
-    @Override
     @Cacheable(CacheConstants.ROLES)
     public List<PersonRole> getRoles() {
         org.springframework.cache.Cache cache = cacheManager.getCache(CacheConstants.GENRES);
@@ -46,7 +45,6 @@ public class CacheServiceImpl implements CacheService {
         return resultList;
     }
 
-    @Override
     @Cacheable(CacheConstants.GENRES)
     public List<GenresDictionary> getGenres() {
         org.springframework.cache.Cache cache = cacheManager.getCache(CacheConstants.ROLES);
