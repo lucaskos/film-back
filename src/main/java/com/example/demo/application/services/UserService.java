@@ -1,9 +1,11 @@
-package com.example.demo.application.repository;
+package com.example.demo.application.services;
 
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
 import com.example.demo.application.model.Role;
 import com.example.demo.application.model.User;
+import com.example.demo.application.repository.RoleRepo;
+import com.example.demo.application.repository.UserRepository;
 import com.example.demo.config.service.TokenService;
 import com.example.demo.config.service.UsernameTakenException;
 import com.example.demo.security.UserNotFoundException;
@@ -26,13 +28,15 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     private TokenService tokenService;
     private UserMapper userMapper;
+    private RoleRepo roleRepo;
 
     @Autowired
-    public UserService(UserMapper userMapper, UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public UserService(UserMapper userMapper, UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService, RoleRepo roleRepo) {
         this.userMapper = userMapper;
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
+        this.roleRepo = roleRepo;
     }
 
     public User findByEmail(String email) {
@@ -60,9 +64,17 @@ public class UserService {
         if (repository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new UsernameTakenException("Username is already taken");
         }
-        Role role = new Role(userDTO.getEmail(), USER_ROLE);
-        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()), true, Collections.singletonList(role)));
-        return userMapper.userToUserDto(user);
+        Role role = getDefaultRole();
+        String password = passwordEncoder.encode(userDTO.getPassword());
+        User user = new User();
+        user.setEmail(userDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+        user.setEnabled(true);
+        user.setPassword(password);
+        user.setRoles(Collections.singletonList(role));
+        User save = repository.save(user);
+//        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(role)));
+        return userMapper.userToUserDto(save);
 
     }
 
@@ -71,6 +83,11 @@ public class UserService {
         List<UserDTO> userDTOList = new ArrayList<>();
         all.stream().forEach(e->userDTOList.add(userMapper.userToUserDto(e)));
         return userDTOList;
+    }
+
+    Role getDefaultRole() {
+        Role role_user = roleRepo.findRoleByRole("ROLE_USER");
+        return role_user;
     }
 
 //    @PostConstruct

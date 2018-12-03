@@ -4,7 +4,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.example.demo.config.service.TokenService;
 import com.example.demo.application.model.Role;
 import com.example.demo.application.model.User;
-import com.example.demo.application.repository.UserService;
+import com.example.demo.application.services.UserService;
 import com.example.demo.config.model.TokenProperties;
 import com.example.demo.config.model.TokenUserDetails;
 import org.slf4j.Logger;

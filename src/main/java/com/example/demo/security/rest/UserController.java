@@ -3,7 +3,7 @@ package com.example.demo.security.rest;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.config.model.TokenUserDetails;
-import com.example.demo.application.repository.UserService;
+import com.example.demo.application.services.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
