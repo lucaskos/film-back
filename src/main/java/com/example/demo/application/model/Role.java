@@ -13,6 +13,11 @@ import javax.persistence.Table;
 @Table(name = "roles")
 @Data
 public class Role {
+
+	public enum ROLE_TYPE {
+		ADMIN, REVIEWER, USER, EDITOR
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

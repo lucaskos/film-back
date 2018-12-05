@@ -1,6 +1,5 @@
 package com.example.demo.security.jwt;
 
-import com.example.demo.security.JwtUtil;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,12 +20,10 @@ import static com.example.demo.config.SecurityConstants.*;
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UserDetailsService userDetailsService;
-    private JwtUtil jwtUtil;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService, JwtUtil jwtUtil) {
+    public JWTAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService) {
         super(authManager);
         this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
     }
 
     @Override

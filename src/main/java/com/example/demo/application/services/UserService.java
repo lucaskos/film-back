@@ -10,6 +10,7 @@ import com.example.demo.config.service.TokenService;
 import com.example.demo.config.service.UsernameTakenException;
 import com.example.demo.security.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +79,7 @@ public class UserService {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserDTO> getAllUsers() {
         List<User> all = repository.findAll();
         List<UserDTO> userDTOList = new ArrayList<>();

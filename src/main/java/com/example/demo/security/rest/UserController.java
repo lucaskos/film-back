@@ -4,6 +4,7 @@ import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.config.model.TokenUserDetails;
 import com.example.demo.application.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,14 +33,18 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public UserDTO register(@RequestBody UserDTO user) {
-        UserDTO save = userService.save(user);
-        return save;
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO user) {
+        return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
     @GetMapping("/users")
     public List<UserDTO> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO user) {
+        return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
     @PostMapping("/signin")

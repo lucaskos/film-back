@@ -284,6 +284,15 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: roles
 - changeSet:
+    id: roles auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: roles
+- changeSet:
     id: 1542224623996-11
     author: Luke (generated)
     changes:
@@ -383,7 +392,7 @@ databaseChangeLog:
               nullable: false
             name: users_id
             type: INT
-        tableName: users_roles
+        tableName: user_role
 - changeSet:
     id: 1542224623996-15
     author: Luke (generated)
@@ -675,8 +684,8 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: roles_id
-        baseTableName: users_roles
-        constraintName: users_roles_roles_id_fk
+        baseTableName: user_role
+        constraintName: user_role_roles_id_fk
         referencedColumnNames: id
         referencedTableName: roles
         validate: true
@@ -686,8 +695,8 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: users_id
-        baseTableName: users_roles
-        constraintName: users_roles_users_id_fk
+        baseTableName: user_role
+        constraintName: user_role_users_id_fk
         referencedColumnNames: id
         referencedTableName: users
         validate: true

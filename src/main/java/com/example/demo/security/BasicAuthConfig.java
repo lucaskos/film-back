@@ -1,24 +1,39 @@
 package com.example.demo.security;
 
+import com.example.demo.security.jwt.JWTAuthorizationFilter;
+import com.example.demo.security.jwt.JwtAuthenticationFilter;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import static com.example.demo.commons.SecurityConstants.SIGN_UP_URL;
 
 /**
  * Created by Luke on 24.10.2018.
  */
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-//@Order(1)
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Order(1)
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
@@ -30,16 +45,21 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//        http.cors().and().csrf().disable().authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/**").permitAll()
-//                .and()
-//                .authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-//                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsServiceBean()))
-//                // this disables session creation on Spring Security
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsServiceBean()))
+                // this disables session creation on Spring Security
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        RequestMatcher matcher = new AntPathRequestMatcher("/h2-console/**");
+        DelegatingRequestMatcherHeaderWriter headerWriter =
+                new DelegatingRequestMatcherHeaderWriter(matcher,
+                        new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
@@ -47,6 +67,17 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2_console/**").permitAll();
 
         http.csrf().disable();
+//        http.authorizeRequests()
+//                .requestMatchers(EndpointRequest.to("status", "info", "health", "mappings")).permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
+//                .antMatchers("/v2/**").permitAll()
+//                .antMatchers("/swagger-resources/**").permitAll()
+//                .antMatchers("/swagger-ui.html").permitAll()
+//                .antMatchers("/webjars/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .headers()
+//                .frameOptions().disable().addHeaderWriter(headerWriter);
         http.headers().frameOptions().disable();
     }
     @Override
@@ -70,4 +101,8 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/h2-console/**");
+    }
 }

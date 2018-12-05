@@ -20,3 +20,31 @@ databaseChangeLog:
             name: enabled
             value: 1
         tableName: users
+- changeSet:
+    id: insert role data
+    author: lkosmala
+    changes:
+    - insert:
+        columns:
+        - column:
+            name: role
+            value: 'USER'
+        tableName: roles
+    - insert:
+        columns:
+        - column:
+            name: role
+            value: 'ADMIN'
+        tableName: roles
+    - insert:
+        columns:
+        - column:
+            name: role
+            value: 'EDITOR'
+        tableName: roles
+    - insert:
+        columns:
+        - column:
+            name: role
+            value: 'REVIEWER'
+        tableName: roles
