@@ -24,6 +24,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import static com.example.demo.commons.SecurityConstants.SIGN_UP_URL;
 
@@ -48,7 +51,7 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .authorizeRequests().antMatchers(HttpMethod.POST, "/user/signin").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
@@ -63,7 +66,7 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/user/signin/*").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2_console/**").permitAll();
 
         http.csrf().disable();
@@ -80,10 +83,12 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 //                .frameOptions().disable().addHeaderWriter(headerWriter);
         http.headers().frameOptions().disable();
     }
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(getBCryptPasswordEncoder());
     }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -104,5 +109,21 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/user/signin/*");
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
+                        .allowedHeaders("Content-Type", "Date", "Total-Count", "loginInfo")
+                        .exposedHeaders("Content-Type", "Date", "Total-Count", "loginInfo")
+                        .maxAge(3600);
+            }
+        };
     }
 }
