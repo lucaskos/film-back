@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Luke on 24.10.2018.
  */
-@Service
+//@Service
 public class UserService {
     public static final String USER_ROLE = "user";
     private UserRepository repository;

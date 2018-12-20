@@ -1,9 +1,10 @@
 package com.example.demo.security.rest;
 
 import com.example.demo.application.DTO.UserDTO;
+import com.example.demo.application.model.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.config.model.TokenUserDetails;
-import com.example.demo.application.services.UserService;
+import com.example.demo.security.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,17 +34,17 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO user) {
+    public ResponseEntity<User> register(@RequestBody UserDTO user) {
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
     @GetMapping("/users")
-    public List<UserDTO> getUsers() {
-        return userService.getAllUsers();
+    public List<User> getUsers() {
+        return userService.findAll();
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO user) {
+    public ResponseEntity updateUser(@RequestBody UserDTO user) {
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
