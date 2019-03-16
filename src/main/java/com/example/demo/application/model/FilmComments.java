@@ -31,5 +31,5 @@ public class FilmComments {
     @Column(name = "TITLE", nullable = false)
     private String title;
     @Column(name = "OWNER_ID")
-    private Long userIdl;
+    private Long userId;
 }

@@ -3,6 +3,7 @@ package com.example.demo.application.model;
 import com.example.demo.application.model.dictionaries.PersonRole;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,12 +32,17 @@ public class FilmRelations {
     private Long id;
     @Column(name = "ROLE")
     private String role;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "FILM_ID")
     private Film film;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Person person;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PERSON_ROLE_ID")
     private PersonRole personRoleDictionary;
+
+    @Override
+    public String toString() {
+        return new String();
+    }
 }

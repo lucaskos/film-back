@@ -2,14 +2,16 @@ package com.example.demo.application.DTO;
 
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@ToString
 public class PersonDTO {
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private Date bornDate;

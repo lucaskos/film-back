@@ -15,7 +15,8 @@ databaseChangeLog:
     changes:
       - sql:
           sql: insert into FILM_RELATION (ROLE, FILM_ID, PERSON_ID, PERSON_ROLE_ID) values ('ROLE', 1, 1, 1); #1
-#- changeSet:
+          sql: insert into FILM_RELATION (ROLE, FILM_ID, PERSON_ID, PERSON_ROLE_ID) values ('ROLE', 1, 1, 2); #2
+#- changeSet:mcn
 #    id: insert film person data
 #    author: lkosmala
 #    changes:

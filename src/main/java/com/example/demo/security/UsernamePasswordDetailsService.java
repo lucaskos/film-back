@@ -1,6 +1,8 @@
 package com.example.demo.security;
 
 import com.example.demo.application.DTO.UserDTO;
+import com.example.demo.application.DTO.mapper.UserMapper;
+import com.example.demo.application.model.Role;
 import com.example.demo.application.repository.UserRepository;
 import com.example.demo.application.model.User;
 import org.springframework.beans.BeanUtils;
@@ -29,16 +31,23 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
+    @Autowired
+    private UserMapper userMapper;
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username).get();
-        if(user == null){
+        Optional<User> optionalUser = userDao.findByUsername(username);
+        if(!optionalUser.isPresent()){
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
+
+        User user = optionalUser.get();
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user.getRoles()));
     }
 
-    private List<SimpleGrantedAuthority> getAuthority() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    private List<SimpleGrantedAuthority> getAuthority(List<Role> roleList) {
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        roleList.stream().forEach(e -> list.add(new SimpleGrantedAuthority(e.getRole())));
+        return list;
     }
 
     public List<User> findAll() {
@@ -70,9 +79,8 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
     }
 
     public User save(UserDTO user) {
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+        User newUser = userMapper.userDtoToUser(user);
+        newUser.setPassword(bcryptEncoder.encode(newUser.getPassword()));
         return userDao.save(newUser);
     }
 }

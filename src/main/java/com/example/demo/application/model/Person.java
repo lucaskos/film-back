@@ -44,9 +44,9 @@ public class Person implements Serializable {
     private Date creationDate;
     @Column(name = "MODIFICATION_DATE")
     private Date modificationDate;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_PERSON_ID")
-    private Set<PersonComments> personComments;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "person_PERSON_ID")
+//    private Set<PersonComments> personComments;
     @Column(name = "BIOGRAPHY", columnDefinition = "TEXT")
     private String bio;
 //    @JsonIgnore
@@ -59,4 +59,19 @@ public class Person implements Serializable {
 //    public List<FilmRelations> getFilmRelations() {
 //        return filmRelations;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", bornDate=" + bornDate +
+                ", diedDate=" + diedDate +
+                ", creationDate=" + creationDate +
+                ", modificationDate=" + modificationDate +
+                ", bio='" + bio + '\'' +
+                '}';
+    }
 }

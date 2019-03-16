@@ -15,3 +15,15 @@ databaseChangeLog:
             name: description
             value: 'test description'
         tableName: film
+    - insert:
+        columns:
+        - column:
+            name: title
+            value: 'test2'
+        - column:
+            name: release_year
+            value: 2009
+        - column:
+            name: description
+            value: 'test description1'
+        tableName: film

@@ -1,8 +1,6 @@
 package com.example.demo.security.rest;
 
-import com.example.demo.application.model.User;
-import com.example.demo.security.UserService;
-import com.example.demo.security.jwt.JwtTokenUtil;
+import com.example.demo.security.jwt.TokenProvider;
 import com.example.demo.security.model.AuthToken;
 import com.example.demo.security.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +25,10 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private TokenProvider jwtTokenUtil;
 
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public ResponseEntity register(@RequestBody LoginUser loginUser) throws AuthenticationException {
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -40,7 +38,7 @@ public class AuthenticationController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new AuthToken(token));
+        return ResponseEntity.ok(new AuthToken("Bearer " + token, loginUser.getUsername()));
     }
 
 }

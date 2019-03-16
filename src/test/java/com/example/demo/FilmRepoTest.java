@@ -9,9 +9,9 @@
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.boot.simpleFilmWithSingleRelation.autoconfigure.orm.jpa.DataJpaTest;
+//import org.springframework.boot.simpleFilmWithSingleRelation.context.SpringBootTest;
+//import org.springframework.simpleFilmWithSingleRelation.context.junit4.SpringRunner;
 //
 //import java.util.LinkedHashSet;
 //import java.util.List;
@@ -80,8 +80,8 @@
 //    private Person getPerson() {
 //        Person person = new Person();
 //        person.setBio("BIO");
-//        person.setFirstName("FIRST_NAME");
-//        person.setLastName("LAST_NAME");
+//        person.setFirstName("PERSON_FIRST_NAME");
+//        person.setLastName("PERSON_LAST_NAME");
 //
 //        return person;
 //    }

@@ -24,7 +24,9 @@ import java.util.Set;
 public class User {
 
     public String username;
-    public Integer id;
+    private String firstName;
+    private String lastName;
+    public Long id;
     public String password;
     public boolean enabled;
     public String email;
@@ -42,7 +44,7 @@ public class User {
         this.roles = role;
     }
 
-    public User(String username, Integer id, String password, boolean enabled, String email, List<Role> roles) {
+    public User(String username, Long id, String password, boolean enabled, String email, List<Role> roles) {
         this.username = username;
         this.id = id;
         this.password = password;
@@ -76,11 +78,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -129,6 +131,24 @@ public class User {
     @JoinColumn(name = "OWNER_ID")
     public Set<PersonComments> getPersonComments() {
         return personComments;
+    }
+
+    @Column(name = "first_name")
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Column(name = "last_name")
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setPersonComments(Set<PersonComments> comments) {

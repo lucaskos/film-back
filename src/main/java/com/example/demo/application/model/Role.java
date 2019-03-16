@@ -26,9 +26,14 @@ public class Role {
 	private String role;
 //	private User user;
 
-	public Role(String email, String userRole) {
 
+	public Role() {
 	}
+
+	public Role(String role) {
+		this.role = role;
+	}
+
 
 //	@ManyToOne(cascade= CascadeType.MERGE)
 //	@JoinTable(name="users_roles",
@@ -43,4 +48,20 @@ public class Role {
 //		this.user = user;
 //	}
 
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

@@ -1,6 +1,10 @@
 package com.example.demo.application.model;
 
+import com.example.demo.application.model.generic.DataModelObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +25,7 @@ import java.util.Set;
 @Entity
 @Table(name = "FILM")
 @Data
-public class Film {
+public class Film extends DataModelObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +39,8 @@ public class Film {
     private Integer year;
     @Column(name = "DESCRIPTION", columnDefinition = "text")
     private String description;
-//    @JsonIgnore
-    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType
+    @JsonIgnore
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType
             .ALL)
     private Set<FilmRelations> filmRelations = new HashSet<>();
     @Column(name = "CREATION_DATE")
@@ -113,7 +117,9 @@ public class Film {
                 ", title='" + title + '\'' +
                 ", year=" + year +
                 ", description='" + description + '\'' +
+                ", filmRelations=" + filmRelations +
                 ", creationDate=" + creationDate +
+                ", modificationDate=" + modificationDate +
                 '}';
     }
 }

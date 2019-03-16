@@ -1,8 +1,6 @@
 package com.example.demo.application.resource;
 
-import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
-import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.services.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
 import java.util.List;
 
 @RestController
@@ -28,7 +25,7 @@ public class PersonController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<PersonDTO> getPerson(@PathVariable @NotNull Long id){
+    public ResponseEntity<PersonDTO> getPerson(@PathVariable @NotNull Long id) {
         return new ResponseEntity<>(personService.getPerson(id), HttpStatus.OK);
     }
 

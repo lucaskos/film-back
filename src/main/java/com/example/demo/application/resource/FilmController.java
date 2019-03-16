@@ -28,7 +28,7 @@ public class FilmController {
         return filmService.getAllFilms();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/film/{id}")
     public FilmDTO getFilmById(@PathVariable Long id) {
         return filmService.getFilmById(id);
     }

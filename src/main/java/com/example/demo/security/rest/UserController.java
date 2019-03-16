@@ -12,9 +12,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody UserDTO user) {
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
@@ -60,5 +62,10 @@ public class UserController {
         TokenUserDetails principal = (TokenUserDetails) authentication.getPrincipal();
         String token = principal.getToken();
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+    }
+
+    @GetMapping("/register/checkEmail/{email}")
+    public ResponseEntity checkEmailAddress(@PathVariable("email") String email) {
+        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 }
