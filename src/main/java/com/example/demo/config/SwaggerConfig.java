@@ -31,11 +31,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "\"DINGO :: JOTY :: OFFERS :: REST API\"",
-                "Dokumentacja interfejsu RESTful'owego microserwisu Dingo Joty Offers",
+                "\"FilmDB :: REST API\"",
+                "Dokumentacja interfejsu RESTful'owego filmDB",
                 "0.1",
                 "Terms of service",
-                new Contact("Dingo Team", "", ""),
+                new Contact("Luke", "", ""),
                 "License of API", "", Collections.emptyList());
     }
 

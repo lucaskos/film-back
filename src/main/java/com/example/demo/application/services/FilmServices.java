@@ -54,7 +54,8 @@ public class FilmServices {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteFilm(FilmDTO filmDTO) {
         logger.info("Deleting film: " + filmDTO.toString());
-        //filmDao.delete(filmDao.findById(filmDTO.getFilmId()).get());
+        Film film = filmDao.findById(filmDTO.getFilmId()).get();
+        filmDao.delete(film);
     }
 
     @Transactional
@@ -67,7 +68,7 @@ public class FilmServices {
             film.setModificationDate(LocalDate.now());
         } else {
             filmToUpdate = filmMapper.filmDTOToFilm(film);
-            filmToUpdate.setCreationDate(LocalDate.now());
+//            filmToUpdate.setCreationDate(LocalDate.now());
             filmToUpdate.setModificationDate(LocalDate.now());
         }
 

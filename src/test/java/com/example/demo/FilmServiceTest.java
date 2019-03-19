@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @SpringBootTest
@@ -107,7 +108,7 @@ public class FilmServiceTest extends FilmMapperCommons {
     }
 
     @Test
-    public void filmWithAdditionalRelation() {
+    public void updateFilmWithAdditionalRelation() {
         Person person = getPerson();
 
         Film film = getFilm(FILM_ID);
@@ -144,6 +145,19 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         Assert.assertEquals(filmDTO1.getPeopleList().get(0).getId(), PERSON_ID);
         Assert.assertEquals(filmDTO1.getPeopleList().get(1).getId(), ADDITIONAL_PERSON);
+    }
+
+    @Test
+    public void deleteFilm() {
+        Film film = getFilm(FILM_ID);
+
+        Mockito.when(filmRepo.findById(Mockito.any())).thenReturn(Optional.of(film));
+
+        FilmDTO filmDTO = new FilmDTO();
+
+        filmServices.deleteFilm(filmDTO);
+
+        Mockito.verify(filmRepo, Mockito.times(1)).delete(film);
     }
 
 

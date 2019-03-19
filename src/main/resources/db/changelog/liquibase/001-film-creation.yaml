@@ -1,0 +1,39 @@
+databaseChangeLog:
+- changeSet:
+    id: creation of film table
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: description
+            type: text
+        - column:
+            constraints:
+              nullable: false
+            name: title
+            type: varchar(60)
+        - column:
+            name: release_year
+            type: int
+        - column:
+            name: creation_date
+            type: date
+        - column:
+            name: modification_date
+            type: date
+        tableName: film
+- changeSet:
+    id: films auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: film

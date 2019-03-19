@@ -23,31 +23,31 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "PERSON")
+@Table(name = "person")
 @Data
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 5650070241555490348L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
-    @Column(name = "FIRST_NAME")
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
-    @Column(name = "BORN_DATE")
+    @Column(name = "born_date")
     private Date bornDate;
-    @Column(name = "DIED_DATE")
+    @Column(name = "died_date")
     private Date diedDate;
-    @Column(name = "CREATION_DATE")
+    @Column(name = "creation_date")
     private Date creationDate;
-    @Column(name = "MODIFICATION_DATE")
+    @Column(name = "modification_date")
     private Date modificationDate;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "person_PERSON_ID")
 //    private Set<PersonComments> personComments;
-    @Column(name = "BIOGRAPHY", columnDefinition = "TEXT")
+    @Column(name = "biography", columnDefinition = "text")
     private String bio;
 //    @JsonIgnore
 //    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType

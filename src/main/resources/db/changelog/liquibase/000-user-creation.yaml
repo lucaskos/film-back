@@ -1,0 +1,44 @@
+databaseChangeLog:
+- changeSet:
+    id: user table
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: first_name
+            type: varchar(255)
+        - column:
+            name: last_name
+            type: varchar(255)
+        - column:
+            name: email
+            type: varchar(255)
+        - column:
+            name: enabled
+            type: bit(1)
+        - column:
+            constraints:
+              nullable: false
+            name: password
+            type: varchar(80)
+        - column:
+            constraints:
+              nullable: false
+            name: username
+            type: varchar(45)
+        tableName: users
+- changeSet:
+    id: users auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: users

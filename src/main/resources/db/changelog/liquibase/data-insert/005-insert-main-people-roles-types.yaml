@@ -1,0 +1,5 @@
+databaseChangeLog:
+- changeSet:
+    id: insert main role data
+    author: lkosmala
+    changes:

@@ -1,77 +1,4 @@
 databaseChangeLog:
-- changeSet:
-    id: creation of film table
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              primaryKey: true
-            name: id
-            type: int
-        - column:
-            name: description
-            type: text
-        - column:
-            constraints:
-              nullable: false
-            name: title
-            type: varchar(60)
-        - column:
-            name: release_year
-            type: int
-        - column:
-            name: creation_date
-            type: date
-        - column:
-            name: modification_date
-            type: date
-        tableName: film
-- changeSet:
-    id: films auto increment
-    author: Luke
-    changes:
-    - addAutoIncrement:
-        columnDataType: int
-        columnName: id
-        startWith: 1
-        tableName: film
-- changeSet:
-    id: 1542224623996-3
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              primaryKey: true
-            name: id
-            type: int
-        - column:
-            name: film_id
-            type: int
-        - column:
-            constraints:
-#              nullable: false
-            name: person_id
-            type: int
-        - column:
-            name: role
-            type: varchar(100)
-        - column:
-            name: person_role_id
-            type: int
-        tableName: film_relation
-- changeSet:
-    id: film_relation auto increment
-    author: Luke
-    changes:
-    - addAutoIncrement:
-        columnDataType: int
-        columnName: id
-        startWith: 1
-        tableName: film_relation
 #- changeSet:
 #    id: 1542224623996-4
 #    author: Luke (generated)
@@ -110,53 +37,6 @@ databaseChangeLog:
             name: last_used
             type: timestamp
         tableName: persistent_logins
-- changeSet:
-    id: create person table
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              primaryKey: true
-            name: id
-            type: int
-        - column:
-            name: biography
-            type: text
-        - column:
-            name: born_date
-            type: date
-        - column:
-            name: died_date
-            type: date
-        - column:
-            constraints:
-              nullable: false
-            name: first_name
-            type: varchar(255)
-        - column:
-            name: last_name
-            type: varchar(255)
-        - column:
-            name: creation_date
-            type: date
-        - column:
-            name: modification_date
-            type: date
-        - column:
-            name: person_comments
-            type: int
-        tableName: person
-- changeSet:
-    id: person auto increment
-    author: Luke
-    changes:
-    - addAutoIncrement:
-        columnDataType: int
-        columnName: id
-        startWith: 1
-        tableName: person
 - changeSet:
     id: 1542224623996-8
     author: Luke (generated)
@@ -275,68 +155,6 @@ databaseChangeLog:
         tableName: SL_PERSON_ROLE
 #user roles
 - changeSet:
-    id: 1542224623996-13
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              primaryKey: true
-            name: id
-            type: int
-        - column:
-            name: first_name
-            type: varchar(255)
-        - column:
-            name: last_name
-            type: varchar(255)
-        - column:
-            name: email
-            type: varchar(255)
-        - column:
-            name: enabled
-            type: bit(1)
-        - column:
-            constraints:
-              nullable: false
-            name: password
-            type: varchar(80)
-        - column:
-            constraints:
-              nullable: false
-            name: username
-            type: varchar(45)
-        tableName: users
-- changeSet:
-    id: users auto increment
-    author: Luke
-    changes:
-    - addAutoIncrement:
-        columnDataType: int
-        columnName: id
-        startWith: 1
-        tableName: users
-- changeSet:
-    id: 1542224623996-14
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              nullable: false
-            name: roles_id
-            type: int
-        - column:
-            constraints:
-              nullable: false
-            name: users_id
-            type: int
-        tableName: user_role
-#         end user roles
-
-- changeSet:
     id: 1542224623996-16
     author: Luke (generated)
     changes:
@@ -346,26 +164,6 @@ databaseChangeLog:
             name: filmId
         indexName: FKej8yur1ov17ypdv25grdrs3xo
         tableName: rating
-- changeSet:
-    id: 1542224623996-17
-    author: Luke (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: FILM_ID
-        indexName: FKfqfxsrdadhrp1h4sywwrdclmq
-        tableName: film_relation
-- changeSet:
-    id: 1542224623996-18
-    author: Luke (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: PERSON_ID
-        indexName: FKtijdyq0jyy5bn2d22wajdwljl
-        tableName: film_relation
 - changeSet:
     id: 1542224623996-23
     author: Luke (generated)
@@ -433,36 +231,6 @@ databaseChangeLog:
         referencedTableName: film
         validate: true
 - changeSet:
-    id: 1542224623996-30
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: FILM_ID
-        baseTableName: film_relation
-        constraintName: FKfqfxsrdadhrp1h4sywwrdclmq
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: no action
-        onUpdate: no action
-        referencedColumnNames: id
-        referencedTableName: FILM
-        validate: true
-- changeSet:
-    id: 1542224623996-31
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: PERSON_ID
-        baseTableName: FILM_RELATION
-        constraintName: FKtijdyq0jyy5bn2d22wajdwljl
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: no action
-        onUpdate: no action
-        referencedColumnNames: id
-        referencedTableName: PERSON
-        validate: true
-- changeSet:
     id: 1542224623996-34
     author: Luke (generated)
     changes:
@@ -522,26 +290,5 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: users
         validate: true
-- changeSet:
-    id: 1542224623996-39
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: roles_id
-        baseTableName: user_role
-        constraintName: user_role_roles_id_fk
-        referencedColumnNames: id
-        referencedTableName: roles
-        validate: true
-- changeSet:
-    id: 1542224623996-40
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: users_id
-        baseTableName: user_role
-        constraintName: user_role_users_id_fk
-        referencedColumnNames: id
-        referencedTableName: users
-        validate: true
+
 

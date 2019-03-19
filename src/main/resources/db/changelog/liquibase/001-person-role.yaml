@@ -1,0 +1,28 @@
+databaseChangeLog:
+- changeSet:
+    id: person roles in films
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: sl_person_role_key
+            type: varchar(255)
+        - column:
+            name: sl_person_role_type
+            type: varchar(255)
+        tableName: sl_person_role
+- changeSet:
+    id: add autoincrement to sl_person_role
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: sl_person_role

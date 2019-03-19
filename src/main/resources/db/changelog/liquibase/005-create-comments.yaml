@@ -1,0 +1,167 @@
+databaseChangeLog:
+- changeSet:
+    id: create person comments
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: person_id
+            type: int
+        - column:
+            name: created_date
+            type: datetime
+        - column:
+            name: depth
+            type: int
+        - column:
+            name: parent_comment_id
+            type: int
+        - column:
+            constraints:
+              nullable: false
+            name: text
+            type: varchar(255)
+        - column:
+            name: title
+            type: varchar(255)
+        - column:
+            name: owner_id
+            type: int
+        tableName: person_comments
+- changeSet:
+    id: create film comments
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            name: id
+            type: int
+        - column:
+            name: film_id
+            type: int
+        - column:
+            name: created_date
+            type: date
+        - column:
+            name: depth
+            type: int
+        - column:
+            name: parent_comment_id
+            type: int
+        - column:
+            name: text
+            type: text
+        - column:
+            name: title
+            type: varchar(255)
+        - column:
+            name: owner_id
+            type: int
+        tableName: film_comments
+- changeSet:
+    id: create film comments index
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: film_id
+        indexName: film_id
+        tableName: film_comments
+- changeSet:
+    id: 1542224623996-19
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: owner_id
+        indexName: owner_id
+        tableName: person_comments
+- changeSet:
+    id: 1542224623996-28
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: film_id
+        baseTableName: film_comments
+        constraintName: film_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: no action
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: film
+        validate: true
+- changeSet:
+    id: 1542224623996-32
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owner_id
+        baseTableName: person_comments
+        constraintName: owner_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: no action
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1542224623996-35
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: person_id
+        baseTableName: person_comments
+        constraintName: person_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: no action
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: person
+        validate: true
+- changeSet:
+    id: 1542224623996-22
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: person_id
+        indexName: person_person_id
+        tableName: person_comments
+- changeSet:
+    id: 1542224623996-20
+    author: Luke (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: person_comments
+        indexName: person_comments
+        tableName: person
+- changeSet:
+    id: 1542224623996-33
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: person_comments
+        baseTableName: person
+        constraintName: person_comments
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: no action
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: person_comments
+        validate: true

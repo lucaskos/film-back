@@ -15,21 +15,21 @@ import java.util.Date;
 @Data
 public class FilmComments {
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "FILM_ID")
+    @Column(name = "film_id")
     private Integer filmId;
-    @Column(name = "CREATED_DATE")
+    @Column(name = "created_date")
     private Date createdDate;
-    @Column(name = "DEPTH")
+    @Column(name = "depth")
     private int depth;
-    @Column(name = "PARENT_COMMENT_ID")
+    @Column(name = "parent_comment_id")
     private Long parentCommentId;
-    @Column(name = "TEXT", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "OWNER_ID")
+    @Column(name = "owner_id")
     private Long userId;
 }

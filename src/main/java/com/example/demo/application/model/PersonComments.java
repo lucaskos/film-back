@@ -15,27 +15,27 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-@Table(name = "PERSON_COMMENTS")
+@Table(name = "person_comments")
 @Data
 public class PersonComments{
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "CREATED_DATE")
+    @Column(name = "created_date")
     private Date createdDate;
-    @Column(name = "DEPTH")
+    @Column(name = "depth")
     private Integer depth;
-    @Column(name = "PARENT_COMMENT_ID")
+    @Column(name = "parent_comment_id")
     private Integer parentCommentId;
     @Size(min = 10)
-    @Column(name = "TEXT", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
     @Size(min = 5)
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OWNER_ID")
+    @JoinColumn(name = "owner_id")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;

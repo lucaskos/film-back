@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -29,23 +31,23 @@ public class Film extends DataModelObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
     @Size(max = 60)
-    @Column(name = "TITLE")
+    @Column(name = "title")
     private String title;
     @Min(1800)
-    @Column(name = "RELEASE_YEAR")
+    @Column(name = "release_year")
     private Integer year;
-    @Column(name = "DESCRIPTION", columnDefinition = "text")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
     @JsonIgnore
     @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType
             .ALL)
     private Set<FilmRelations> filmRelations = new HashSet<>();
-    @Column(name = "CREATION_DATE")
+    @Column(name = "creation_date")
     private LocalDate creationDate;
-    @Column(name = "MODIFICATION_DATE")
+    @Column(name = "modification_date")
     private LocalDate modificationDate;
 
     public Film() {
@@ -121,5 +123,15 @@ public class Film extends DataModelObject {
                 ", creationDate=" + creationDate +
                 ", modificationDate=" + modificationDate +
                 '}';
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = this.modificationDate = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.modificationDate = LocalDate.now();
     }
 }

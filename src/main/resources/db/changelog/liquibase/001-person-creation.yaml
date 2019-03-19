@@ -1,0 +1,48 @@
+databaseChangeLog:
+- changeSet:
+    id: create person table
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: biography
+            type: text
+        - column:
+            name: born_date
+            type: date
+        - column:
+            name: died_date
+            type: date
+        - column:
+            constraints:
+              nullable: false
+            name: first_name
+            type: varchar(255)
+        - column:
+            name: last_name
+            type: varchar(255)
+        - column:
+            name: creation_date
+            type: date
+        - column:
+            name: modification_date
+            type: date
+        - column:
+            name: person_comments
+            type: int
+        tableName: person
+- changeSet:
+    id: person auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: person

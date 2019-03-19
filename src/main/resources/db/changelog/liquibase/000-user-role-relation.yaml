@@ -1,0 +1,40 @@
+databaseChangeLog:
+- changeSet:
+    id: user roles
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: roles_id
+            type: int
+        - column:
+            constraints:
+              nullable: false
+            name: users_id
+            type: int
+        tableName: user_role
+- changeSet:
+    id: 1542224623996-39
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: roles_id
+        baseTableName: user_role
+        constraintName: user_role_roles_id_fk
+        referencedColumnNames: id
+        referencedTableName: roles
+        validate: true
+- changeSet:
+    id: 1542224623996-40
+    author: Luke (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: users_id
+        baseTableName: user_role
+        constraintName: user_role_users_id_fk
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true

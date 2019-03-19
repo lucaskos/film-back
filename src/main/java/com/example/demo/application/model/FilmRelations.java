@@ -27,18 +27,18 @@ import javax.persistence.Table;
 public class FilmRelations {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "ROLE")
+    @Column(name = "role")
     private String role;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "FILM_ID")
+    @JoinColumn(name = "film_id")
     private Film film;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Person person;
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "PERSON_ROLE_ID")
+    @JoinColumn(name = "person_role_id")
     private PersonRole personRoleDictionary;
 
     @Override

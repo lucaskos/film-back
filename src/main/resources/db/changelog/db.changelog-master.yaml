@@ -1,12 +1,39 @@
 databaseChangeLog:
-
 - include:
-    file: db/changelog/000-old-db.yaml
+    file: db/changelog/liquibase/000-role-creation.yaml
 - include:
-    file: db/changelog/liquibase/001-user-data.yaml
+    file: db/changelog/liquibase/000-user-creation.yaml
 - include:
-    file: db/changelog/liquibase/002-insert-film-data.yaml
+    file: db/changelog/liquibase/000-user-role-relation.yaml
 - include:
-    file: db/changelog/liquibase/003-insert-person-data.yaml
+    file: db/changelog/liquibase/001-film-creation.yaml
 - include:
-    file: db/changelog/liquibase/004-insert-film-person-relations.yaml
+    file: db/changelog/liquibase/001-person-creation.yaml
+- include:
+    file: db/changelog/liquibase/001-person-role.yaml
+- include:
+    file: db/changelog/liquibase/002-film-person-relation.yaml
+- include:
+    file: db/changelog/liquibase/data-insert/001-user-data.yaml
+- include:
+    file: db/changelog/liquibase/data-insert/002-insert-film-data.yaml
+- include:
+    file: db/changelog/liquibase/data-insert/003-insert-person-data.yaml
+- include:
+    file: db/changelog/liquibase/data-insert/004-insert-film-person-relations.yaml
+- include:
+    file: db/changelog/liquibase/005-create-comments.yaml
+#- include:
+#    file: db/changelog/001-film-creation.yaml
+#- include:
+#    file: db/changelog/000-old-db.yaml
+#- include:
+#    file: db/changelog/liquibase/001-user-data.yaml
+#- include:
+#    file: db/changelog/liquibase/002-insert-film-data.yaml
+#- include:
+#    file: db/changelog/liquibase/003-insert-person-data.yaml
+#- include:
+#    file: db/changelog/liquibase/004-insert-film-person-relations.yaml
+#- include:
+#    file: db/changelog/liquibase/005-create-comments.yaml

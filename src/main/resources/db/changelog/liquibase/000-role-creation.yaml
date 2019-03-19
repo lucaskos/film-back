@@ -1,0 +1,25 @@
+databaseChangeLog:
+- changeSet:
+    id: roles table
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: role
+            type: varchar(255)
+        tableName: roles
+- changeSet:
+    id: roles auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: roles
