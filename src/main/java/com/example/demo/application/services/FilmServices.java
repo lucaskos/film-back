@@ -51,7 +51,7 @@ public class FilmServices {
         return filmMapper.filmToFilmDTO(save);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteFilm(FilmDTO filmDTO) {
         logger.info("Deleting film: " + filmDTO.toString());
         Film film = filmDao.findById(filmDTO.getFilmId()).get();

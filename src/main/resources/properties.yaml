@@ -41,3 +41,5 @@ spring:
   devtools:
     remote:
       secret: secret
+server:
+  port: 8085

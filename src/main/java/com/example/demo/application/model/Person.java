@@ -50,8 +50,8 @@ public class Person implements Serializable {
     @Column(name = "biography", columnDefinition = "text")
     private String bio;
 //    @JsonIgnore
-//    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType
-//            .ALL)
+//    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "person", fetch = FetchType.LAZY, cascade = {CascadeType
+//            .PERSIST, CascadeType.MERGE})
 //    private List<FilmRelations> filmRelations = new ArrayList<>(0);
 
 //    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType

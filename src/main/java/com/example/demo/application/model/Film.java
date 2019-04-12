@@ -42,8 +42,8 @@ public class Film extends DataModelObject {
     @Column(name = "description", columnDefinition = "text")
     private String description;
     @JsonIgnore
-    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType
-            .ALL)
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType
+            .PERSIST, CascadeType.MERGE})
     private Set<FilmRelations> filmRelations = new HashSet<>();
     @Column(name = "creation_date")
     private LocalDate creationDate;
