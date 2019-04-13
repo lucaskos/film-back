@@ -55,6 +55,9 @@ public class FilmServices {
     public void deleteFilm(FilmDTO filmDTO) {
         logger.info("Deleting film: " + filmDTO.toString());
         Film film = filmDao.findById(filmDTO.getFilmId()).get();
+        Set<FilmRelations> filmRelations = film.getFilmRelations();
+        film.getFilmRelations().removeAll(filmRelations);
+        filmDao.save(film);
         filmDao.delete(film);
     }
 

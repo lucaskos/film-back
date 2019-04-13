@@ -2,6 +2,7 @@ package com.example.demo.application.model;
 
 import com.example.demo.application.model.generic.DataModelObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Proxy;
@@ -13,10 +14,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -25,8 +31,10 @@ import java.util.Set;
 
 //@XmlRootElement
 @Entity
-@Table(name = "FILM")
+@Table(name = "film")
 @Data
+@JsonIgnoreProperties(value = {"creationDate", "modificationDate"},
+        allowGetters = true)
 public class Film extends DataModelObject {
 
     @Id
@@ -41,14 +49,15 @@ public class Film extends DataModelObject {
     private Integer year;
     @Column(name = "description", columnDefinition = "text")
     private String description;
-    @JsonIgnore
-    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.EAGER, cascade = {CascadeType
-            .PERSIST, CascadeType.MERGE})
-    private Set<FilmRelations> filmRelations = new HashSet<>();
+    //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
     private LocalDate creationDate;
     @Column(name = "modification_date")
     private LocalDate modificationDate;
+    @JsonIgnore
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", cascade = {CascadeType
+            .ALL})
+    private Set<FilmRelations> filmRelations = new HashSet<>();
 
     public Film() {
 
@@ -125,6 +134,7 @@ public class Film extends DataModelObject {
                 '}';
     }
 
+    //todo move it to superclass
     @PrePersist
     protected void onCreate() {
         this.creationDate = this.modificationDate = LocalDate.now();

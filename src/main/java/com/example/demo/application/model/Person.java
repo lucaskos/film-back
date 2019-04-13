@@ -44,15 +44,16 @@ public class Person implements Serializable {
     private Date creationDate;
     @Column(name = "modification_date")
     private Date modificationDate;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "person_PERSON_ID")
-//    private Set<PersonComments> personComments;
     @Column(name = "biography", columnDefinition = "text")
     private String bio;
+
+    //    private Set<PersonComments> personComments;
+    //    @JoinColumn(name = "person_PERSON_ID")
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JsonIgnore
-//    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "person", fetch = FetchType.LAZY, cascade = {CascadeType
-//            .PERSIST, CascadeType.MERGE})
-//    private List<FilmRelations> filmRelations = new ArrayList<>(0);
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "person", cascade = {CascadeType
+            .ALL})
+    private List<FilmRelations> filmRelations = new ArrayList<>(0);
 
 //    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType
 //            .ALL)

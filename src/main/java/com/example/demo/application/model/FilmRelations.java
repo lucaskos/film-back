@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by Luke on 29.10.2017.
@@ -32,12 +33,15 @@ public class FilmRelations {
     private Long id;
     @Column(name = "role")
     private String role;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "film_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "film_id", nullable = true)
+//    @Transient\
     private Film film;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "person_id", nullable = true)
+//    @Transientd
     private Person person;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_role_id")
     private PersonRole personRoleDictionary;
 
