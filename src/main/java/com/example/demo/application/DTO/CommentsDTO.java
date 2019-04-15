@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class CommentsDTO {
 
     private Long id;
-    private Long entityId;
+    private Object entityId; //todo entityDTO
     private LocalDate createdDate;
     private int depth;
     private Long parentCommentId;

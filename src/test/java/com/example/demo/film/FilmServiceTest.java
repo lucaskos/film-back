@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.film;
 
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
@@ -28,7 +28,7 @@ import java.util.Set;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class FilmServiceTest extends FilmMapperCommons {
+public class  FilmServiceTest extends FilmMapperCommons {
 
     private final static String EDITED_ROLE = "EDITED_ROLE";
     private final static Long EDITED_FILM = 1L;

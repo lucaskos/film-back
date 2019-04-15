@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.film;
 
 import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
@@ -6,6 +6,7 @@ import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.DTO.mapper.FilmMapper;
 import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Film;
+import com.example.demo.application.model.FilmComments;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,7 @@ public class FilmMapperTest extends FilmMapperCommons{
     private PersonMapper personMapper;
 
     @Test
-    public void mapFilm() {
+    public void mapFilmDto() {
 
         FilmDTO filmDTO = getSimpleTestFilm();
 
@@ -40,13 +41,12 @@ public class FilmMapperTest extends FilmMapperCommons{
         Assert.assertEquals(filmDTO.getModificationDate(), film.getCreationDate());
         Assert.assertEquals(filmDTO.getDescription(), film.getDescription());
         Assert.assertEquals(filmDTO.getDescription(), film.getDescription());
-
     }
 
 
     //todo mapping like that cannot be done person <-> film
     @Test
-    public void mapFilmWithRelations() {
+    public void mapFilmDtoWithRelations() {
         FilmDTO filmDTO = getSimpleTestFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
@@ -63,7 +63,7 @@ public class FilmMapperTest extends FilmMapperCommons{
     }
 
     @Test
-    public void mapFilmWithComments() {
+    public void mapFilmDtoWithComments() {
         FilmDTO filmDTO = getSimpleTestFilm();
 
         CommentsDTO commentsDTO = new CommentsDTO();
@@ -73,6 +73,7 @@ public class FilmMapperTest extends FilmMapperCommons{
         commentsDTO.setTitle("TITLE");
         commentsDTO.setEntityId(FILM_ID);
         commentsDTO.setUserId(1);
+        commentsDTO.setId(1L);
 
         filmDTO.getFilmCommentsList().add(commentsDTO);
 
@@ -80,6 +81,33 @@ public class FilmMapperTest extends FilmMapperCommons{
 
         Assert.assertNotNull(film.getFilmComments());
         Assert.assertEquals(film.getFilmComments().get(0).getId(), Long.valueOf(1L));
+    }
 
+    @Test
+    public void mapFilmDtoToFilm() {
+        Film simpleFilm = getSimpleFilm();
+
+        FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
+
+        Assert.assertEquals(filmDTO.getFilmId(), filmDTO.getFilmId());
+    }
+
+    @Test
+    public void mapFilmDtoToFilmWithComments() {
+        Film simpleFilm = getSimpleFilm();
+
+        FilmComments filmComments = new FilmComments();
+        filmComments.setFilmId(simpleFilm);
+        filmComments.setId(1L);
+        filmComments.setText("TEXT");
+        filmComments.setDepth(0);
+        filmComments.setTitle("TITLE");
+
+        simpleFilm.getFilmComments().add(filmComments);
+
+        FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
+
+        Assert.assertEquals(filmDTO.getFilmId(), simpleFilm.getId());
+        Assert.assertEquals(filmDTO.getFilmCommentsList().get(0).getId(), simpleFilm.getFilmComments().get(0).getId());
     }
 }

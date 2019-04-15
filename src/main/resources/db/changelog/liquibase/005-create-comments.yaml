@@ -175,7 +175,7 @@ databaseChangeLog:
         referencedTableName: person_comments
         validate: true
 - changeSet:
-    id: self comment relation
+    id: self film comment relation
     author: Luke
     changes:
     - addForeignKeyConstraint:
@@ -188,4 +188,19 @@ databaseChangeLog:
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: film_comments
+        validate: true
+- changeSet:
+    id: create filmcomments to user relation
+    author: Luke
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owner_id
+        baseTableName: film_comments
+        constraintName: owner_id_film_comments
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: set null
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: users
         validate: true

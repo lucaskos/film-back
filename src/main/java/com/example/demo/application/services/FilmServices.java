@@ -42,7 +42,8 @@ public class FilmServices {
 
     public FilmDTO getFilmById(Long id) {
         Film film = filmDao.findById(id).get();
-        return filmMapper.filmToFilmDTO(film);
+        FilmDTO filmDTO = filmMapper.filmToFilmDTO(film);
+        return filmDTO;
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")

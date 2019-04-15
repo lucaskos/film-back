@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -28,28 +26,28 @@ public class FilmController {
     }
 
     @GetMapping(value = "/list")
-    public List<FilmDTO> getAllFilms() {
-        return filmService.getAllFilms();
+    public ResponseEntity<List<FilmDTO>> getAllFilms() {
+        return new ResponseEntity(filmService.getAllFilms(), HttpStatus.OK);
     }
 
     @GetMapping("/film/{id}")
-    public FilmDTO getFilmById(@PathVariable Long id) {
-        return filmService.getFilmById(id);
+    public ResponseEntity<FilmDTO> getFilmById(@PathVariable Long id) {
+        return new ResponseEntity(filmService.getFilmById(id), HttpStatus.OK);
     }
 
     @GetMapping("/{title}")
-    public List<FilmDTO> getFilmsByTitle(@PathVariable String title) {
-        return filmService.getFilmsByTitle(title);
+    public ResponseEntity<List<FilmDTO>> getFilmsByTitle(@PathVariable String title) {
+        return new ResponseEntity(filmService.getFilmsByTitle(title), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")
-    public FilmDTO addNewFilm(@RequestBody FilmDTO filmDTO) {
-        return filmService.updateFilm(filmDTO);
+    public ResponseEntity<FilmDTO> addNewFilm(@RequestBody FilmDTO filmDTO) {
+        return new ResponseEntity(filmService.updateFilm(filmDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")
-    public FilmDTO updateFilm(@RequestBody FilmDTO filmDTO) {
-        return filmService.updateFilm(filmDTO);
+    public ResponseEntity<FilmDTO> updateFilm(@RequestBody FilmDTO filmDTO) {
+        return new ResponseEntity(filmService.updateFilm(filmDTO), HttpStatus.OK);
     }
 
     @DeleteMapping()
