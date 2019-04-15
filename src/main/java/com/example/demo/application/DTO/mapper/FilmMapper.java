@@ -1,8 +1,10 @@
 package com.example.demo.application.DTO.mapper;
 
+import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.model.Film;
+import com.example.demo.application.model.FilmComments;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
 import org.mapstruct.Mapper;
@@ -41,7 +43,16 @@ public interface FilmMapper {
 
     @Mapping(target = "id", source = "filmId")
 //    @Mapping(target = "filmRelations", source = "peopleList", qualifiedByName = "peopleToFilmRelations")
+    @Mapping(source = "filmDTO.filmCommentsList", target = "filmComments", qualifiedByName = "filmCommentsMap")
     Film filmDTOToFilm(FilmDTO filmDTO);
+
+    @Named("filmCommentsMap")
+    default List<FilmComments> commentsDtoToFilmComments(FilmDTO filmDTO) {
+
+        List<FilmComments> commentsDTOS = new ArrayList<>();
+        return commentsDTOS;
+
+    }
 
     PersonDTO personToPersonDTO(Person person);
 

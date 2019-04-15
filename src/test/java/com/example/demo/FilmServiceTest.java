@@ -68,7 +68,7 @@ public class FilmServiceTest extends FilmMapperCommons {
         Mockito.when(filmRepo.saveAndFlush(Mockito.any())).thenReturn(updatedRelations);
         Mockito.when(filmRepo.getOne(FILM_ID)).thenReturn(film);
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -90,7 +90,7 @@ public class FilmServiceTest extends FilmMapperCommons {
         Mockito.when(filmRepo.getOne(EDITED_FILM)).thenReturn(getFilm(EDITED_FILM));
         Mockito.when(personMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
         filmDTO.setFilmId(EDITED_FILM);
 
         List<PersonDTO> personDTOList = new ArrayList<>();
@@ -124,7 +124,7 @@ public class FilmServiceTest extends FilmMapperCommons {
         Mockito.when(filmRepo.getOne(FILM_ID)).thenReturn(getFilm(FILM_ID));
         Mockito.when(filmMapper.filmDTOToFilm(Mockito.any())).thenReturn(getFilm(FILM_ID));
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);

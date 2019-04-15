@@ -26,7 +26,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //@XmlRootElement
@@ -58,6 +60,8 @@ public class Film extends DataModelObject {
     @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", cascade = {CascadeType
             .ALL})
     private Set<FilmRelations> filmRelations = new HashSet<>();
+    @OneToMany(targetEntity = FilmComments.class, cascade = CascadeType.ALL)
+    private List<FilmComments> filmComments = new ArrayList<>();
 
     public Film() {
 

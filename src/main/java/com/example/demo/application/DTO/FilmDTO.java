@@ -1,5 +1,6 @@
 package com.example.demo.application.DTO;
 
+import com.example.demo.application.model.FilmComments;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.util.LinkedMultiValueMap;
@@ -20,6 +21,7 @@ public class FilmDTO {
     private LocalDate modificationDate;
 //    private MultiValueMap<String, PersonDTO> peopleList = new LinkedMultiValueMap<>();
     private List<PersonDTO> peopleList = new ArrayList<>();
+    private List<CommentsDTO> filmCommentsList  = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -42,7 +42,7 @@ databaseChangeLog:
         columns:
         - column:
             name: id
-            type: int
+            type: long
         - column:
             name: film_id
             type: int
@@ -64,6 +64,15 @@ databaseChangeLog:
         - column:
             name: owner_id
             type: int
+        tableName: film_comments
+- changeSet:
+    id: film comments auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: long
+        columnName: id
+        startWith: 1
         tableName: film_comments
 - changeSet:
     id: create film comments index
@@ -164,4 +173,19 @@ databaseChangeLog:
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: person_comments
+        validate: true
+- changeSet:
+    id: self comment relation
+    author: Luke
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_comment_id
+        baseTableName: film_comments
+        constraintName: parent_comment_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: no action
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: film_comments
         validate: true

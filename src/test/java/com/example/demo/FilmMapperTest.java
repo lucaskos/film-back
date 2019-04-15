@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.DTO.mapper.FilmMapper;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class FilmMapperTest extends FilmMapperCommons{
     @Test
     public void mapFilm() {
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
 
         Film film = mapper.filmDTOToFilm(filmDTO);
 
@@ -45,7 +47,7 @@ public class FilmMapperTest extends FilmMapperCommons{
     //todo mapping like that cannot be done person <-> film
     @Test
     public void mapFilmWithRelations() {
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -58,5 +60,26 @@ public class FilmMapperTest extends FilmMapperCommons{
         Film film = mapper.filmDTOToFilm(filmDTO);
 
         Assert.assertNotNull(film.getFilmRelations());
+    }
+
+    @Test
+    public void mapFilmWithComments() {
+        FilmDTO filmDTO = getSimpleTestFilm();
+
+        CommentsDTO commentsDTO = new CommentsDTO();
+        commentsDTO.setCreatedDate(LocalDate.now());
+        commentsDTO.setDepth(0);
+        commentsDTO.setText("TEXT");
+        commentsDTO.setTitle("TITLE");
+        commentsDTO.setEntityId(FILM_ID);
+        commentsDTO.setUserId(1);
+
+        filmDTO.getFilmCommentsList().add(commentsDTO);
+
+        Film film = mapper.filmDTOToFilm(filmDTO);
+
+        Assert.assertNotNull(film.getFilmComments());
+        Assert.assertEquals(film.getFilmComments().get(0).getId(), Long.valueOf(1L));
+
     }
 }
