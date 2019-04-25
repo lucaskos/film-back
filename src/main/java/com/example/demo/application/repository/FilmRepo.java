@@ -4,6 +4,7 @@ import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmComments;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +21,5 @@ public interface FilmRepo extends JpaRepository<Film, Long> {
             "left join fetch f.filmComments " +
             "left join fetch f.filmRelations " +
             "where f.id = :filmId")
-    Film getFilmDetails(Long filmId);
+    Film getFilmDetails(@Param("filmId") Long filmId);
 }
