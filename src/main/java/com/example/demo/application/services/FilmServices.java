@@ -40,8 +40,8 @@ public class FilmServices {
         return filmList;
     }
 
-    public FilmDTO getFilmById(Long id) {
-        Film film = filmDao.findById(id).get();
+    public FilmDTO getFilmDetails(Long id) {
+        Film film = filmDao.getFilmDetails(id);
         FilmDTO filmDTO = filmMapper.filmToFilmDTO(film);
         return filmDTO;
     }
@@ -62,7 +62,6 @@ public class FilmServices {
         filmDao.delete(film);
     }
 
-    @Transactional
 //    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
     public FilmDTO updateFilm(FilmDTO film) {
 
@@ -83,6 +82,7 @@ public class FilmServices {
     }
 
     public List<FilmDTO> getFilmsByTitle(String title) {
+        //todo pagination
         List<FilmDTO> filmList = new ArrayList<>();
         filmDao.autocompleteByTitle(title).forEach(film -> filmList.add(filmMapper.filmToFilmDTO(film)));
         return filmList;

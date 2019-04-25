@@ -32,7 +32,7 @@ public class FilmController {
 
     @GetMapping("/film/{id}")
     public ResponseEntity<FilmDTO> getFilmById(@PathVariable Long id) {
-        return new ResponseEntity(filmService.getFilmById(id), HttpStatus.OK);
+        return new ResponseEntity(filmService.getFilmDetails(id), HttpStatus.OK);
     }
 
     @GetMapping("/{title}")

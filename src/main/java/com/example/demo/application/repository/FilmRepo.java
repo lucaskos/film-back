@@ -16,9 +16,6 @@ public interface FilmRepo extends JpaRepository<Film, Long> {
     @Query("select f from Film f where f.title LIKE CONCAT('%', :title, '%')")
     List<Film> autocompleteByTitle(String title);
 
-    @Query("select f from Film f join f.filmComments fc on fc.filmId = f.id where f.id = :id ")
-    Film findByIdWithRelations(Long id);
-
     @Query("select f from Film f " +
             "left join fetch f.filmComments " +
             "left join fetch f.filmRelations " +
