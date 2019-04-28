@@ -7,6 +7,7 @@ import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.repository.FilmRepo;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -99,20 +100,22 @@ public class FilmServices {
 
         Set<FilmRelations> filmRelationsAfterUpdate = new LinkedHashSet<>();
 
-        peopleList.forEach(personDTO -> filmRelations.stream().forEach(filmRelation -> {
-            if (filmRelation.getPerson() != null && personDTO.getId().equals(filmRelation.getPerson().getId())) {
-                logger.info("Updating relation for person: " + personDTO.getId());
-                filmRelation.setPerson(personMapper.personDTOToPerson(personDTO));
-                filmRelationsAfterUpdate.add(filmRelation);
-            } else {
-                logger.info("Adding new relation for person: " + personDTO.getId());
-                FilmRelations newRelation = new FilmRelations();
-                newRelation.setPerson(personMapper.personDTOToPerson(personDTO));
-                newRelation.setRole(personDTO.getRole());
-                newRelation.setFilm(oldFilm);
-                filmRelationsAfterUpdate.add(newRelation);
-            }
-        }));
+        if(!CollectionUtils.isEmpty(peopleList)) {
+            peopleList.forEach(personDTO -> filmRelations.stream().forEach(filmRelation -> {
+                if (filmRelation.getPerson() != null && personDTO.getId().equals(filmRelation.getPerson().getId())) {
+                    logger.info("Updating relation for person: " + personDTO.getId());
+                    filmRelation.setPerson(personMapper.personDTOToPerson(personDTO));
+                    filmRelationsAfterUpdate.add(filmRelation);
+                } else {
+                    logger.info("Adding new relation for person: " + personDTO.getId());
+                    FilmRelations newRelation = new FilmRelations();
+                    newRelation.setPerson(personMapper.personDTOToPerson(personDTO));
+                    newRelation.setRole(personDTO.getRole());
+                    newRelation.setFilm(oldFilm);
+                    filmRelationsAfterUpdate.add(newRelation);
+                }
+            }));
+        }
 
         filmRelationsAfterUpdate.addAll(filmRelations);
 
