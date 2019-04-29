@@ -21,12 +21,7 @@ import java.util.Collections;
 public class DemoApplication {
 
     public static void main(String[] args) {
-//        SpringApplication.run(DemoApplication.class, args);
-        LogFactory.getInstance().getLog().setLogLevel("DEBUG");
-        SpringApplication app = new SpringApplication(DemoApplication.class);
-        app.setDefaultProperties(Collections
-                .singletonMap("server.port", "8083"));
-        app.run(args);
+        SpringApplication.run(DemoApplication.class, args);
     }
 
     @Bean

@@ -16,6 +16,9 @@ security:
 #      console: %d{yyyy-MM-dd HH:mm:ss} - %msg%n
 #      file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
 ---
+server:
+  port: 8083
+---
 logging.level.org.hibernate.validator.internal: DEBUG
 logging.level.org.hibernate.jpa.internal: DEBUG
 logging.level.org.hibernate.integrator.internal: DEBUG
@@ -53,6 +56,8 @@ spring:
     hibernate.ddl-auto: update
     show-sql: true
   profiles: prod
+server:
+  port: 8085
 ---
 spring:
   datasource:
