@@ -50,9 +50,9 @@ public class FilmController {
         return new ResponseEntity(filmService.updateFilm(filmDTO), HttpStatus.OK);
     }
 
-    @DeleteMapping()
-    public ResponseEntity deleteFilm(@RequestBody FilmDTO filmDTO) {
-        filmService.deleteFilm(filmDTO);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteFilm(@PathVariable Long id) {
+        filmService.deleteFilm(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

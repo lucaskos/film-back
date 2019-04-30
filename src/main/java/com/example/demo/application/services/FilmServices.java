@@ -54,9 +54,9 @@ public class FilmServices {
     }
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteFilm(FilmDTO filmDTO) {
-        logger.info("Deleting film: " + filmDTO.toString());
-        Film film = filmDao.findById(filmDTO.getFilmId()).get();
+    public void deleteFilm(Long id) {
+        logger.info("Deleting film: " + id);
+        Film film = filmDao.findById(id).get();
         Set<FilmRelations> filmRelations = film.getFilmRelations();
         film.getFilmRelations().removeAll(filmRelations);
         filmDao.save(film);
