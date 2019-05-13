@@ -8,7 +8,7 @@ import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
 import com.example.demo.application.repository.FilmRepo;
-import com.example.demo.application.services.FilmServices;
+import com.example.demo.application.services.FilmService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
     private final static Long ADDITIONAL_FILM_ID = 2L;
 
     @InjectMocks
-    private FilmServices filmServices;
+    private FilmService filmService;
 
     @Mock
     private FilmRepo filmRepo;
@@ -77,7 +77,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        FilmDTO filmDTO1 = filmServices.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.updateFilm(filmDTO);
 
         Assert.assertNotNull(filmDTO1.getPeopleList().get(0).getRole());
     }
@@ -101,7 +101,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        FilmDTO filmDTO1 = filmServices.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.updateFilm(filmDTO);
 
         Assert.assertNotNull(filmDTO1.getPeopleList().get(0).getRole());
         Assert.assertTrue(filmDTO1.getPeopleList().get(0).getRole().equals(EDITED_ROLE));
@@ -141,7 +141,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         Mockito.when(filmMapper.filmToFilmDTO(Mockito.any())).thenReturn(filmDTO);
 
-        FilmDTO filmDTO1 = filmServices.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.updateFilm(filmDTO);
 
         Assert.assertEquals(filmDTO1.getPeopleList().get(0).getId(), PERSON_ID);
         Assert.assertEquals(filmDTO1.getPeopleList().get(1).getId(), ADDITIONAL_PERSON);
@@ -155,7 +155,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         FilmDTO filmDTO = new FilmDTO();
 
-        filmServices.deleteFilm(film.id);
+        filmService.deleteFilm(film.id);
 
         Mockito.verify(filmRepo, Mockito.times(1)).delete(film);
     }

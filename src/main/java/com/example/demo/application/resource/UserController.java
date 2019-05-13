@@ -1,16 +1,18 @@
-package com.example.demo.security.rest;
+package com.example.demo.application.resource;
 
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.model.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.config.model.TokenUserDetails;
 import com.example.demo.security.UserService;
+import com.example.demo.security.rest.JwtAuthenticationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 public class UserController {
 
     private UserService userService;

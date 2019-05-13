@@ -1,4 +1,4 @@
-package com.example.demo.security.rest;
+package com.example.demo.application.resource;
 
 import com.example.demo.security.jwt.TokenProvider;
 import com.example.demo.security.model.AuthToken;

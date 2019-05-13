@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class FilmServices {
+public class FilmService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -29,7 +29,7 @@ public class FilmServices {
     private FilmMapper filmMapper;
     private PersonMapper personMapper;
 
-    public FilmServices(FilmRepo filmDao, FilmMapper filmMapper, PersonMapper personMapper) {
+    public FilmService(FilmRepo filmDao, FilmMapper filmMapper, PersonMapper personMapper) {
         this.filmDao = filmDao;
         this.filmMapper = filmMapper;
         this.personMapper = personMapper;
