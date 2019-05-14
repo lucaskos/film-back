@@ -1,6 +1,8 @@
 package com.example.demo.application.model;
 
 
+import com.example.demo.application.model.user.User;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

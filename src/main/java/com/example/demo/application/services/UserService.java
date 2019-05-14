@@ -2,8 +2,8 @@ package com.example.demo.application.services;
 
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
-import com.example.demo.application.model.Role;
-import com.example.demo.application.model.User;
+import com.example.demo.application.model.user.Role;
+import com.example.demo.application.model.user.User;
 import com.example.demo.application.repository.RoleRepo;
 import com.example.demo.application.repository.UserRepository;
 import com.example.demo.config.service.TokenService;
@@ -12,7 +12,6 @@ import com.example.demo.security.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;

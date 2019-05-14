@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.application.model.Role;
-import com.example.demo.application.model.User;
+import com.example.demo.application.model.user.Role;
+import com.example.demo.application.model.user.User;
 import com.example.demo.application.repository.UserRepository;
 import com.example.demo.security.jwt.TokenProvider;
 import io.jsonwebtoken.lang.Assert;

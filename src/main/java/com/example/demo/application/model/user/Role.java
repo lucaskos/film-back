@@ -1,4 +1,4 @@
-package com.example.demo.application.model;
+package com.example.demo.application.model.user;
 
 import lombok.Data;
 
@@ -47,21 +47,4 @@ public class Role {
 //	public void setUser(User user) {
 //		this.user = user;
 //	}
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
 }

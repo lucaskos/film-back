@@ -2,9 +2,9 @@ package com.example.demo.security;
 
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
-import com.example.demo.application.model.Role;
+import com.example.demo.application.model.user.Role;
 import com.example.demo.application.repository.UserRepository;
-import com.example.demo.application.model.User;
+import com.example.demo.application.model.user.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,9 +49,11 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
         return list;
     }
 
-    public List<User> findAll() {
-        List<User> list = new ArrayList<>();
-        userDao.findAll().iterator().forEachRemaining(list::add);
+    public List<UserDTO> findAll() {
+        List<UserDTO> list = new ArrayList<>();
+        userDao.findAll().stream().forEach(user -> {
+            list.add(userMapper.userToUserDto(user));
+        });
         return list;
     }
 

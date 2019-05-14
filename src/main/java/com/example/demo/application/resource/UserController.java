@@ -1,7 +1,7 @@
 package com.example.demo.application.resource;
 
 import com.example.demo.application.DTO.UserDTO;
-import com.example.demo.application.model.User;
+import com.example.demo.application.model.user.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.config.model.TokenUserDetails;
 import com.example.demo.security.UserService;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -43,9 +42,9 @@ public class UserController {
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.findAll();
+    @GetMapping("/list")
+    public ResponseEntity getUsers() {
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/update")
