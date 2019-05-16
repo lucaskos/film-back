@@ -52,8 +52,8 @@ public class UserService {
 //        if (repository.findByEmail(email).isPresent()) {
 //            throw new UsernameTakenException("Username is already taken");
 //        }
-//        Role role = new Role(email, USER_ROLE);
-//        User user = repository.saveAndFlush(new User(email, username, passwordEncoder.encode(password), true, Collections.singletonList(role)));
+//        Role roleName = new Role(email, USER_ROLE);
+//        User user = repository.saveAndFlush(new User(email, username, passwordEncoder.encode(password), true, Collections.singletonList(roleName)));
 //        return userMapper.userDtoToUser(user);
 //        //return tokenService.encode(user);
 //
@@ -73,7 +73,7 @@ public class UserService {
         user.setPassword(password);
         user.setRoles(Collections.singletonList(role));
         User save = repository.save(user);
-//        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(role)));
+//        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(roleName)));
         return userMapper.userToUserDto(save);
 
     }
@@ -87,7 +87,7 @@ public class UserService {
     }
 
     Role getDefaultRole() {
-        Role role_user = roleRepo.findRoleByRole("ROLE_USER");
+        Role role_user = roleRepo.findRoleByRoleName("ROLE_USER");
         return role_user;
     }
 

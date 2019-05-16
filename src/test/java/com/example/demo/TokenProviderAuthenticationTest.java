@@ -43,7 +43,7 @@ public class TokenProviderAuthenticationTest {
     @Test
     public void generateToken() {
         Role role = new Role();
-        role.setRole(USER_ROLE_NAME);
+        role.setRoleName(USER_ROLE_NAME);
         User user = new User(USER_NAME, ENCODED_PASSWORD, Arrays.asList(role));
         Optional<User> userOptional = Optional.of(user);
 

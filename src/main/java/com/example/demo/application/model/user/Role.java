@@ -7,10 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Collection;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roleName")
 @Data
 public class Role {
 
@@ -22,8 +26,16 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "role")
-	private String role;
+	@Column(name = "roleName")
+	private String roleName;
+	@ManyToMany
+	@JoinTable(
+			name = "roles_privileges",
+			joinColumns = @JoinColumn(
+					name = "role_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(
+					name = "privilege_id", referencedColumnName = "id"))
+	private Collection<Privilege> privileges;
 //	private User user;
 
 
@@ -31,7 +43,7 @@ public class Role {
 	}
 
 	public Role(String role) {
-		this.role = role;
+		this.roleName = role;
 	}
 
 

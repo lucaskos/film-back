@@ -104,7 +104,7 @@ public class User {
                 .append(",enabled" + enabled)
                 .append(",email:"+email);
 //        if(roles != null) {
-//            sb.append(",role:"+roles.getRole()+"]");
+//            sb.append(",roleName:"+roles.getRoleName()+"]");
 //        } else {
 //            sb.append("]");
 //        }

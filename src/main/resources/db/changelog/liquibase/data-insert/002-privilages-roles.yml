@@ -1,0 +1,94 @@
+databaseChangeLog:
+- changeSet:
+    id: insert privilages
+    author: lkosmala
+    changes:
+    - insert:
+        columns:
+        - column:
+            name: name
+            value: 'can_read'
+        tableName: privilege
+    - insert:
+        columns:
+          - column:
+              name: name
+              value: 'can_write'
+        tableName: privilege
+    - insert:
+        columns:
+          - column:
+              name: name
+              value: 'can_update'
+        tableName: privilege
+    - insert:
+        columns:
+          - column:
+              name: name
+              value: 'can_delete'
+        tableName: privilege
+- changeSet:
+    id: insert roles_privilages for user
+    author: Luke
+    changes:
+    - insert:
+        columns:
+          - column:
+              name: role_id
+              value: 1 #USER
+          - column:
+              name: privilege_id
+              value: 1
+        tableName: roles_privileges
+- changeSet:
+    id: insert roles_privilages admin 1
+    author: Luke
+    changes:
+    - insert:
+        columns:
+          - column:
+              name: role_id
+              value: 2 #ADMIN
+          - column:
+              name: privilege_id
+              value: 1
+        tableName: roles_privileges
+- changeSet:
+    id: insert roles_privilages admin 2
+    author: Luke
+    changes:
+    - insert:
+        columns:
+          - column:
+              name: role_id
+              value: 2 #ADMIN
+          - column:
+              name: privilege_id
+              value: 2
+        tableName: roles_privileges
+- changeSet:
+    id: insert roles_privilages admin 3
+    author: Luke
+    changes:
+    - insert:
+        columns:
+          - column:
+              name: role_id
+              value: 2 #ADMIN
+          - column:
+              name: privilege_id
+              value: 3
+        tableName: roles_privileges
+- changeSet:
+    id: insert roles_privilages admin 4
+    author: Luke
+    changes:
+    - insert:
+        columns:
+          - column:
+              name: role_id
+              value: 2 #ADMIN
+          - column:
+              name: privilege_id
+              value: 4
+        tableName: roles_privileges

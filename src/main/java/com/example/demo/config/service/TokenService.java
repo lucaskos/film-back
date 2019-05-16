@@ -52,7 +52,7 @@ public class TokenService {
                     .withArrayClaim("role", user
                             .getRoles()
                             .stream()
-                            .map(Role::getRole)
+                            .map(Role::getRoleName)
                             .toArray(String[]::new))
                     .withClaim("usr", user.getUsername())
                     .sign(algorithm);

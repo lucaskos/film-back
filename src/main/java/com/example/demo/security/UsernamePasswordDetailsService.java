@@ -45,7 +45,7 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
 
     private List<SimpleGrantedAuthority> getAuthority(List<Role> roleList) {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
-        roleList.stream().forEach(e -> list.add(new SimpleGrantedAuthority(e.getRole())));
+        roleList.stream().forEach(e -> list.add(new SimpleGrantedAuthority(e.getRoleName())));
         return list;
     }
 
