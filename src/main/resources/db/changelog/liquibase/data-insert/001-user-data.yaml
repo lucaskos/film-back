@@ -28,25 +28,25 @@ databaseChangeLog:
         columns:
         - column:
             name: role
-            value: 'USER' #1
+            value: 'ROLE_USER' #1
         tableName: roles
     - insert:
         columns:
         - column:
             name: role
-            value: 'ADMIN' #2
+            value: 'ROLE_ADMIN' #2
         tableName: roles
     - insert:
         columns:
         - column:
             name: role
-            value: 'EDITOR' #3
+            value: 'ROLE_EDITOR' #3
         tableName: roles
     - insert:
         columns:
         - column:
             name: role
-            value: 'REVIEWER' #4
+            value: 'ROLE_REVIEWER' #4
         tableName: roles
 - changeSet:
     id: relate user and roles

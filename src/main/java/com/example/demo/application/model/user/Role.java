@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 import java.util.Collection;
 
 @Entity
-@Table(name = "roleName")
+@Table(name = "roles")
 @Data
 public class Role {
 
@@ -26,9 +27,9 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "roleName")
+	@Column(name = "role")
 	private String roleName;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "roles_privileges",
 			joinColumns = @JoinColumn(

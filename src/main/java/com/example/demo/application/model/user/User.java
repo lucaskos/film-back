@@ -45,7 +45,7 @@ public class User {
 	@Column(name = "email")
 	public String email;
 	@JsonIgnore
-	@ManyToMany()
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
 			joinColumns = {@JoinColumn(name = "users_id")},
 			inverseJoinColumns = {@JoinColumn(name = "roles_id")}

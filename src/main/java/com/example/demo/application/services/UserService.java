@@ -48,7 +48,7 @@ public class UserService {
     }
 
 //    @Transactional
-//    public UserDTO save(String email, String username, String password) {
+//    public UserDTO saveNewUser(String email, String username, String password) {
 //        if (repository.findByEmail(email).isPresent()) {
 //            throw new UsernameTakenException("Username is already taken");
 //        }
@@ -73,7 +73,7 @@ public class UserService {
         user.setPassword(password);
         user.setRoles(Collections.singletonList(role));
         User save = repository.save(user);
-//        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(roleName)));
+//        User user = repository.saveNewUser(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(roleName)));
         return userMapper.userToUserDto(save);
 
     }
@@ -95,7 +95,7 @@ public class UserService {
 //    public void register() {
 //        registration.newUserRequest().subscribe(message -> {
 //            NewUser payload = (NewUser) message.getPayload();
-//            save(payload.getEmail(), payload.getUsername(), payload.getPassword());
+//            saveNewUser(payload.getEmail(), payload.getUsername(), payload.getPassword());
 //        });
 //    }
 }

@@ -63,7 +63,7 @@ public class FilmService {
         filmDao.delete(film);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public FilmDTO updateFilm(FilmDTO film) {
 
         Film filmToUpdate;
@@ -87,11 +87,6 @@ public class FilmService {
         List<FilmDTO> filmList = new ArrayList<>();
         filmDao.autocompleteByTitle(title).forEach(film -> filmList.add(filmMapper.filmToFilmDTO(film)));
         return filmList;
-    }
-
-    private void updateFilmWithValues(FilmDTO updatedFilm) {
-        Film oldFilm = filmDao.findById(updatedFilm.getFilmId()).get();
-
     }
 
     private Set<FilmRelations> createAndUpdateFilmRelations(Film oldFilm, FilmDTO filmDTO) {
