@@ -3,6 +3,7 @@ package com.example.demo.security;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
 import com.example.demo.application.model.user.Role;
+import com.example.demo.application.repository.RoleRepo;
 import com.example.demo.application.repository.UserRepository;
 import com.example.demo.application.model.user.User;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +26,17 @@ import java.util.Optional;
 @Service(value = "userService")
 public class UsernamePasswordDetailsService implements UserService, UserDetailsService {
 
-    @Autowired
     private UserRepository userDao;
-
-    @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
-
-    @Autowired
     private UserMapper userMapper;
+    private RoleRepo roleRepo;
+
+    public UsernamePasswordDetailsService(UserRepository userDao, BCryptPasswordEncoder bcryptEncoder, UserMapper userMapper, RoleRepo roleRepo) {
+        this.userDao = userDao;
+        this.bcryptEncoder = bcryptEncoder;
+        this.userMapper = userMapper;
+        this.roleRepo = roleRepo;
+    }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userDao.findByUsername(username);
@@ -82,6 +87,7 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
     public User save(UserDTO user) {
         User newUser = userMapper.userDtoToUser(user);
         newUser.setPassword(bcryptEncoder.encode(newUser.getPassword()));
+        newUser.setRoles(Collections.singletonList(roleRepo.findRoleByRoleName("USER")));
         return userDao.save(newUser);
     }
 }
