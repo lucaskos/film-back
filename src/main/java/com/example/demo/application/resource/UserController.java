@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
@@ -36,8 +38,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody UserDTO user) {
-        return new ResponseEntity<>(userService.saveNewUser(user), HttpStatus.OK);
+    public ResponseEntity<User> register(@Valid @RequestBody UserDTO user) {
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @GetMapping("/list")
@@ -47,7 +49,7 @@ public class UserController {
 
     @PostMapping("/update")
     public ResponseEntity updateUser(@RequestBody UserDTO user) {
-        return new ResponseEntity<>(userService.saveNewUser(user), HttpStatus.OK);
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @PostMapping("/signin")

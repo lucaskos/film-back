@@ -27,7 +27,7 @@ public class FilmRepoTest {
 
     @Test
     public void getFilmDetails(){
-        Film film = filmRepo.getFilmDetails(1L);
+        Film film = filmRepo.getFilmDetails(1L).get();
         Assert.assertNotNull(film.getFilmComments().get(0).getId());
         Assert.assertNotNull(film.getFilmRelations().iterator().next().getId());
     }

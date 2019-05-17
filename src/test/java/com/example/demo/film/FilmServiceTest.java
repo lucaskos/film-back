@@ -77,7 +77,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        FilmDTO filmDTO1 = filmService.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.saveFilm(filmDTO);
 
         Assert.assertNotNull(filmDTO1.getPeopleList().get(0).getRole());
     }
@@ -101,7 +101,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        FilmDTO filmDTO1 = filmService.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.saveFilm(filmDTO);
 
         Assert.assertNotNull(filmDTO1.getPeopleList().get(0).getRole());
         Assert.assertTrue(filmDTO1.getPeopleList().get(0).getRole().equals(EDITED_ROLE));
@@ -141,7 +141,7 @@ public class  FilmServiceTest extends FilmMapperCommons {
 
         Mockito.when(filmMapper.filmToFilmDTO(Mockito.any())).thenReturn(filmDTO);
 
-        FilmDTO filmDTO1 = filmService.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.saveFilm(filmDTO);
 
         Assert.assertEquals(filmDTO1.getPeopleList().get(0).getId(), PERSON_ID);
         Assert.assertEquals(filmDTO1.getPeopleList().get(1).getId(), ADDITIONAL_PERSON);

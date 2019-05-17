@@ -44,12 +44,12 @@ public class FilmController {
 
     @PostMapping(value = "/add")
     public ResponseEntity<FilmDTO> addNewFilm(@RequestBody FilmDTO filmDTO) {
-        return new ResponseEntity(filmService.updateFilm(filmDTO), HttpStatus.OK);
+        return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<FilmDTO> updateFilm(@RequestBody FilmDTO filmDTO) {
-        return new ResponseEntity(filmService.updateFilm(filmDTO), HttpStatus.OK);
+        return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

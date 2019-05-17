@@ -8,8 +8,10 @@ import com.example.demo.application.repository.UserRepository;
 import com.example.demo.application.model.user.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -80,17 +82,17 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
         return UserDTO;
     }
 
-    public User saveNewUser(UserDTO user) {
-        User newUser = userMapper.userDtoToUser(user);
-        newUser.setPassword(bcryptEncoder.encode(newUser.getPassword()));
-        newUser.setRoles(Collections.singletonList(roleRepo.findRoleByRoleName("ROLE_USER")));
-        return userDao.save(newUser);
-    }
-
-    @Override
-    public User save(UserDTO user) {
-        //todo
-        return null;
+    public User saveUser(UserDTO user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userEntity = userMapper.userDtoToUser(user);
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal().toString().equals(user.getUsername())) {
+            //todo update user
+        } else {
+            //todo save new userEntity
+            userEntity.setPassword(bcryptEncoder.encode(userEntity.getPassword()));
+            userEntity.setRoles(Collections.singletonList(roleRepo.findRoleByRoleName("ROLE_USER")));
+        }
+        return userDao.save(userEntity);
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(

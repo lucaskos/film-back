@@ -27,7 +27,7 @@ public class CommentService {
             jpaRepository = personRepo;
         }
 
-//        jpaRepository.saveNewUser()
+//        jpaRepository.saveUser()
         return new Object();
     }
 

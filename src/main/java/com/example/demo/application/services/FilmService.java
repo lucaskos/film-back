@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.ws.rs.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -42,12 +43,12 @@ public class FilmService {
     }
 
     public FilmDTO getFilmDetails(Long id) {
-        Film film = filmDao.getFilmDetails(id);
+        Film film = filmDao.getFilmDetails(id).orElseThrow(() -> new NotFoundException("Film not found id: " + id));
         FilmDTO filmDTO = filmMapper.filmToFilmDTO(film);
         return filmDTO;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
+//    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
     public FilmDTO addFilm(FilmDTO film) {
         Film save = filmDao.save(filmMapper.filmDTOToFilm(film));
         return filmMapper.filmToFilmDTO(save);
@@ -63,8 +64,8 @@ public class FilmService {
         filmDao.delete(film);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    public FilmDTO updateFilm(FilmDTO film) {
+    @PreAuthorize("hasRole('ADMIN') || hasAuthority('can_write')")
+    public FilmDTO saveFilm(FilmDTO film) {
 
         Film filmToUpdate;
         if (film.getFilmId() != null) {
