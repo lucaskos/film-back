@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by Luke on 24.10.2018.
@@ -82,6 +84,13 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
         return UserDTO;
     }
 
+    @Override
+    public Collection<String> findLoggedUserRoles() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null ? authentication.getAuthorities().stream()
+                .map(o -> o.getAuthority()).collect(Collectors.toList()) : null;
+    }
+
     public User saveUser(UserDTO user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User userEntity = userMapper.userDtoToUser(user);
@@ -99,8 +108,8 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
             Collection<Role> roles) {
         List<GrantedAuthority> authorities
                 = new ArrayList<>();
-        for (Role role: roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName().replace("ROLE_", "")));
             role.getPrivileges().stream()
                     .map(p -> new SimpleGrantedAuthority(p.getName()))
                     .forEach(authorities::add);
