@@ -22,9 +22,8 @@ public class FilmComment {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "film_id")
+    @JoinColumn(name = "film_id", nullable = true)
 //    @Column(name = "film_id")
     private Film filmId;
     @Column(name = "created_date")
