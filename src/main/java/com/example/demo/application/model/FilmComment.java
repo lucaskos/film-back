@@ -2,6 +2,7 @@ package com.example.demo.application.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name = "FILM_COMMENTS")
 @Data
-public class FilmComments {
+public class FilmComment {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

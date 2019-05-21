@@ -1,7 +1,7 @@
 package com.example.demo.film;
 
 import com.example.demo.application.model.Film;
-import com.example.demo.application.model.FilmComments;
+import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.repository.FilmRepo;
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class test {
     @Test
     public void getAllFilms(){
         List<Film> filmList = filmRepo.findAll();
-        List<FilmComments> filmComments = filmList.get(0).getFilmComments();
+        List<FilmComment> filmComments = filmList.get(0).getFilmComments();
         Set<FilmRelations> filmRelations = filmList.get(0).getFilmRelations();
         Assert.assertTrue(filmList.size() > 0);
     }

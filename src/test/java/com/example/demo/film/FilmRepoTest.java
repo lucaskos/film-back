@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -25,9 +26,11 @@ public class FilmRepoTest {
         Film one = filmRepo.getOne(Long.valueOf(1));
 
         Assert.assertEquals(Long.valueOf(1), one.getId());
+        Assert.assertNotNull(one.getDescription());
     }
 
     @Test
+    @Transactional
     public void getFilmDetails(){
         Film film = filmRepo.getFilmDetails(1L).get();
         Assert.assertNotNull(film.getFilmComments().get(0).getId());

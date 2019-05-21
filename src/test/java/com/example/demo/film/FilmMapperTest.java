@@ -6,7 +6,8 @@ import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.DTO.mapper.FilmMapper;
 import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Film;
-import com.example.demo.application.model.FilmComments;
+import com.example.demo.application.model.FilmComment;
+import com.example.demo.commons.FilmMapperCommons;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FilmMapperTest extends FilmMapperCommons{
+public class FilmMapperTest extends FilmMapperCommons {
 
     @Autowired
     private FilmMapper mapper;
@@ -96,14 +97,14 @@ public class FilmMapperTest extends FilmMapperCommons{
     public void mapFilmDtoToFilmWithComments() {
         Film simpleFilm = getSimpleFilm();
 
-        FilmComments filmComments = new FilmComments();
-        filmComments.setFilmId(simpleFilm);
-        filmComments.setId(1L);
-        filmComments.setText("TEXT");
-        filmComments.setDepth(0);
-        filmComments.setTitle("TITLE");
+        FilmComment filmComment = new FilmComment();
+        filmComment.setFilmId(simpleFilm);
+        filmComment.setId(1L);
+        filmComment.setText("TEXT");
+        filmComment.setDepth(0);
+        filmComment.setTitle("TITLE");
 
-        simpleFilm.getFilmComments().add(filmComments);
+        simpleFilm.getFilmComments().add(filmComment);
 
         FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
 

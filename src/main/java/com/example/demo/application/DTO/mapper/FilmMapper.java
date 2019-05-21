@@ -4,7 +4,7 @@ import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.model.Film;
-import com.example.demo.application.model.FilmComments;
+import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
 import org.mapstruct.AfterMapping;
@@ -12,7 +12,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -49,7 +48,7 @@ public interface FilmMapper {
 
     @AfterMapping
     default Film commentsDtoToFilmComments(@MappingTarget Film film, FilmDTO filmDTO) {
-        List<FilmComments> commentsDTOS = new ArrayList<>();
+        List<FilmComment> commentsDTOS = new ArrayList<>();
         filmDTO.getFilmCommentsList().forEach(filmComment -> commentsDTOS.add(commentToFilmCommentDTO(filmComment)));
         film.getFilmComments().addAll(commentsDTOS);
         film.getFilmComments().forEach(filmComment -> filmComment.setFilmId(film));
@@ -66,9 +65,9 @@ public interface FilmMapper {
 
     PersonDTO personToPersonDTO(Person person);
 
-    FilmComments commentToFilmCommentDTO(CommentsDTO commentsDTO);
+    FilmComment commentToFilmCommentDTO(CommentsDTO commentsDTO);
 
-    CommentsDTO filmToFilmDtoComments(FilmComments filmComments);
+    CommentsDTO filmToFilmDtoComments(FilmComment filmComment);
 
 //    @Named("peopleToFilmRelations")
 //    default List<FilmRelations> peopleToFilmRelation(FilmDTO film) {

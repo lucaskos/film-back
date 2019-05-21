@@ -1,4 +1,4 @@
-package com.example.demo.film;
+package com.example.demo.commons;
 
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;

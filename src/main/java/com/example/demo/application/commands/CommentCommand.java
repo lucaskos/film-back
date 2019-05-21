@@ -7,7 +7,7 @@ import lombok.Data;
 public class CommentCommand {
 
     private long id;
-    private ObjectType objectType;
+    private String entityType;
     private CommentsDTO commentsDTO;
 
 }

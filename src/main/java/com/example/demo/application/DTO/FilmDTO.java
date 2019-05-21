@@ -1,10 +1,7 @@
 package com.example.demo.application.DTO;
 
-import com.example.demo.application.model.FilmComments;
 import lombok.Data;
-import lombok.ToString;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
