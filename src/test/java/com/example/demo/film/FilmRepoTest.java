@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.NoSuchElementException;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class FilmRepoTest {
@@ -42,6 +44,13 @@ public class FilmRepoTest {
     public void getSingleFilmWithFilmRelation_lazyException() {
         Film film = filmRepo.getOne(1L);
         Assert.assertNotNull(film.getFilmRelations().iterator().next().getId());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+	public void getSingleFilmAndDelete() {
+    	Film film = filmRepo.getFilmDetails(1L).get();
+    	filmRepo.delete(film);
+	    Film one = filmRepo.getFilmDetails(1L).get();
     }
 
 }

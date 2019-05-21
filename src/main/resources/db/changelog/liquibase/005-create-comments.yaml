@@ -104,7 +104,7 @@ databaseChangeLog:
         constraintName: film_id
         deferrable: false
         initiallyDeferred: false
-        onDelete: no action
+        onDelete: cascade
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: film
@@ -174,21 +174,21 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: person_comments
         validate: true
-- changeSet:
-    id: self film comment relation
-    author: Luke
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: parent_comment_id
-        baseTableName: film_comments
-        constraintName: parent_comment_id
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: no action
-        onUpdate: no action
-        referencedColumnNames: id
-        referencedTableName: film_comments
-        validate: true
+#- changeSet:
+#    id: self film comment relation
+#    author: Luke
+#    changes:
+#    - addForeignKeyConstraint:
+#        baseColumnNames: parent_comment_id
+#        baseTableName: film_comments
+#        constraintName: parent_comment_id
+#        deferrable: false
+#        initiallyDeferred: false
+#        onDelete: cascade
+#        onUpdate: no action
+#        referencedColumnNames: id
+#        referencedTableName: film_comments
+#        validate: true
 - changeSet:
     id: create filmcomments to user relation
     author: Luke
