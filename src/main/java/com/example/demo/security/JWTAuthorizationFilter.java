@@ -38,7 +38,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during getting username from token", e);
+                logger.error("an error occurred during getting username from token", e);
             } catch (ExpiredJwtException e) {
                 logger.warn("the token is expired and not valid anymore", e);
             } catch(SignatureException e){
@@ -47,7 +47,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
         }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+         if (username != null
+                 && (SecurityContextHolder.getContext().getAuthentication() == null
+                 || !username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()))) {
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 

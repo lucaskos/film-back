@@ -23,3 +23,64 @@ databaseChangeLog:
         columnName: id
         startWith: 1
         tableName: roles
+- changeSet:
+    id: create privilege table
+    author: Luke (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: int
+        - column:
+            name: name
+            type: varchar(255)
+        tableName: privilege
+- changeSet:
+      id: privilege auto increment
+      author: Luke
+      changes:
+      - addAutoIncrement:
+         columnDataType: int
+         columnName: id
+         startWith: 1
+         tableName: privilege
+- changeSet:
+    id: role_privileges table
+    author: Luke (generated)
+    changes:
+      - createTable:
+          columns:
+            - column:
+                name: role_id
+                type: int
+            - column:
+                name: privilege_id
+                type: int
+          tableName: roles_privileges
+- changeSet:
+    id: roles_privileges role_fk
+    author: liquibase-docs
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: roles_privileges
+        constraintName: fk_role_id
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: roles
+- changeSet:
+    id: roles_privileges privilege_fk
+    author: liquibase-docs
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: privilege_id
+        baseTableName: roles_privileges
+        constraintName: fk_privilege_id
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: privilege

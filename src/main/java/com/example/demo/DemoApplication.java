@@ -13,26 +13,27 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
+
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableJpaRepositories(basePackages = "com.example.demo.application.repository")
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-				LogFactory.getInstance().getLog().setLogLevel("DEBUG");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
-	@Bean
-	@ConfigurationProperties(prefix = "security.token")
-	public TokenProperties tokenProperties() {
-		return new TokenProperties();
-	}
+    @Bean
+    @ConfigurationProperties(prefix = "security.token")
+    public TokenProperties tokenProperties() {
+        return new TokenProperties();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder(@Value("${security.password.strength:10}") int strength) {
-		return new BCryptPasswordEncoder(strength);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder(@Value("${security.password.strength:10}") int strength) {
+        return new BCryptPasswordEncoder(strength);
+    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {

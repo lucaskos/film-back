@@ -20,8 +20,17 @@ public class PersonService {
         this.personRepo = personRepo;
     }
 
-    public PersonDTO getPerson(Long id){
-       return personMapper.personToPersonDTO(personRepo.findById(id).get());
+    public List<PersonDTO> getAllPeople() {
+        List<PersonDTO> list = new ArrayList<>();
+        personRepo.findAll().forEach(person -> {
+            list.add(personMapper.personToPersonDTO(person));
+        });
+
+        return list;
+    }
+
+    public PersonDTO getPerson(Long id) {
+        return personMapper.personToPersonDTO(personRepo.findById(id).get());
     }
 
     public List<PersonDTO> findByName(String name) {

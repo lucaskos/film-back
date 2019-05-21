@@ -2,8 +2,8 @@ package com.example.demo.application.services;
 
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
-import com.example.demo.application.model.Role;
-import com.example.demo.application.model.User;
+import com.example.demo.application.model.user.Role;
+import com.example.demo.application.model.user.User;
 import com.example.demo.application.repository.RoleRepo;
 import com.example.demo.application.repository.UserRepository;
 import com.example.demo.config.service.TokenService;
@@ -12,7 +12,6 @@ import com.example.demo.security.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -49,12 +48,12 @@ public class UserService {
     }
 
 //    @Transactional
-//    public UserDTO save(String email, String username, String password) {
+//    public UserDTO saveUser(String email, String username, String password) {
 //        if (repository.findByEmail(email).isPresent()) {
 //            throw new UsernameTakenException("Username is already taken");
 //        }
-//        Role role = new Role(email, USER_ROLE);
-//        User user = repository.saveAndFlush(new User(email, username, passwordEncoder.encode(password), true, Collections.singletonList(role)));
+//        Role roleName = new Role(email, USER_ROLE);
+//        User user = repository.saveAndFlush(new User(email, username, passwordEncoder.encode(password), true, Collections.singletonList(roleName)));
 //        return userMapper.userDtoToUser(user);
 //        //return tokenService.encode(user);
 //
@@ -74,7 +73,7 @@ public class UserService {
         user.setPassword(password);
         user.setRoles(Collections.singletonList(role));
         User save = repository.save(user);
-//        User user = repository.save(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(role)));
+//        User user = repository.saveUser(new User(userDTO.getEmail(), userDTO.getUsername(), encode, true, Collections.singletonList(roleName)));
         return userMapper.userToUserDto(save);
 
     }
@@ -88,7 +87,7 @@ public class UserService {
     }
 
     Role getDefaultRole() {
-        Role role_user = roleRepo.findRoleByRole("ROLE_USER");
+        Role role_user = roleRepo.findRoleByRoleName("ROLE_USER");
         return role_user;
     }
 
@@ -96,7 +95,7 @@ public class UserService {
 //    public void register() {
 //        registration.newUserRequest().subscribe(message -> {
 //            NewUser payload = (NewUser) message.getPayload();
-//            save(payload.getEmail(), payload.getUsername(), payload.getPassword());
+//            saveUser(payload.getEmail(), payload.getUsername(), payload.getPassword());
 //        });
 //    }
 }

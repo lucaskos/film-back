@@ -2,12 +2,16 @@ package com.example.demo.security;
 
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
-import com.example.demo.application.model.Role;
+import com.example.demo.application.model.user.Role;
+import com.example.demo.application.repository.RoleRepo;
 import com.example.demo.application.repository.UserRepository;
-import com.example.demo.application.model.User;
+import com.example.demo.application.model.user.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,9 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by Luke on 24.10.2018.
@@ -25,34 +32,33 @@ import java.util.Optional;
 @Service(value = "userService")
 public class UsernamePasswordDetailsService implements UserService, UserDetailsService {
 
-    @Autowired
     private UserRepository userDao;
-
-    @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
-
-    @Autowired
     private UserMapper userMapper;
+    private RoleRepo roleRepo;
+
+    public UsernamePasswordDetailsService(UserRepository userDao, BCryptPasswordEncoder bcryptEncoder, UserMapper userMapper, RoleRepo roleRepo) {
+        this.userDao = userDao;
+        this.bcryptEncoder = bcryptEncoder;
+        this.userMapper = userMapper;
+        this.roleRepo = roleRepo;
+    }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userDao.findByUsername(username);
-        if(!optionalUser.isPresent()){
+        if (!optionalUser.isPresent()) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
 
         User user = optionalUser.get();
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user.getRoles()));
     }
 
-    private List<SimpleGrantedAuthority> getAuthority(List<Role> roleList) {
-        List<SimpleGrantedAuthority> list = new ArrayList<>();
-        roleList.stream().forEach(e -> list.add(new SimpleGrantedAuthority(e.getRole())));
-        return list;
-    }
-
-    public List<User> findAll() {
-        List<User> list = new ArrayList<>();
-        userDao.findAll().iterator().forEachRemaining(list::add);
+    public List<UserDTO> findAll() {
+        List<UserDTO> list = new ArrayList<>();
+        userDao.findAll().stream().forEach(user -> {
+            list.add(userMapper.userToUserDto(user));
+        });
         return list;
     }
 
@@ -71,16 +77,44 @@ public class UsernamePasswordDetailsService implements UserService, UserDetailsS
 
     public UserDTO update(UserDTO UserDTO) {
         User user = findById(UserDTO.getId());
-        if(user != null) {
+        if (user != null) {
             BeanUtils.copyProperties(UserDTO, user, "password");
             userDao.save(user);
         }
         return UserDTO;
     }
 
-    public User save(UserDTO user) {
-        User newUser = userMapper.userDtoToUser(user);
-        newUser.setPassword(bcryptEncoder.encode(newUser.getPassword()));
-        return userDao.save(newUser);
+    @Override
+    public Collection<String> findLoggedUserRoles() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null ? authentication.getAuthorities().stream()
+                .map(o -> o.getAuthority()).collect(Collectors.toList()) : null;
+    }
+
+    public User saveUser(UserDTO user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User userEntity = userMapper.userDtoToUser(user);
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal().toString().equals(user.getUsername())) {
+            //todo update user
+        } else {
+            //todo save new userEntity
+            userEntity.setPassword(bcryptEncoder.encode(userEntity.getPassword()));
+            userEntity.setRoles(Collections.singletonList(roleRepo.findRoleByRoleName("ROLE_USER")));
+        }
+        return userDao.save(userEntity);
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(
+            Collection<Role> roles) {
+        List<GrantedAuthority> authorities
+                = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName().replace("ROLE_", "")));
+            role.getPrivileges().stream()
+                    .map(p -> new SimpleGrantedAuthority(p.getName()))
+                    .forEach(authorities::add);
+        }
+
+        return authorities;
     }
 }

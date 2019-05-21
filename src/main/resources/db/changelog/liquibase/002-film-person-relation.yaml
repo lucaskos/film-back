@@ -14,8 +14,6 @@ databaseChangeLog:
             name: film_id
             type: int
         - column:
-            constraints:
-#              nullable: false
             name: person_id
             type: int
         - column:
@@ -64,7 +62,7 @@ databaseChangeLog:
         constraintName: FKfqfxsrdadhrp1h4sywwrdclmq
         deferrable: false
         initiallyDeferred: false
-        onDelete: no action
+        onDelete: set null
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: FILM
@@ -79,7 +77,7 @@ databaseChangeLog:
         constraintName: FKtijdyq0jyy5bn2d22wajdwljl
         deferrable: false
         initiallyDeferred: false
-        onDelete: no action
+        onDelete: set null
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: PERSON

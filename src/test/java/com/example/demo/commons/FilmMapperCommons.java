@@ -1,7 +1,8 @@
-package com.example.demo;
+package com.example.demo.commons;
 
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
+import com.example.demo.application.model.Film;
 
 import java.time.LocalDate;
 
@@ -23,7 +24,7 @@ public abstract class FilmMapperCommons {
     protected static final Long PERSON_ID = 1L;
 
 
-    public FilmDTO getTestFilm() {
+    public FilmDTO getSimpleTestFilm() {
         FilmDTO filmDTO = new FilmDTO();
         filmDTO.setTitle(FILM_TITLE);
         filmDTO.setFilmId(FILM_ID);
@@ -45,5 +46,15 @@ public abstract class FilmMapperCommons {
         personDTO.setId(personId);
 
         return personDTO;
+    }
+
+    public Film getSimpleFilm() {
+        Film film = new Film();
+        film.setTitle(FILM_TITLE);
+        film.setCreationDate(FILM_CREATION_DATE);
+        film.setModificationDate(FILM_MODIFICATION_DATE);
+        film.setYear(FILM_YEAR);
+        film.setDescription(FILM_DESCRIPTION);
+        return film;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.film;
 
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
@@ -8,7 +8,8 @@ import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
 import com.example.demo.application.repository.FilmRepo;
-import com.example.demo.application.services.FilmServices;
+import com.example.demo.application.services.FilmService;
+import com.example.demo.commons.FilmMapperCommons;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ import java.util.Set;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class FilmServiceTest extends FilmMapperCommons {
+public class  FilmServiceTest extends FilmMapperCommons {
 
     private final static String EDITED_ROLE = "EDITED_ROLE";
     private final static Long EDITED_FILM = 1L;
@@ -36,7 +37,7 @@ public class FilmServiceTest extends FilmMapperCommons {
     private final static Long ADDITIONAL_FILM_ID = 2L;
 
     @InjectMocks
-    private FilmServices filmServices;
+    private FilmService filmService;
 
     @Mock
     private FilmRepo filmRepo;
@@ -68,7 +69,7 @@ public class FilmServiceTest extends FilmMapperCommons {
         Mockito.when(filmRepo.saveAndFlush(Mockito.any())).thenReturn(updatedRelations);
         Mockito.when(filmRepo.getOne(FILM_ID)).thenReturn(film);
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -77,7 +78,7 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        FilmDTO filmDTO1 = filmServices.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.saveFilm(filmDTO);
 
         Assert.assertNotNull(filmDTO1.getPeopleList().get(0).getRole());
     }
@@ -90,7 +91,7 @@ public class FilmServiceTest extends FilmMapperCommons {
         Mockito.when(filmRepo.getOne(EDITED_FILM)).thenReturn(getFilm(EDITED_FILM));
         Mockito.when(personMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
         filmDTO.setFilmId(EDITED_FILM);
 
         List<PersonDTO> personDTOList = new ArrayList<>();
@@ -101,7 +102,7 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        FilmDTO filmDTO1 = filmServices.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.saveFilm(filmDTO);
 
         Assert.assertNotNull(filmDTO1.getPeopleList().get(0).getRole());
         Assert.assertTrue(filmDTO1.getPeopleList().get(0).getRole().equals(EDITED_ROLE));
@@ -124,7 +125,7 @@ public class FilmServiceTest extends FilmMapperCommons {
         Mockito.when(filmRepo.getOne(FILM_ID)).thenReturn(getFilm(FILM_ID));
         Mockito.when(filmMapper.filmDTOToFilm(Mockito.any())).thenReturn(getFilm(FILM_ID));
 
-        FilmDTO filmDTO = getTestFilm();
+        FilmDTO filmDTO = getSimpleTestFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -141,7 +142,7 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         Mockito.when(filmMapper.filmToFilmDTO(Mockito.any())).thenReturn(filmDTO);
 
-        FilmDTO filmDTO1 = filmServices.updateFilm(filmDTO);
+        FilmDTO filmDTO1 = filmService.saveFilm(filmDTO);
 
         Assert.assertEquals(filmDTO1.getPeopleList().get(0).getId(), PERSON_ID);
         Assert.assertEquals(filmDTO1.getPeopleList().get(1).getId(), ADDITIONAL_PERSON);
@@ -155,7 +156,7 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         FilmDTO filmDTO = new FilmDTO();
 
-        filmServices.deleteFilm(filmDTO);
+        filmService.deleteFilm(film.id);
 
         Mockito.verify(filmRepo, Mockito.times(1)).delete(film);
     }

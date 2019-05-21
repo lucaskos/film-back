@@ -1,0 +1,48 @@
+databaseChangeLog:
+- changeSet:
+    id: insert film comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: film_id
+                value: 1
+            - column:
+                name: depth
+                value: 0
+            - column:
+                name: title
+                value: 'test comment title'
+            - column:
+                name: text
+                value: 'test comment text'
+            - column:
+                name: owner_id
+                value: 1
+            tableName: film_comments
+- changeSet:
+    id: insert film sub1 comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: film_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment title sub 1'
+            - column:
+                name: text
+                value: 'test comment text sub 1'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 1
+            tableName: film_comments

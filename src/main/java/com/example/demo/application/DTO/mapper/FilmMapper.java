@@ -1,14 +1,17 @@
 package com.example.demo.application.DTO.mapper;
 
+import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.model.Film;
+import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -35,7 +38,6 @@ public interface FilmMapper {
                     peopleList.add(personDTO);
                 }
         );
-
         return peopleList;
     }
 
@@ -43,7 +45,29 @@ public interface FilmMapper {
 //    @Mapping(target = "filmRelations", source = "peopleList", qualifiedByName = "peopleToFilmRelations")
     Film filmDTOToFilm(FilmDTO filmDTO);
 
+
+    @AfterMapping
+    default Film commentsDtoToFilmComments(@MappingTarget Film film, FilmDTO filmDTO) {
+        List<FilmComment> commentsDTOS = new ArrayList<>();
+        filmDTO.getFilmCommentsList().forEach(filmComment -> commentsDTOS.add(commentToFilmCommentDTO(filmComment)));
+        film.getFilmComments().addAll(commentsDTOS);
+        film.getFilmComments().forEach(filmComment -> filmComment.setFilmId(film));
+        return film;
+    }
+
+    @AfterMapping
+    default FilmDTO commentsToFilmDtoComments(@MappingTarget FilmDTO filmDTO, Film film) {
+        List<CommentsDTO> commentsDTOS = new ArrayList<>();
+        film.getFilmComments().forEach(filmComment -> commentsDTOS.add(filmToFilmDtoComments(filmComment)));
+        filmDTO.getFilmCommentsList().addAll(commentsDTOS);
+        return filmDTO;
+    }
+
     PersonDTO personToPersonDTO(Person person);
+
+    FilmComment commentToFilmCommentDTO(CommentsDTO commentsDTO);
+
+    CommentsDTO filmToFilmDtoComments(FilmComment filmComment);
 
 //    @Named("peopleToFilmRelations")
 //    default List<FilmRelations> peopleToFilmRelation(FilmDTO film) {
