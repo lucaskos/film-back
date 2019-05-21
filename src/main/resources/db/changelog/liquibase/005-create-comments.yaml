@@ -20,6 +20,8 @@ databaseChangeLog:
             name: depth
             type: int
         - column:
+            constraints:
+              nullable: true
             name: parent_comment_id
             type: int
         - column:
@@ -44,6 +46,8 @@ databaseChangeLog:
             name: id
             type: long
         - column:
+            constraints:
+              nullable: true
             name: film_id
             type: int
         - column:
@@ -104,7 +108,7 @@ databaseChangeLog:
         constraintName: film_id
         deferrable: false
         initiallyDeferred: false
-        onDelete: no action
+        onDelete: set null
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: film
@@ -184,7 +188,7 @@ databaseChangeLog:
         constraintName: parent_comment_id
         deferrable: false
         initiallyDeferred: false
-        onDelete: no action
+        onDelete: set null
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: film_comments

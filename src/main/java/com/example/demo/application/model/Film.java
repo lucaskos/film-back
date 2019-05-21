@@ -48,7 +48,7 @@ public class Film extends DataModelObject {
             .ALL}, fetch = FetchType.LAZY)
     private Set<FilmRelations> filmRelations = new HashSet<>();
     @JsonBackReference
-    @OneToMany(targetEntity = FilmComments.class, cascade = CascadeType.ALL, mappedBy = "filmId", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = FilmComments.class, cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REMOVE}, mappedBy = "filmId", fetch = FetchType.LAZY)
     private List<FilmComments> filmComments = new ArrayList<>();
 
     public Film() {

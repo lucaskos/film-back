@@ -44,4 +44,17 @@ public class FilmRepoTest {
         Assert.assertNotNull(film.getFilmRelations().iterator().next().getId());
     }
 
+    @Test
+    public void getSingleFilmWithComments() {
+        Film film = filmRepo.getFilmDetails(1L).get();
+        Assert.assertNotNull(film.getFilmComments());
+    }
+
+    @Test
+    //todo add foreign constraint on parentCommentId
+    public void deleteSingleFilmWithComments_persistComments() {
+        Film film = filmRepo.getFilmDetails(1L).get();
+        filmRepo.delete(film);
+    }
+
 }
