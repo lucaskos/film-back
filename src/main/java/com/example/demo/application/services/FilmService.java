@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.NotFoundException;
 import java.time.LocalDate;
@@ -48,13 +47,13 @@ public class FilmService {
         return filmDTO;
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
+    //    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
     public FilmDTO addFilm(FilmDTO film) {
         Film save = filmDao.save(filmMapper.filmDTOToFilm(film));
         return filmMapper.filmToFilmDTO(save);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    //    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteFilm(Long id) {
         logger.info("Deleting film: " + id);
         Film film = filmDao.findById(id).get();
@@ -84,10 +83,12 @@ public class FilmService {
     }
 
     public List<FilmDTO> getFilmsByTitle(String title) {
-        //todo pagination
-        List<FilmDTO> filmList = new ArrayList<>();
-        filmDao.autocompleteByTitle(title).forEach(film -> filmList.add(filmMapper.filmToFilmDTO(film)));
-        return filmList;
+        String trimmedString = title.trim();
+        List<Film> list = filmDao.findFilmsByTitleContainingIgnoreCase(trimmedString)
+                .orElseThrow(() -> new NotFoundException("For string: " + title + " , nothing has been found."));
+        List<FilmDTO> filmDTOList = new ArrayList<>();
+        list.stream().forEach(film -> filmDTOList.add(filmMapper.filmToFilmDTO(film)));
+        return filmDTOList;
     }
 
     private Set<FilmRelations> createAndUpdateFilmRelations(Film oldFilm, FilmDTO filmDTO) {
@@ -96,7 +97,7 @@ public class FilmService {
 
         Set<FilmRelations> filmRelationsAfterUpdate = new LinkedHashSet<>();
 
-        if(!CollectionUtils.isEmpty(peopleList)) {
+        if (!CollectionUtils.isEmpty(peopleList)) {
             peopleList.forEach(personDTO -> filmRelations.stream().forEach(filmRelation -> {
                 if (filmRelation.getPerson() != null && personDTO.getId().equals(filmRelation.getPerson().getId())) {
                     logger.info("Updating relation for person: " + personDTO.getId());

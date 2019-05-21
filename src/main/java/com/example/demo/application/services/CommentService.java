@@ -8,7 +8,6 @@ import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonRepo;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

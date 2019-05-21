@@ -16,12 +16,13 @@ import java.util.NoSuchElementException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
-public class FilmRepoTest {
+public class FilmRepoTest extends FilmMapperTest{
 
     @Autowired
     private FilmRepo filmRepo;
 
     @Test
+    @Transactional
     public void getSingleFilmThenOk(){
         Film one = filmRepo.getOne(Long.valueOf(1));
 
@@ -45,15 +46,27 @@ public class FilmRepoTest {
 
     @Test(expected = LazyInitializationException.class)
     public void getSingleFilmWithFilmRelation_lazyException() {
-        Film film = filmRepo.getOne(1L);
+        Film simpleFilm = getSimpleFilm();
+
+        Film compareFilm = filmRepo.save(simpleFilm);
+
+        Assert.assertEquals(simpleFilm.getTitle(), compareFilm.getTitle());
+        Assert.assertNotNull(compareFilm.getId());
+
+        Film film = filmRepo.getOne(compareFilm.getId());
+
         Assert.assertNotNull(film.getFilmRelations().iterator().next().getId());
     }
 
     @Test(expected = NoSuchElementException.class)
 	public void getSingleFilmAndDelete() {
-    	Film film = filmRepo.getFilmDetails(1L).get();
-    	filmRepo.delete(film);
-	    Film one = filmRepo.getFilmDetails(1L).get();
+        Film film = getSimpleFilm();
+
+        Film compareFilm = filmRepo.save(film);
+
+        Film afterSaveFilm = filmRepo.getFilmDetails(compareFilm.getId()).get();
+    	filmRepo.delete(afterSaveFilm);
+	    filmRepo.getFilmDetails(afterSaveFilm.getId()).get();
     }
 
     @Test
