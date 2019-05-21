@@ -5,7 +5,10 @@ import com.example.demo.application.services.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,16 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class CommentsController {
 
-    private CommentService commentService;
+	private CommentService commentService;
 
-    public CommentsController(CommentService commentService) {
-        this.commentService = commentService;
-    }
+	public CommentsController(CommentService commentService) {
+		this.commentService = commentService;
+	}
 
-    @PostMapping("/add")
-    public ResponseEntity addComment(CommentCommand commentCommand) {
-        Object o = commentService.addComment(commentCommand);
-        return new ResponseEntity(new Object(), HttpStatus.OK);
-    }
+	@PostMapping("/add")
+	public ResponseEntity addComment(@RequestBody CommentCommand commentCommand) {
+		Object savedComment = commentService.addComment(commentCommand);
+		return new ResponseEntity(savedComment, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity getComment(@PathVariable(name = "id") Long commentId) {
+		return new ResponseEntity(commentService.findComment(commentId), HttpStatus.OK);
+	}
 
 }

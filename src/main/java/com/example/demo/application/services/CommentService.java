@@ -8,8 +8,12 @@ import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonRepo;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -26,12 +30,17 @@ public class CommentService {
         this.filmCommentsRepo = filmCommentsRepo;
     }
 
+    @Transactional
     public Object addComment(CommentCommand commentCommand){
         JpaRepository jpaRepository;
         if(ObjectType.FILM.toString().equals(commentCommand.getEntityType())) {
             jpaRepository = filmDao;
 	        Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentCommand.getCommentsDTO().getEntityId()).get();
+	        if (one == null) {
+	        	throw new RuntimeException("brak filmu dla zapytanie " + commentCommand.toString());
+	        }
 	        FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentCommand.getCommentsDTO());
+	        filmComment.setFilmId(one);
 	        FilmComment save = filmCommentsRepo.save(filmComment);
 	        return save;
         }
@@ -41,6 +50,11 @@ public class CommentService {
 
 //        jpaRepository.saveUser()
         return new Object();
+    }
+
+    public Object findComment(Long id) {
+	    Optional<FilmComment> byId = filmCommentsRepo.findById(id);
+	    return byId.get();
     }
 
 }

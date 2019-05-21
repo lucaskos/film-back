@@ -1,0 +1,11 @@
+{
+   "entityType": "FILM",
+      "commentsDTO":{
+      "entityId":1,
+      "depth":0,
+      "parentCommentId":null,
+      "title": "TEST_TITLE",
+      "text":"TEST_COMMENT",
+      "userId":1
+   }
+}
