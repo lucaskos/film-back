@@ -1,6 +1,7 @@
 package com.example.demo.application.services;
 
 import com.example.demo.application.DTO.UserDTO;
+import com.example.demo.application.DTO.dictionaries.NewUserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
 import com.example.demo.application.model.user.Role;
 import com.example.demo.application.model.user.User;
@@ -12,6 +13,7 @@ import com.example.demo.security.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import java.util.List;
 /**
  * Created by Luke on 24.10.2018.
  */
-//@Service
+@Service("customservice")
 public class UserService {
     public static final String USER_ROLE = "user";
     private UserRepository repository;
@@ -60,7 +62,7 @@ public class UserService {
 //    }
 
     @Transactional
-    public UserDTO save(UserDTO userDTO) {
+    public UserDTO save(NewUserDTO userDTO) {
         if (repository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new UsernameTakenException("Username is already taken");
         }
@@ -89,6 +91,10 @@ public class UserService {
     Role getDefaultRole() {
         Role role_user = roleRepo.findRoleByRoleName("ROLE_USER");
         return role_user;
+    }
+
+    User findById(Long id) {
+        return repository.findById(id).get();
     }
 
 //    @PostConstruct

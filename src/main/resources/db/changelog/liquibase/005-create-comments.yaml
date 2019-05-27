@@ -97,7 +97,7 @@ databaseChangeLog:
         indexName: owner_id
         tableName: person_comments
 - changeSet:
-    id: 1542224623996-28
+    id: film comment reference film entity
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
@@ -113,13 +113,29 @@ databaseChangeLog:
         referencedTableName: film
         validate: true
 - changeSet:
+    id: film comment reference user entity
+    author: Luke
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: owner_id
+        baseTableName: film_comments
+        constraintName: owner_film_comment_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: set null
+        onDelete: cascade
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
     id: 1542224623996-32
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: owner_id
         baseTableName: person_comments
-        constraintName: owner_id
+        constraintName: owner_person_comment_id
         deferrable: false
         initiallyDeferred: false
         onDelete: no action

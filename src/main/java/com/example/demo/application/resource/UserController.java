@@ -1,5 +1,6 @@
 package com.example.demo.application.resource;
 
+import com.example.demo.application.DTO.LoginDTO;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.model.user.User;
 import com.example.demo.security.UserService;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity authenticateUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity authenticateUser(@RequestBody LoginDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDTO.getUsername(),
