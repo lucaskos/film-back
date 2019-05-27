@@ -78,7 +78,12 @@ public class FilmService {
 
         filmToUpdate.setFilmRelations(createAndUpdateFilmRelations(filmToUpdate, film));
 
-        Film updatedFilm = filmDao.saveAndFlush(filmToUpdate);
+        Film film1 = filmMapper.filmDTOToFilm(film);
+
+        film1.setFilmRelations(filmToUpdate.getFilmRelations());
+        film1.setFilmComments(filmToUpdate.getFilmComments());
+
+        Film updatedFilm = filmDao.saveAndFlush(film1);
         return filmMapper.filmToFilmDTO(updatedFilm);
     }
 
