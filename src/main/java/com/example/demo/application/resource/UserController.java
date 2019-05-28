@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody UserDTO user) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterDTO user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity updateUser(@RequestBody UserDTO user) {
+    public ResponseEntity updateUser(@RequestBody RegisterDTO user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 

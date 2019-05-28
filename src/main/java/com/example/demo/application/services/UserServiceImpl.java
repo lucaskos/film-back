@@ -1,5 +1,6 @@
 package com.example.demo.application.services;
 
+import com.example.demo.application.DTO.RegisterDTO;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.UserMapper;
 import com.example.demo.application.model.user.Role;
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
 				.map(o -> o.getAuthority()).collect(Collectors.toList()) : null;
 	}
 
-	public User saveUser(UserDTO user) {
+	public User saveUser(RegisterDTO user) {
 		Role defaultRole = getDefaultRole();
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
