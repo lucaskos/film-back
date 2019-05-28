@@ -1,5 +1,6 @@
 package com.example.demo.application.services;
 
+import com.example.demo.application.model.user.Role;
 import com.example.demo.application.model.user.User;
 import com.example.demo.application.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,11 +17,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CustomUserServimceImpl implements UserDetailsService {
+public class CustomUserServiceImpl implements UserDetailsService {
 
     private UserRepository userDao;
 
-    public CustomUserServimceImpl(UserRepository userDao) {
+    public CustomUserServiceImpl(UserRepository userDao) {
         this.userDao = userDao;
     }
 
@@ -35,10 +36,10 @@ public class CustomUserServimceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user.getRoles()));
     }
 
-    private static List<GrantedAuthority> getAuthorities (List<String> roles) {
+    private static List<GrantedAuthority> getAuthorities (List<Role> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
         return authorities;
     }

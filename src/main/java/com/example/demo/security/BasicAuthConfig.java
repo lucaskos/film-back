@@ -2,6 +2,8 @@ package com.example.demo.security;
 
 import com.example.demo.application.resource.filter.JWTAuthorizationFilter;
 import com.example.demo.application.resource.filter.JwtAuthenticationEntryPoint;
+import com.example.demo.application.services.CustomUserServiceImpl;
+import com.example.demo.application.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -29,25 +30,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@Order(1)
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
+
+    @Autowired
+    private CustomUserServiceImpl customUserService;
+
+    @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
-	private UserDetailsService userDetailsService;
 
-	public BasicAuthConfig(JwtAuthenticationEntryPoint unauthorizedHandler, UserDetailsService userDetailsService) {
-		this.unauthorizedHandler = unauthorizedHandler;
-		this.userDetailsService = userDetailsService;
-	}
-
-	@Override
+    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(encoder());
-    }
+//    @Autowired
+//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(customUserService)
+//                .passwordEncoder(getPasswordEncoder());
+//    }
 
     @Bean
     public JWTAuthorizationFilter authenticationTokenFilterBean() throws Exception {
@@ -57,22 +57,10 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
-//                authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "user/register/checkEmail**")
-//                .permitAll()
-//                .antMatchers("/token/**", "/register/**", "/checkEmail/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and().formLogin().disable();
-
-//        http
-//                .addFilterAfter(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
-    public BCryptPasswordEncoder encoder() {
+    public BCryptPasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -90,5 +78,11 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
                 registry.addMapping("/**").allowedOrigins("*");
             }
         };
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserService)
+                .passwordEncoder(getPasswordEncoder());
     }
 }

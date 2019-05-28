@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * Created by Luke on 24.10.2018.
  */
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
 	private UserRepository userDao;
 	private BCryptPasswordEncoder bcryptEncoder;
@@ -45,16 +45,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		this.bcryptEncoder = bcryptEncoder;
 		this.userMapper = userMapper;
 		this.roleRepo = roleRepo;
-	}
-
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> optionalUser = userDao.findByUsername(username);
-		if (!optionalUser.isPresent()) {
-			throw new UsernameNotFoundException("Invalid username or password.");
-		}
-
-		User user = optionalUser.get();
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user.getRoles()));
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
