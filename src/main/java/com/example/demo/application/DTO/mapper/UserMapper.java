@@ -1,5 +1,6 @@
 package com.example.demo.application.DTO.mapper;
 
+import com.example.demo.application.DTO.RegisterDTO;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.model.user.User;
 import org.mapstruct.Mapper;
@@ -9,7 +10,6 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Mapping(target = "password", ignore = true)
     UserDTO userToUserDto(User user);
 
     User userDtoToUser(UserDTO userDTO);

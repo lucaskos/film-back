@@ -15,8 +15,6 @@ public class UserDTO {
     private String lastName;
     @NotNull
     private String username;
-    @NotNull
-    private String password;
     private boolean enabled;
     @NotNull
     private String email;
