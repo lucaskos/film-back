@@ -1,9 +1,10 @@
 package com.example.demo.security;
 
+import com.example.demo.application.resource.filter.JWTAuthorizationFilter;
+import com.example.demo.application.resource.filter.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -11,15 +12,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 
 /**
  * Created by Luke on 24.10.2018.
@@ -31,20 +29,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@Order(1)
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
-    //    @Resource(name = "userService")
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
+	private UserDetailsService userDetailsService;
 
-    @Override
+	public BasicAuthConfig(JwtAuthenticationEntryPoint unauthorizedHandler, UserDetailsService userDetailsService) {
+		this.unauthorizedHandler = unauthorizedHandler;
+		this.userDetailsService = userDetailsService;
+	}
+
+	@Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    @Autowired
+    @Bean
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());

@@ -14,6 +14,6 @@ public class CommentsDTO {
     private Long parentCommentId;
     private String title;
     private String text;
-    private UserDTO userId;
+    private long userId;
 
 }

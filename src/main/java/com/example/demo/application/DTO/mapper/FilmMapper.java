@@ -7,14 +7,11 @@ import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
-import com.example.demo.application.repository.PersonRepo;
-import com.example.demo.application.services.PersonService;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -49,16 +46,6 @@ public interface FilmMapper {
     Film filmDTOToFilm(FilmDTO filmDTO);
 
 
-//    @AfterMapping
-//    default Film peopleToFilmRelation(@MappingTarget Film film, FilmDTO filmDTO) {
-//        List<FilmRelations> filmRelationsList = new ArrayList<>();
-//        for (PersonDTO person: filmDTO.getPeopleList()) {
-//            FilmRelations filmRelations = new FilmRelations();
-//            filmRelations.setRole(person.getRole());
-//            filmRelations.setPerson(person);
-//        }
-//    }
-
     @AfterMapping
     default Film commentsDtoToFilmComments(@MappingTarget Film film, FilmDTO filmDTO) {
         List<FilmComment> commentsDTOS = new ArrayList<>();
@@ -81,4 +68,13 @@ public interface FilmMapper {
     FilmComment commentToFilmCommentDTO(CommentsDTO commentsDTO);
 
     CommentsDTO filmToFilmDtoComments(FilmComment filmComment);
+
+//    @Named("peopleToFilmRelations")
+//    default List<FilmRelations> peopleToFilmRelation(FilmDTO film) {
+//        for(PersonDTO person: film.getPeopleList()) {
+//            FilmRelations filmRelations = new FilmRelations();
+//            filmRelations.setRole(person.getRole());
+//            filmRelations.setPerson();
+//        }
+//    }
 }

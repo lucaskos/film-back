@@ -1,7 +1,6 @@
 package com.example.demo.comments;
 
 import com.example.demo.application.DTO.CommentsDTO;
-import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
 import com.example.demo.application.commands.CommentCommand;
 import com.example.demo.application.model.Film;
@@ -65,7 +64,7 @@ public class FilmCommentsServiceTest extends CommentsCommon {
 	private CommentsDTO getCommentDTO() {
 		CommentsDTO commentsDTO = new CommentsDTO();
 		commentsDTO.setText(COMMENT_TEXT);
-		commentsDTO.setUserId(new UserDTO());//todo
+		commentsDTO.setUserId(USER_ID);
 		commentsDTO.setEntityId(FILM_ID);
 		return commentsDTO;
 	}

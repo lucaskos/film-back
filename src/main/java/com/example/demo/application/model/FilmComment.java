@@ -1,6 +1,5 @@
 package com.example.demo.application.model;
 
-import com.example.demo.application.model.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
@@ -18,17 +17,15 @@ import java.util.Date;
 @Entity
 @Table(name = "FILM_COMMENTS")
 @Data
-public class FilmComment extends Comment{
+public class FilmComment {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "film_id", nullable = true)
+//    @Column(name = "film_id")
     private Film filmId;
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = true)
-    private User userId;
     @Column(name = "created_date")
     private Date createdDate;
     @Column(name = "depth")
@@ -39,4 +36,6 @@ public class FilmComment extends Comment{
     private String text;
     @Column(name = "title", nullable = false)
     private String title;
+    @Column(name = "owner_id")
+    private Long userId;
 }

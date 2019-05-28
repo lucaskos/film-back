@@ -1,8 +1,6 @@
 package com.example.demo.application.model.user;
 
-import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.model.PersonComments;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
@@ -21,7 +19,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,14 +31,17 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	public Long id;
+	@NotBlank
 	@Size(min = 5, max = 45)
 	@Column(name = "username")
 	public String username;
+	@NotBlank
 	@Size(min = 5, max = 80)
 	@Column(name = "password")
 	public String password;
 	@Column(name = "enabled")
 	public boolean enabled;
+	@Email
 	@Column(name = "email")
 	public String email;
 	@JsonIgnore
@@ -60,9 +60,6 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "OWNER_ID")
 	private Set<PersonComments> personComments;
-	@JsonBackReference
-	@OneToMany(targetEntity = FilmComment.class, cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
-	private List<FilmComment> filmComments = new ArrayList<>();
 
 	public User() {
 

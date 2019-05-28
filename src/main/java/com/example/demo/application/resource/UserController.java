@@ -1,9 +1,8 @@
 package com.example.demo.application.resource;
 
-import com.example.demo.application.DTO.LoginDTO;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.model.user.User;
-import com.example.demo.security.UserService;
+import com.example.demo.application.services.UserService;
 import com.example.demo.security.jwt.TokenProvider;
 import com.example.demo.security.model.AuthToken;
 import org.springframework.http.HttpStatus;
@@ -54,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity authenticateUser(@RequestBody LoginDTO userDTO) {
+    public ResponseEntity authenticateUser(@RequestBody UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDTO.getUsername(),

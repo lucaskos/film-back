@@ -21,14 +21,12 @@ public class CommentService {
     private PersonRepo personRepo;
     private CommentMapper commentMapper;
     private FilmCommentsRepo filmCommentsRepo;
-    private UserService userService;
 
-    public CommentService(FilmRepo filmDao, PersonRepo personRepo, CommentMapper commentMapper, FilmCommentsRepo filmCommentsRepo, UserService userService) {
+    public CommentService(FilmRepo filmDao, PersonRepo personRepo, CommentMapper commentMapper, FilmCommentsRepo filmCommentsRepo) {
         this.filmDao = filmDao;
         this.personRepo = personRepo;
         this.commentMapper = commentMapper;
         this.filmCommentsRepo = filmCommentsRepo;
-        this.userService = userService;
     }
 
     @Transactional
@@ -38,11 +36,10 @@ public class CommentService {
             jpaRepository = filmDao;
 	        Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentCommand.getCommentsDTO().getEntityId()).get();
 	        if (one == null) {
-	        	throw new RuntimeException("Brak filmu dla zapytania " + commentCommand.toString());
+	        	throw new RuntimeException("brak filmu dla zapytanie " + commentCommand.toString());
 	        }
 	        FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentCommand.getCommentsDTO());
 	        filmComment.setFilmId(one);
-	        filmComment.setUserId(userService.findById(commentCommand.getCommentsDTO().getUserId().getId()));
 	        FilmComment save = filmCommentsRepo.save(filmComment);
 	        return save;
         }

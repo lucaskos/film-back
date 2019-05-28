@@ -3,7 +3,6 @@ package com.example.demo.film;
 import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
-import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.FilmMapper;
 import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Film;
@@ -74,7 +73,7 @@ public class FilmMapperTest extends FilmMapperCommons {
         commentsDTO.setText("TEXT");
         commentsDTO.setTitle("TITLE");
         commentsDTO.setEntityId(FILM_ID);
-        commentsDTO.setUserId(new UserDTO());//todo
+        commentsDTO.setUserId(1);
         commentsDTO.setId(1L);
 
         filmDTO.getFilmCommentsList().add(commentsDTO);
