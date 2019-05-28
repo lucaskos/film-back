@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.application.resource.filter;
 
 import com.example.demo.security.jwt.TokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
