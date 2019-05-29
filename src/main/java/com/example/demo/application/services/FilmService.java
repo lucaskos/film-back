@@ -23,100 +23,132 @@ import java.util.Set;
 @Service
 public class FilmService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    private FilmRepo filmDao;
-    private FilmMapper filmMapper;
-    private PersonMapper personMapper;
+	private FilmRepo filmDao;
+	private FilmMapper filmMapper;
+	private PersonMapper personMapper;
 
-    public FilmService(FilmRepo filmDao, FilmMapper filmMapper, PersonMapper personMapper) {
-        this.filmDao = filmDao;
-        this.filmMapper = filmMapper;
-        this.personMapper = personMapper;
-    }
+	public FilmService(FilmRepo filmDao, FilmMapper filmMapper, PersonMapper personMapper) {
+		this.filmDao = filmDao;
+		this.filmMapper = filmMapper;
+		this.personMapper = personMapper;
+	}
 
-    public List<FilmDTO> getAllFilms() {
-        List<FilmDTO> filmList = new ArrayList<>();
-        filmDao.findAll().forEach(film -> filmList.add(filmMapper.filmToFilmDTO(film)));
-        return filmList;
-    }
+	public List<FilmDTO> getAllFilms() {
 
-    public FilmDTO getFilmDetails(Long id) {
-        Film film = filmDao.getFilmDetails(id).orElseThrow(() -> new NotFoundException("Film not found id: " + id));
-        FilmDTO filmDTO = filmMapper.filmToFilmDTO(film);
-        return filmDTO;
-    }
+		List<FilmDTO> filmList = new ArrayList<>();
 
-    //    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
-    public FilmDTO addFilm(FilmDTO film) {
-        Film save = filmDao.save(filmMapper.filmDTOToFilm(film));
-        return filmMapper.filmToFilmDTO(save);
-    }
+		//todo pagination
+		filmDao.findAll().forEach(film -> filmList.add(filmMapper.filmToFilmDTO(film)));
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteFilm(Long id) {
-        logger.info("Deleting film: " + id);
-        Film film = filmDao.findById(id).get();
-        Set<FilmRelations> filmRelations = film.getFilmRelations();
-        film.getFilmRelations().removeAll(filmRelations);
-        filmDao.save(film);
-        filmDao.delete(film);
-    }
+		return filmList;
 
-    @PreAuthorize("hasRole('ADMIN') || hasAuthority('can_write')")
-    public FilmDTO saveFilm(FilmDTO film) {
+	}
 
-        Film filmToUpdate;
-        if (film.getFilmId() != null) {
-            filmToUpdate = filmDao.getOne(film.getFilmId());
-            film.setModificationDate(LocalDate.now());
-        } else {
-            filmToUpdate = filmMapper.filmDTOToFilm(film);
+	public FilmDTO getFilmDetails(Long id) {
+
+		Film film = filmDao.getFilmDetails(id).orElseThrow(() -> new NotFoundException("Film not found id: " + id));
+
+		FilmDTO filmDTO = filmMapper.filmToFilmDTO(film);
+
+		return filmDTO;
+
+	}
+
+	//    @PreAuthorize("hasAuthority('ADMIN') or ('EDITOR')")
+	public FilmDTO addFilm(FilmDTO film) {
+
+		Film save = filmDao.save(filmMapper.filmDTOToFilm(film));
+
+		return filmMapper.filmToFilmDTO(save);
+
+	}
+
+	//    @PreAuthorize("hasAuthority('ADMIN')")
+	public void deleteFilm(Long id) {
+
+		logger.info("Deleting film: " + id);
+
+		Film film = filmDao.findById(id).get();
+
+		Set<FilmRelations> filmRelations = film.getFilmRelations();
+
+		film.getFilmRelations().removeAll(filmRelations);
+
+		filmDao.save(film);
+
+		filmDao.delete(film);
+
+	}
+
+	@PreAuthorize("hasRole('ADMIN') || hasAuthority('can_write')")
+	public FilmDTO saveFilm(FilmDTO film) {
+
+		Film filmToUpdate;
+		if (film.getFilmId() != null) {
+			filmToUpdate = filmDao.getOne(film.getFilmId());
+			film.setModificationDate(LocalDate.now());
+		} else {
+			filmToUpdate = filmMapper.filmDTOToFilm(film);
 //            filmToUpdate.setCreationDate(LocalDate.now());
-            filmToUpdate.setModificationDate(LocalDate.now());
-        }
+			filmToUpdate.setModificationDate(LocalDate.now());
+		}
 
-        filmToUpdate.setFilmRelations(createAndUpdateFilmRelations(filmToUpdate, film));
+		filmToUpdate.setFilmRelations(createAndUpdateFilmRelations(filmToUpdate, film));
 
-        Film updatedFilm = filmDao.saveAndFlush(filmToUpdate);
-        return filmMapper.filmToFilmDTO(updatedFilm);
-    }
+		Film updatedFilm = filmDao.saveAndFlush(filmToUpdate);
+		return filmMapper.filmToFilmDTO(updatedFilm);
+	}
 
-    public List<FilmDTO> getFilmsByTitle(String title) {
-        String trimmedString = title.trim();
-        List<Film> list = filmDao.findFilmsByTitleContainingIgnoreCase(trimmedString)
-                .orElseThrow(() -> new NotFoundException("For string: " + title + " , nothing has been found."));
-        List<FilmDTO> filmDTOList = new ArrayList<>();
-        list.stream().forEach(film -> filmDTOList.add(filmMapper.filmToFilmDTO(film)));
-        return filmDTOList;
-    }
+	public List<FilmDTO> getFilmsByTitle(String title) {
 
-    private Set<FilmRelations> createAndUpdateFilmRelations(Film oldFilm, FilmDTO filmDTO) {
-        final Set<FilmRelations> filmRelations = oldFilm.getFilmRelations();
-        List<PersonDTO> peopleList = filmDTO.getPeopleList();
+		String trimmedString = title.trim();
 
-        Set<FilmRelations> filmRelationsAfterUpdate = new LinkedHashSet<>();
+		List<Film> list = filmDao.findFilmsByTitleContainingIgnoreCase(trimmedString)
+				.orElseThrow(() -> new NotFoundException("For string: " + title + " , nothing has been found."));
 
-        if (!CollectionUtils.isEmpty(peopleList)) {
-            peopleList.forEach(personDTO -> filmRelations.stream().forEach(filmRelation -> {
-                if (filmRelation.getPerson() != null && personDTO.getId().equals(filmRelation.getPerson().getId())) {
-                    logger.info("Updating relation for person: " + personDTO.getId());
-                    filmRelation.setPerson(personMapper.personDTOToPerson(personDTO));
-                    filmRelationsAfterUpdate.add(filmRelation);
-                } else {
-                    logger.info("Adding new relation for person: " + personDTO.getId());
-                    FilmRelations newRelation = new FilmRelations();
-                    newRelation.setPerson(personMapper.personDTOToPerson(personDTO));
-                    newRelation.setRole(personDTO.getRole());
-                    newRelation.setFilm(oldFilm);
-                    filmRelationsAfterUpdate.add(newRelation);
-                }
-            }));
-        }
+		List<FilmDTO> filmDTOList = new ArrayList<>();
 
-        filmRelationsAfterUpdate.addAll(filmRelations);
+		list.forEach(film -> filmDTOList.add(filmMapper.filmToFilmDTO(film)));
 
-        return filmRelationsAfterUpdate;
-    }
+		return filmDTOList;
+	}
+
+	private Set<FilmRelations> createAndUpdateFilmRelations(Film filmBeforeUpdate, FilmDTO filmDTO) {
+
+		final Set<FilmRelations> filmBeforeUpdateRelation = filmBeforeUpdate.getFilmRelations();
+
+		List<PersonDTO> peopleList = filmDTO.getPeopleList();
+
+		Set<FilmRelations> filmRelationsAfterUpdate = new LinkedHashSet<>();
+
+		if (!CollectionUtils.isEmpty(peopleList)) {
+
+			peopleList.forEach(personDTO -> filmBeforeUpdateRelation.stream().forEach(filmRelation -> {
+
+				if (filmRelation.getPerson() != null && personDTO.getId().equals(filmRelation.getPerson().getId())) {
+
+					logger.info("Updating relation for person: " + personDTO.getId());
+					filmRelation.setPerson(personMapper.personDTOToPerson(personDTO));
+					filmRelationsAfterUpdate.add(filmRelation);
+
+				} else {
+
+					logger.info("Adding new relation for person: " + personDTO.getId());
+					FilmRelations newRelation = new FilmRelations();
+					newRelation.setPerson(personMapper.personDTOToPerson(personDTO));
+					newRelation.setRole(personDTO.getRole());
+					newRelation.setFilm(filmBeforeUpdate);
+					filmRelationsAfterUpdate.add(newRelation);
+
+				}
+			}));
+		}
+
+		filmRelationsAfterUpdate.addAll(filmBeforeUpdateRelation);
+
+		return filmRelationsAfterUpdate;
+	}
 
 }

@@ -12,48 +12,60 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
 public class CommentService {
 
-    private FilmRepo filmDao;
-    private PersonRepo personRepo;
-    private CommentMapper commentMapper;
-    private FilmCommentsRepo filmCommentsRepo;
+	private FilmRepo filmDao;
+	private PersonRepo personRepo;
+	private CommentMapper commentMapper;
+	private FilmCommentsRepo filmCommentsRepo;
 
-    public CommentService(FilmRepo filmDao, PersonRepo personRepo, CommentMapper commentMapper, FilmCommentsRepo filmCommentsRepo) {
-        this.filmDao = filmDao;
-        this.personRepo = personRepo;
-        this.commentMapper = commentMapper;
-        this.filmCommentsRepo = filmCommentsRepo;
-    }
+	public CommentService(FilmRepo filmDao,
+	                      PersonRepo personRepo,
+	                      CommentMapper commentMapper,
+	                      FilmCommentsRepo filmCommentsRepo) {
+		this.filmDao = filmDao;
+		this.personRepo = personRepo;
+		this.commentMapper = commentMapper;
+		this.filmCommentsRepo = filmCommentsRepo;
+	}
 
-    @Transactional
-    public Object addComment(CommentCommand commentCommand){
-        JpaRepository jpaRepository;
-        if(ObjectType.FILM.toString().equals(commentCommand.getEntityType())) {
-            jpaRepository = filmDao;
-	        Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentCommand.getCommentsDTO().getEntityId()).get();
-	        if (one == null) {
-	        	throw new RuntimeException("brak filmu dla zapytanie " + commentCommand.toString());
-	        }
-	        FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentCommand.getCommentsDTO());
-	        filmComment.setFilmId(one);
-	        FilmComment save = filmCommentsRepo.save(filmComment);
-	        return save;
-        }
-	    if (ObjectType.PERSON.toString().equals(commentCommand.getEntityType())) {
-		    return new Object();
-	    }
+	@Transactional
+	public Object addComment(CommentCommand commentCommand) {
+
+		JpaRepository jpaRepository;
+
+		if (ObjectType.FILM.toString().equals(commentCommand.getEntityType())) {
+
+			return generateAndReturnFilmComment(commentCommand, filmDao);
+		}
+		if (ObjectType.PERSON.toString().equals(commentCommand.getEntityType())) {
+			return new Object();
+		}
 
 //        jpaRepository.saveUser()
-        return new Object();
-    }
+		return new Object();
+	}
 
-    public Object findComment(Long id) {
-	    Optional<FilmComment> byId = filmCommentsRepo.findById(id);
-	    return byId.get();
-    }
+	private Object generateAndReturnFilmComment(CommentCommand commentCommand, JpaRepository jpaRepository) {
+
+		Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentCommand.getCommentsDTO().getEntityId()).get();
+
+		FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentCommand.getCommentsDTO());
+		filmComment.setFilmId(one);
+		FilmComment savedFilm = filmCommentsRepo.save(filmComment);
+
+		return savedFilm;
+
+	}
+
+	public Object findComment(Long id) {
+
+		return filmCommentsRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+
+	}
 
 }
