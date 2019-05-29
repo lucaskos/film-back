@@ -32,7 +32,9 @@ public class UserController {
     private AuthenticationManager authenticationManager;
     private TokenProvider jwtTokenUtil;
 
-    public UserController(UserService userService, AuthenticationManager authenticationManager, TokenProvider jwtTokenUtil) {
+    public UserController(UserService userService,
+                          AuthenticationManager authenticationManager,
+                          TokenProvider jwtTokenUtil) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -55,6 +57,7 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity authenticateUser(@RequestBody RegisterDTO userDTO) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDTO.getUsername(),
@@ -63,8 +66,10 @@ public class UserController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new AuthToken("Bearer " + token, userDTO.getUsername()));
+
+        return ResponseEntity.ok(new AuthToken(token, userDTO.getUsername()));
     }
 
     @GetMapping("/register/checkEmail/{email}")
