@@ -20,47 +20,47 @@ import java.util.Properties;
 @ConfigurationProperties("mysql")
 public class MySqlConnectionConfig {
 
-    @NotNull
-    private String username;
+	@NotNull
+	private String username;
 
-    @NotNull
-    private String minConnections;
+	@NotNull
+	private String minConnections;
 
-    @NotNull
-    private String maxConnections;
+	@NotNull
+	private String maxConnections;
 
-    @NotNull
-    private String password;
+	@NotNull
+	private String password;
 
-    @NotNull
-    private String url;
+	@NotNull
+	private String url;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setMinConnections(String minConnections) {
-        this.minConnections = minConnections;
-    }
+	public void setMinConnections(String minConnections) {
+		this.minConnections = minConnections;
+	}
 
-    public void setMaxConnections(String maxConnections) {
-        this.maxConnections = maxConnections;
-    }
+	public void setMaxConnections(String maxConnections) {
+		this.maxConnections = maxConnections;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    @Autowired
-    @Bean
-    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
-        return jpaTransactionManager;
-    }
+	@Autowired
+	@Bean
+	public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+		JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+		jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
+		return jpaTransactionManager;
+	}
 
 }

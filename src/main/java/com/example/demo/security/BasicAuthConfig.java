@@ -31,17 +31,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
-    private CustomUserServiceImpl customUserService;
+	@Autowired
+	private CustomUserServiceImpl customUserService;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+	@Autowired
+	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
 //    @Autowired
 //    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,40 +49,40 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 //                .passwordEncoder(getPasswordEncoder());
 //    }
 
-    @Bean
-    public JWTAuthorizationFilter authenticationTokenFilterBean() throws Exception {
-        return new JWTAuthorizationFilter();
-    }
+	@Bean
+	public JWTAuthorizationFilter authenticationTokenFilterBean() throws Exception {
+		return new JWTAuthorizationFilter();
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable();
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors().and().csrf().disable();
+	}
 
-    @Bean
-    public BCryptPasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder getPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**");
-        web.ignoring().antMatchers("/token/**");
-    }
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/h2-console/**");
+		web.ignoring().antMatchers("/token/**");
+	}
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-            }
-        };
-    }
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("*");
+			}
+		};
+	}
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService)
-                .passwordEncoder(getPasswordEncoder());
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(customUserService)
+				.passwordEncoder(getPasswordEncoder());
+	}
 }

@@ -9,22 +9,22 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import javax.servlet.http.HttpServletRequest;
 
 public class TokenAuthenticationFilter extends AbstractPreAuthenticatedProcessingFilter {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Override
-    protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
-        logger.info("Retrieving principal from token");
-        return request.getHeader("X-Token");
-    }
+	@Override
+	protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
+		logger.info("Retrieving principal from token");
+		return request.getHeader("X-Token");
+	}
 
-    @Override
-    protected Object getPreAuthenticatedCredentials(HttpServletRequest request) {
-        return request.getHeader("X-Token");
-    }
+	@Override
+	protected Object getPreAuthenticatedCredentials(HttpServletRequest request) {
+		return request.getHeader("X-Token");
+	}
 
-    @Override
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        super.setAuthenticationManager(authenticationManager);
-    }
+	@Override
+	@Autowired
+	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+		super.setAuthenticationManager(authenticationManager);
+	}
 }

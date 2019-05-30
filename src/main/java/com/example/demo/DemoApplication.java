@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.config.model.TokenProperties;
-import liquibase.logging.LogFactory;
+import com.example.demo.config.token.TokenProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,32 +12,30 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collections;
-
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableJpaRepositories(basePackages = "com.example.demo.application.repository")
 public class DemoApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+	}
 
-    @Bean
-    @ConfigurationProperties(prefix = "security.token")
-    public TokenProperties tokenProperties() {
-        return new TokenProperties();
-    }
+	@Bean
+	@ConfigurationProperties(prefix = "security.token")
+	public TokenProperties tokenProperties() {
+		return new TokenProperties();
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder(@Value("${security.password.strength:10}") int strength) {
-        return new BCryptPasswordEncoder(strength);
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder(@Value("${security.password.strength:10}") int strength) {
+		return new BCryptPasswordEncoder(strength);
+	}
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer c = new PropertySourcesPlaceholderConfigurer();
-        c.setIgnoreUnresolvablePlaceholders(true);
-        return c;
-    }
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+		propertySourcesPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
+		return propertySourcesPlaceholderConfigurer;
+	}
 }
