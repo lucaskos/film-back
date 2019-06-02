@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Created by Luke on 29.10.2017.
@@ -25,7 +26,7 @@ import javax.persistence.Transient;
 @Table(name = "FILM_RELATION")
 @Getter
 @Setter
-public class FilmRelations {
+public class FilmRelations implements Serializable{
 
     @Id
     @Column(name = "id")

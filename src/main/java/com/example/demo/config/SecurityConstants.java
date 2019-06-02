@@ -36,7 +36,7 @@ public class SecurityConstants {
 
         StringBuilder sb = new StringBuilder();
         for (String str : headersList) {
-            if (headersList.get(headersList.size()-1) != str) {
+            if (!headersList.get(headersList.size() - 1).equals(str)) {
                 sb.append(str + ", ");
             } else {
                 sb.append(str);
