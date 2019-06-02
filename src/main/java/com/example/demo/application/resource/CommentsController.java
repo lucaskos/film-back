@@ -1,5 +1,6 @@
 package com.example.demo.application.resource;
 
+import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.commands.CommentCommand;
 import com.example.demo.application.services.CommentService;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class CommentsController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity addComment(@RequestBody CommentCommand commentCommand) {
-		Object savedComment = commentService.addComment(commentCommand);
+	public ResponseEntity addComment(@RequestBody CommentsDTO commentsDTO) {
+		Object savedComment = commentService.addComment(commentsDTO);
 		return new ResponseEntity(savedComment, HttpStatus.OK);
 	}
 

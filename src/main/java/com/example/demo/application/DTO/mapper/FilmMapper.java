@@ -3,6 +3,7 @@ package com.example.demo.application.DTO.mapper;
 import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
+import com.example.demo.application.commands.ObjectType;
 import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmComment;
 import com.example.demo.application.model.FilmRelations;
@@ -46,8 +47,10 @@ public interface FilmMapper {
 	@AfterMapping
 	default Film commentsDtoToFilmComments(@MappingTarget Film film, FilmDTO filmDTO) {
 		List<FilmComment> commentsDTOS = new ArrayList<>();
+
 		filmDTO.getFilmCommentsList().forEach(filmComment -> commentsDTOS.add(commentToFilmCommentDTO(filmComment)));
 		film.getFilmComments().addAll(commentsDTOS);
+
 		film.getFilmComments().forEach(filmComment -> filmComment.setFilmId(film));
 		return film;
 	}
@@ -55,8 +58,17 @@ public interface FilmMapper {
 	@AfterMapping
 	default FilmDTO commentsToFilmDtoComments(@MappingTarget FilmDTO filmDTO, Film film) {
 		List<CommentsDTO> commentsDTOS = new ArrayList<>();
-		film.getFilmComments().forEach(filmComment -> commentsDTOS.add(filmToFilmDtoComments(filmComment)));
+
+		film.getFilmComments().forEach(filmComment -> {
+			commentsDTOS.add(filmToFilmDtoComments(filmComment));
+		});
 		filmDTO.getFilmCommentsList().addAll(commentsDTOS);
+
+		filmDTO.getFilmCommentsList().forEach(commentsDTO -> {
+			commentsDTO.setEntityId(filmDTO.getFilmId());
+			commentsDTO.setEntityType(ObjectType.FILM.name());
+		});
+
 		return filmDTO;
 	}
 
