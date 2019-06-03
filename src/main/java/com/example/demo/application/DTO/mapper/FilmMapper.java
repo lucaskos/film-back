@@ -5,7 +5,7 @@ import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.commands.ObjectType;
 import com.example.demo.application.model.Film;
-import com.example.demo.application.model.FilmComment;
+import com.example.demo.application.model.comments.FilmComment;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.model.Person;
 import org.mapstruct.AfterMapping;

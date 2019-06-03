@@ -7,7 +7,7 @@ import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.FilmMapper;
 import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Film;
-import com.example.demo.application.model.FilmComment;
+import com.example.demo.application.model.comments.FilmComment;
 import com.example.demo.commons.FilmMapperCommons;
 import org.junit.Assert;
 import org.junit.Test;

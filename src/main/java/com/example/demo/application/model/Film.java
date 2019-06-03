@@ -1,5 +1,6 @@
 package com.example.demo.application.model;
 
+import com.example.demo.application.model.comments.FilmComment;
 import com.example.demo.application.model.generic.DataModelObject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
