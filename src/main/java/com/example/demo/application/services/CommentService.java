@@ -1,5 +1,6 @@
 package com.example.demo.application.services;
 
+import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
 import com.example.demo.application.commands.CommentCommand;
 import com.example.demo.application.commands.ObjectType;
@@ -12,7 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -23,10 +23,7 @@ public class CommentService {
 	private CommentMapper commentMapper;
 	private FilmCommentsRepo filmCommentsRepo;
 
-	public CommentService(FilmRepo filmDao,
-	                      PersonRepo personRepo,
-	                      CommentMapper commentMapper,
-	                      FilmCommentsRepo filmCommentsRepo) {
+	public CommentService(FilmRepo filmDao, PersonRepo personRepo, CommentMapper commentMapper, FilmCommentsRepo filmCommentsRepo) {
 		this.filmDao = filmDao;
 		this.personRepo = personRepo;
 		this.commentMapper = commentMapper;
@@ -34,15 +31,20 @@ public class CommentService {
 	}
 
 	@Transactional
-	public Object addComment(CommentCommand commentCommand) {
-
+	public Object addComment(CommentsDTO commentDto) {
 		JpaRepository jpaRepository;
-
-		if (ObjectType.FILM.toString().equals(commentCommand.getEntityType())) {
-
-			return generateAndReturnFilmComment(commentCommand, filmDao);
+		if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
+			jpaRepository = filmDao;
+			Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
+			if (one == null) {
+				throw new RuntimeException("brak filmu dla zapytanie " + commentDto.toString());
+			}
+			FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
+			filmComment.setFilmId(one);
+			FilmComment save = filmCommentsRepo.save(filmComment);
+			return save;
 		}
-		if (ObjectType.PERSON.toString().equals(commentCommand.getEntityType())) {
+		if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
 			return new Object();
 		}
 
@@ -50,22 +52,9 @@ public class CommentService {
 		return new Object();
 	}
 
-	private Object generateAndReturnFilmComment(CommentCommand commentCommand, JpaRepository jpaRepository) {
-
-		Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentCommand.getCommentsDTO().getEntityId()).get();
-
-		FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentCommand.getCommentsDTO());
-		filmComment.setFilmId(one);
-		FilmComment savedFilm = filmCommentsRepo.save(filmComment);
-
-		return savedFilm;
-
-	}
-
 	public Object findComment(Long id) {
-
-		return filmCommentsRepo.findById(id).orElseThrow(EntityNotFoundException::new);
-
+		Optional<FilmComment> byId = filmCommentsRepo.findById(id);
+		return byId.get();
 	}
 
 }

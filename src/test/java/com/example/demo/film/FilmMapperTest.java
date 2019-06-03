@@ -24,92 +24,92 @@ import java.util.List;
 @SpringBootTest
 public class FilmMapperTest extends FilmMapperCommons {
 
-    @Autowired
-    private FilmMapper mapper;
+	@Autowired
+	private FilmMapper mapper;
 
-    @Autowired
-    private PersonMapper personMapper;
+	@Autowired
+	private PersonMapper personMapper;
 
-    @Test
-    public void mapFilmDto() {
+	@Test
+	public void mapFilmDto() {
 
-        FilmDTO filmDTO = getSimpleTestFilm();
+		FilmDTO filmDTO = getSimpleTestFilm();
 
-        Film film = mapper.filmDTOToFilm(filmDTO);
+		Film film = mapper.filmDTOToFilm(filmDTO);
 
-        Assert.assertEquals(filmDTO.getFilmId(), film.getId());
-        Assert.assertEquals(filmDTO.getTitle(), film.getTitle());
-        Assert.assertEquals(filmDTO.getCreationDate(), film.getCreationDate());
-        Assert.assertEquals(filmDTO.getModificationDate(), film.getCreationDate());
-        Assert.assertEquals(filmDTO.getDescription(), film.getDescription());
-        Assert.assertEquals(filmDTO.getDescription(), film.getDescription());
-    }
+		Assert.assertEquals(filmDTO.getFilmId(), film.getId());
+		Assert.assertEquals(filmDTO.getTitle(), film.getTitle());
+		Assert.assertEquals(filmDTO.getCreationDate(), film.getCreationDate());
+		Assert.assertEquals(filmDTO.getModificationDate(), film.getCreationDate());
+		Assert.assertEquals(filmDTO.getDescription(), film.getDescription());
+		Assert.assertEquals(filmDTO.getDescription(), film.getDescription());
+	}
 
 
-    //todo mapping like that cannot be done person <-> film
-    @Test
-    public void mapFilmDtoWithRelations() {
-        FilmDTO filmDTO = getSimpleTestFilm();
+	//todo mapping like that cannot be done person <-> film
+	@Test
+	public void mapFilmDtoWithRelations() {
+		FilmDTO filmDTO = getSimpleTestFilm();
 
-        List<PersonDTO> personDTOList = new ArrayList<>();
-        PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
-        personDtoTest.getFilmList().add(filmDTO);
-        personDTOList.add(personDtoTest);
+		List<PersonDTO> personDTOList = new ArrayList<>();
+		PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
+		personDtoTest.getFilmList().add(filmDTO);
+		personDTOList.add(personDtoTest);
 
-        filmDTO.setPeopleList(personDTOList);
+		filmDTO.setPeopleList(personDTOList);
 
-        Assert.assertNotNull(filmDTO.getPeopleList());
-        Film film = mapper.filmDTOToFilm(filmDTO);
+		Assert.assertNotNull(filmDTO.getPeopleList());
+		Film film = mapper.filmDTOToFilm(filmDTO);
 
-        Assert.assertNotNull(film.getFilmRelations());
-    }
+		Assert.assertNotNull(film.getFilmRelations());
+	}
 
-    @Test
-    public void mapFilmDtoWithComments() {
-        FilmDTO filmDTO = getSimpleTestFilm();
+	@Test
+	public void mapFilmDtoWithComments() {
+		FilmDTO filmDTO = getSimpleTestFilm();
 
-        CommentsDTO commentsDTO = new CommentsDTO();
-        commentsDTO.setCreatedDate(LocalDate.now());
-        commentsDTO.setDepth(0);
-        commentsDTO.setText("TEXT");
-        commentsDTO.setTitle("TITLE");
-        commentsDTO.setEntityId(FILM_ID);
-        commentsDTO.setUserId(new UserDTO());
-        commentsDTO.setId(1L);
+		CommentsDTO commentsDTO = new CommentsDTO();
+		commentsDTO.setCreatedDate(LocalDate.now());
+		commentsDTO.setDepth(0);
+		commentsDTO.setText("TEXT");
+		commentsDTO.setTitle("TITLE");
+		commentsDTO.setEntityId(FILM_ID);
+		commentsDTO.setUserId(new UserDTO());
+		commentsDTO.setId(1L);
 
-        filmDTO.getFilmCommentsList().add(commentsDTO);
+		filmDTO.getFilmCommentsList().add(commentsDTO);
 
-        Film film = mapper.filmDTOToFilm(filmDTO);
+		Film film = mapper.filmDTOToFilm(filmDTO);
 
-        Assert.assertNotNull(film.getFilmComments());
-        Assert.assertEquals(film.getFilmComments().get(0).getId(), Long.valueOf(1L));
-    }
+		Assert.assertNotNull(film.getFilmComments());
+		Assert.assertEquals(film.getFilmComments().get(0).getId(), Long.valueOf(1L));
+	}
 
-    @Test
-    public void mapFilmDtoToFilm() {
-        Film simpleFilm = getSimpleFilm();
+	@Test
+	public void mapFilmDtoToFilm() {
+		Film simpleFilm = getSimpleFilm();
 
-        FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
+		FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
 
-        Assert.assertEquals(filmDTO.getFilmId(), filmDTO.getFilmId());
-    }
+		Assert.assertEquals(filmDTO.getFilmId(), filmDTO.getFilmId());
+	}
 
-    @Test
-    public void mapFilmDtoToFilmWithComments() {
-        Film simpleFilm = getSimpleFilm();
+	@Test
+	public void mapFilmDtoToFilmWithComments() {
+		Film simpleFilm = getSimpleFilm();
 
-        FilmComment filmComment = new FilmComment();
-        filmComment.setFilmId(simpleFilm);
-        filmComment.setId(1L);
-        filmComment.setText("TEXT");
-        filmComment.setDepth(0);
-        filmComment.setTitle("TITLE");
+		FilmComment filmComment = new FilmComment();
+		filmComment.setFilmId(simpleFilm);
+		filmComment.setId(1L);
+		filmComment.setText("TEXT");
+		filmComment.setDepth(0);
+		filmComment.setTitle("TITLE");
 
-        simpleFilm.getFilmComments().add(filmComment);
+		simpleFilm.getFilmComments().add(filmComment);
 
-        FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
+		FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
 
-        Assert.assertEquals(filmDTO.getFilmId(), simpleFilm.getId());
-        Assert.assertEquals(filmDTO.getFilmCommentsList().get(0).getId(), simpleFilm.getFilmComments().get(0).getId());
-    }
+		Assert.assertEquals(filmDTO.getFilmId(), simpleFilm.getId());
+		Assert.assertEquals(filmDTO.getFilmCommentsList().get(0).getId(), simpleFilm.getFilmComments().get(0).getId());
+	}
 }

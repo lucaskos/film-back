@@ -8,14 +8,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UserDTO {
-    private Long id;
-    @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
-    @NotNull
-    private String username;
-    private boolean enabled;
-    @NotNull
-    private String email;
+	private Long id;
+	@NotNull
+	private String firstName;
+	@NotNull
+	private String lastName;
+	@NotNull
+	private String username;
+	private boolean enabled;
+	@NotNull
+	private String email;
 }

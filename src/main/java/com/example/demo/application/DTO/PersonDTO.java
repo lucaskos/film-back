@@ -11,15 +11,15 @@ import java.util.List;
 @Data
 @ToString
 public class PersonDTO {
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private Date bornDate;
-    private Date diedDate;
-    private List<FilmDTO> filmList = new ArrayList<>(0);
-    private String roleType;
-    private String biography;
-    private String role;
-    private Date creationDate;
-    private Date modificationDate;
+	private Long id;
+	private String firstName;
+	private String lastName;
+	private Date bornDate;
+	private Date diedDate;
+	private List<FilmDTO> filmList = new ArrayList<>(0);
+	private String roleType;
+	private String biography;
+	private String role;
+	private Date creationDate;
+	private Date modificationDate;
 }

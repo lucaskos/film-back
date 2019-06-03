@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SimpleDictionaryDTO {
 
-    private Long id;
-    private String type;
-    private String key;
+	private Long id;
+	private String type;
+	private String key;
 }

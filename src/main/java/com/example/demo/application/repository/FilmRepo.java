@@ -11,11 +11,11 @@ import java.util.Optional;
 
 public interface FilmRepo extends JpaRepository<Film, Long> {
 
-    Optional<List<Film>> findFilmsByTitleContainingIgnoreCase(String title);
+	Optional<List<Film>> findFilmsByTitleContainingIgnoreCase(String title);
 
-    @Query("select f from Film f " +
-            "left join fetch f.filmComments " +
-            "left join fetch f.filmRelations " +
-            "where f.id = :filmId")
-    Optional<Film> getFilmDetails(@Param("filmId") Long filmId);
+	@Query("select f from Film f " +
+			"left join fetch f.filmComments " +
+			"left join fetch f.filmRelations " +
+			"where f.id = :filmId")
+	Optional<Film> getFilmDetails(@Param("filmId") Long filmId);
 }
