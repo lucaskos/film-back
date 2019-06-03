@@ -15,6 +15,8 @@ public class CommentsCommon {
 		Film film = new Film();
 		film.setFilmComments(new ArrayList<>());
 		film.setId(1L);
+		film.setTitle("TITLE");
+		film.setYear(1000);
 		return film;
 	}
 

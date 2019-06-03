@@ -19,8 +19,6 @@ public class Comment {
 	private Date createdDate;
 	@Column(name = "depth")
 	private int depth;
-	@Column(name = "parent_comment_id")
-	private Long parentCommentId;
 	@Column(name = "text", nullable = false, columnDefinition = "text")
 	private String text;
 	@Column(name = "title", nullable = false)

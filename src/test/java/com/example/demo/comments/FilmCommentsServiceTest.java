@@ -20,8 +20,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Optional;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class FilmCommentsServiceTest extends CommentsCommon {
 
 	@Mock
@@ -36,7 +36,7 @@ public class FilmCommentsServiceTest extends CommentsCommon {
 	@Mock
 	private FilmCommentsRepo filmCommentsRepo;
 
-//	@Test
+	@Test
 	public void test() {
 		Film film = getFilm();
 
@@ -47,7 +47,7 @@ public class FilmCommentsServiceTest extends CommentsCommon {
 		Mockito.when(commentMapper.commentCommandToFilmCommentEntity(commentCommand.getCommentsDTO())).thenReturn(getFilmComment());
 		Mockito.when(filmCommentsRepo.save(Mockito.any())).thenReturn(getFilmComment());
 
-//		commentService.addComment(commentCommand);
+		commentService.addComment(getCommentDTO());
 	}
 
 
@@ -66,6 +66,7 @@ public class FilmCommentsServiceTest extends CommentsCommon {
 		commentsDTO.setText(COMMENT_TEXT);
 		commentsDTO.setUserId(new UserDTO());
 		commentsDTO.setEntityId(FILM_ID);
+		commentsDTO.setEntityType("FILM");
 		return commentsDTO;
 	}
 
