@@ -2,6 +2,7 @@ package com.example.demo.commons;
 
 import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmComment;
+import com.example.demo.application.model.user.User;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class CommentsCommon {
 
 	public FilmComment getFilmComment() {
 		FilmComment filmComment = new FilmComment();
-		filmComment.setUserId(USER_ID);
+		filmComment.setUserId(new User());//todo fix
 		filmComment.setFilmId(getFilm());
 		filmComment.setText(COMMENT_TEXT);
 		return filmComment;

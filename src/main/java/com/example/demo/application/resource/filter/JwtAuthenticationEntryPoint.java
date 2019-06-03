@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.application.resource.filter;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

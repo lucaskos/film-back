@@ -12,7 +12,22 @@ databaseChangeLog:
             value: 'test'
         - column:
             name: password
-            value: '$2a$10$MK.ieB.c3QVRUNmkdg3XD..quhzYDDMByCJLhkZgOQXQtrulV8QFe'
+            value: '$2a$10$MK.ieB.c3QVRUNmkdg3XD..quhzYDDMByCJLhkZgOQXQtrulV8QFe' #test
+        - column:
+            name: email
+            value: 'test@test.pl'
+        - column:
+            name: enabled
+            value: 1
+        tableName: users
+    - insert:
+        columns:
+        - column:
+            name: username
+            value: 'lucaskos'
+        - column:
+            name: password
+            value: '$2a$10$MK.ieB.c3QVRUNmkdg3XD..quhzYDDMByCJLhkZgOQXQtrulV8QFe' #test
         - column:
             name: email
             value: 'test@test.pl'
@@ -56,8 +71,30 @@ databaseChangeLog:
         columns:
         - column:
             name: roles_id
+            value: 2
+        - column:
+            name: users_id
+            value: 1
+        tableName: user_role
+- changeSet:
+    id: relate user and user and admin roles
+    author: lkosmala
+    changes:
+    - insert:
+        columns:
+        - column:
+            name: roles_id
             value: 1
         - column:
             name: users_id
             value: 1
+        tableName: user_role
+    - insert:
+        columns:
+        - column:
+            name: roles_id
+            value: 2
+        - column:
+            name: users_id
+            value: 2
         tableName: user_role

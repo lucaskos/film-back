@@ -19,50 +19,50 @@ import static com.example.demo.config.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService) {
-        super(authManager);
-        this.userDetailsService = userDetailsService;
-    }
+	public JWTAuthorizationFilter(AuthenticationManager authManager, UserDetailsService userDetailsService) {
+		super(authManager);
+		this.userDetailsService = userDetailsService;
+	}
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(HEADER_STRING);
+	@Override
+	protected void doFilterInternal(HttpServletRequest req,
+									HttpServletResponse res,
+									FilterChain chain) throws IOException, ServletException {
+		String header = req.getHeader(HEADER_STRING);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-            chain.doFilter(req, res);
-            return;
-        }
-        Object principal = getAuthentication(req).getPrincipal();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.toString());
+		if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+			chain.doFilter(req, res);
+			return;
+		}
+		Object principal = getAuthentication(req).getPrincipal();
+		UserDetails userDetails = userDetailsService.loadUserByUsername(principal.toString());
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-        UsernamePasswordAuthenticationToken token = null;
-        if (userDetails.getAuthorities() != null && !userDetails.getAuthorities().isEmpty()) {
-            token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), null, userDetails.getAuthorities());
-        }
-        SecurityContextHolder.getContext().setAuthentication(token);
-        chain.doFilter(req, res);
-    }
+		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+		UsernamePasswordAuthenticationToken token = null;
+		if (userDetails.getAuthorities() != null && !userDetails.getAuthorities().isEmpty()) {
+			token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), null, userDetails.getAuthorities());
+		}
+		SecurityContextHolder.getContext().setAuthentication(token);
+		chain.doFilter(req, res);
+	}
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
-        if (token != null) {
-            // parse the token.
-            String user = Jwts.parser()
-                    .setSigningKey(SECRET.getBytes())
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+		String token = request.getHeader(HEADER_STRING);
+		if (token != null) {
+			// parse the token.
+			String user = Jwts.parser()
+					.setSigningKey(SECRET.getBytes())
+					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+					.getBody()
+					.getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-            }
-            return null;
-        }
-        return null;
-    }
+			if (user != null) {
+				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+			}
+			return null;
+		}
+		return null;
+	}
 }
