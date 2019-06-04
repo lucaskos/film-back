@@ -129,6 +129,22 @@ databaseChangeLog:
         referencedTableName: users
         validate: true
 - changeSet:
+    id: film comment reference its parent
+    author: Luke
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_comment_id
+        baseTableName: film_comments
+        constraintName: parent_comment_id
+#        deferrable: false
+#        initiallyDeferred: false
+        onDelete: set null
+        onDelete: cascade
+        onUpdate: no action
+        referencedColumnNames: id
+        referencedTableName: film_comments
+#        validate: true
+- changeSet:
     id: 1542224623996-32
     author: Luke (generated)
     changes:

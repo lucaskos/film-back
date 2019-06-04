@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class FilmController {
 
-    private FilmService filmService;
+	private FilmService filmService;
 
-    public FilmController(FilmService filmService) {
-        this.filmService = filmService;
-    }
+	public FilmController(FilmService filmService) {
+		this.filmService = filmService;
+	}
 
-    @GetMapping(value = "/list")
-    public ResponseEntity getAllFilms() {
-        return new ResponseEntity(filmService.getAllFilms(), HttpStatus.OK);
-    }
+	@GetMapping(value = "/list")
+	public ResponseEntity getAllFilms() {
+		return new ResponseEntity(filmService.getAllFilms(), HttpStatus.OK);
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity getFilmById(@PathVariable Long id) {
-        return new ResponseEntity(filmService.getFilmDetails(id), HttpStatus.OK);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity getFilmById(@PathVariable Long id) {
+		return new ResponseEntity(filmService.getFilmDetails(id), HttpStatus.OK);
+	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity updateFilm(@RequestBody FilmDTO filmDTO) {
@@ -46,13 +46,13 @@ public class FilmController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity getFilmsByTitle(@PathVariable String title) {
-        return new ResponseEntity(filmService.getFilmsByTitle(title), HttpStatus.OK);
-    }
+	@GetMapping("/title/{title}")
+	public ResponseEntity getFilmsByTitle(@PathVariable String title) {
+		return new ResponseEntity(filmService.getFilmsByTitle(title), HttpStatus.OK);
+	}
 
-    @PostMapping("/add")
-    public ResponseEntity addNewFilm(@RequestBody FilmDTO filmDTO) {
-        return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
-    }
+	@PostMapping("/add")
+	public ResponseEntity addNewFilm(@RequestBody FilmDTO filmDTO) {
+		return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
+	}
 }

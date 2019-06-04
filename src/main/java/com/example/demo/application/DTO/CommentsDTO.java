@@ -13,7 +13,7 @@ public class CommentsDTO {
 	private String entityType;
 	private LocalDate createdDate;
 	private int depth;
-	private Long parentCommentId;
+	private CommentsDTO parentCommentId;
 	private String title;
 	private String text;
 	private UserDTO userId;
