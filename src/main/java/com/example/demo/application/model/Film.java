@@ -1,5 +1,6 @@
 package com.example.demo.application.model;
 
+import com.example.demo.application.model.comments.FilmComment;
 import com.example.demo.application.model.generic.DataModelObject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,7 +40,7 @@ public class Film extends DataModelObject {
 			.ALL}, fetch = FetchType.LAZY)
 	private Set<FilmRelations> filmRelations = new HashSet<>();
 	@JsonBackReference
-	@OneToMany(targetEntity = FilmComment.class, cascade = CascadeType.ALL, mappedBy = "filmId", fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = FilmComment.class, cascade = CascadeType.PERSIST, mappedBy = "filmId", fetch = FetchType.LAZY)
 	private List<FilmComment> filmComments = new ArrayList<>();
 
 	public Film() {
