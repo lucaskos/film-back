@@ -1,5 +1,7 @@
 package com.example.demo.application.model.comments;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import java.util.Date;
 
 @Data
 @MappedSuperclass
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

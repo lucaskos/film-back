@@ -44,33 +44,33 @@ public interface FilmMapper {
 	Film filmDTOToFilm(FilmDTO filmDTO);
 
 
-	@AfterMapping
-	default Film commentsDtoToFilmComments(@MappingTarget Film film, FilmDTO filmDTO) {
-		List<FilmComment> commentsDTOS = new ArrayList<>();
-
-		filmDTO.getFilmCommentsList().forEach(filmComment -> commentsDTOS.add(commentToFilmCommentDTO(filmComment)));
-		film.getFilmComments().addAll(commentsDTOS);
-
-		film.getFilmComments().forEach(filmComment -> filmComment.setFilmId(film));
-		return film;
-	}
-
-	@AfterMapping
-	default FilmDTO commentsToFilmDtoComments(@MappingTarget FilmDTO filmDTO, Film film) {
-		List<CommentsDTO> commentsDTOS = new ArrayList<>();
-
-		film.getFilmComments().forEach(filmComment -> {
-			commentsDTOS.add(filmToFilmDtoComments(filmComment));
-		});
-		filmDTO.getFilmCommentsList().addAll(commentsDTOS);
-
-		filmDTO.getFilmCommentsList().forEach(commentsDTO -> {
-			commentsDTO.setEntityId(filmDTO.getFilmId());
-			commentsDTO.setEntityType(ObjectType.FILM.name());
-		});
-
-		return filmDTO;
-	}
+//	@AfterMapping
+//	default Film commentsDtoToFilmComments(@MappingTarget Film film, FilmDTO filmDTO) {
+//		List<FilmComment> commentsDTOS = new ArrayList<>();
+//
+//		filmDTO.getFilmCommentsList().forEach(filmComment -> commentsDTOS.add(commentToFilmCommentDTO(filmComment)));
+//		film.getFilmComments().addAll(commentsDTOS);
+//
+//		film.getFilmComments().forEach(filmComment -> filmComment.setFilmId(film));
+//		return film;
+//	}
+//
+//	@AfterMapping
+//	default FilmDTO commentsToFilmDtoComments(@MappingTarget FilmDTO filmDTO, Film film) {
+//		List<CommentsDTO> commentsDTOS = new ArrayList<>();
+//
+//		film.getFilmComments().forEach(filmComment -> {
+//			commentsDTOS.add(filmToFilmDtoComments(filmComment));
+//		});
+//		filmDTO.getFilmCommentsList().addAll(commentsDTOS);
+//
+//		filmDTO.getFilmCommentsList().forEach(commentsDTO -> {
+//			commentsDTO.setEntityId(filmDTO.getFilmId());
+//			commentsDTO.setEntityType(ObjectType.FILM.name());
+//		});
+//
+//		return filmDTO;
+//	}
 
 	PersonDTO personToPersonDTO(Person person);
 

@@ -1,6 +1,5 @@
 package com.example.demo.application.DTO;
 
-import com.example.demo.application.commands.ObjectType;
 import lombok.Data;
 
 import java.time.LocalDate;
