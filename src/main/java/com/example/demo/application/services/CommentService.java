@@ -31,29 +31,29 @@ public class CommentService {
 
 	@Transactional
 	public Object addComment(CommentsDTO commentDto) {
-		JpaRepository jpaRepository;
-		if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
-			jpaRepository = filmDao;
-			Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
-			if (one == null) {
-				throw new RuntimeException("brak filmu dla zapytanie " + commentDto.toString());
-			}
-			FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
-			filmComment.setFilmId(one);
-			FilmComment save = filmCommentsRepo.save(filmComment);
-			return save;
-		}
-		if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
-			return new Object();
-		}
+//		JpaRepository jpaRepository;
+//		if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
+//			jpaRepository = filmDao;
+//			Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
+//			if (one == null) {
+//				throw new RuntimeException("brak filmu dla zapytanie " + commentDto.toString());
+//			}
+//			FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
+//			filmComment.setFilmId(one);
+//			FilmComment save = filmCommentsRepo.save(filmComment);
+//			return save;
+//		}
+//		if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
+//			return new Object();
+//		}
 
 //        jpaRepository.saveUser()
 		return new Object();
 	}
 
 	public Object findComment(Long id) {
-		Optional<FilmComment> byId = filmCommentsRepo.findById(id);
-		return byId.get();
+		FilmComment one = filmCommentsRepo.getOne(id);
+		return one;
 	}
 
 }

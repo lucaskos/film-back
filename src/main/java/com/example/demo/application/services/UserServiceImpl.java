@@ -39,9 +39,9 @@ public class UserServiceImpl implements UserService {
 	private RoleRepo roleRepo;
 
 	public UserServiceImpl(UserRepository userDao,
-	                       BCryptPasswordEncoder bcryptEncoder,
-	                       UserMapper userMapper,
-	                       RoleRepo roleRepo) {
+						   BCryptPasswordEncoder bcryptEncoder,
+						   UserMapper userMapper,
+						   RoleRepo roleRepo) {
 		this.userDao = userDao;
 		this.bcryptEncoder = bcryptEncoder;
 		this.userMapper = userMapper;

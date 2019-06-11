@@ -8,16 +8,18 @@ import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
-    User saveUser(RegisterDTO user);
-    List<UserDTO> findAll();
-    void delete(Long id);
+	User saveUser(RegisterDTO user);
 
-    User findOne(String username);
+	List<UserDTO> findAll();
 
-    User findById(Long id);
+	void delete(Long id);
 
-    UserDTO update(UserDTO userDto);
+	User findOne(String username);
 
-    Collection<String> findLoggedUserRoles();
+	User findById(Long id);
+
+	UserDTO update(UserDTO userDto);
+
+	Collection<String> findLoggedUserRoles();
 
 }

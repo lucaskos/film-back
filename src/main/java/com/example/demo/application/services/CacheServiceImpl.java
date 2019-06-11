@@ -17,44 +17,44 @@ import java.util.List;
 //@Qualifier("cacheServiceImpl")
 public class CacheServiceImpl {
 
-    private final CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 
-    @Autowired
-    public CacheServiceImpl(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
+	@Autowired
+	public CacheServiceImpl(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
 
-//    @PostConstruct
-    public void init() {
-        getGenres();
-        getRoles();
-    }
+	//    @PostConstruct
+	public void init() {
+		getGenres();
+		getRoles();
+	}
 
-    @Cacheable(CacheConstants.ROLES)
-    public List<PersonRole> getRoles() {
-        org.springframework.cache.Cache cache = cacheManager.getCache(CacheConstants.GENRES);
-        List resultList = new ArrayList();
-        if (cache.get(CacheConstants.ROLES) == null) {
-            Query query = entityManager.createQuery("from PersonRole");
-            resultList = query.getResultList();
-        }
-        return resultList;
-    }
+	@Cacheable(CacheConstants.ROLES)
+	public List<PersonRole> getRoles() {
+		org.springframework.cache.Cache cache = cacheManager.getCache(CacheConstants.GENRES);
+		List resultList = new ArrayList();
+		if (cache.get(CacheConstants.ROLES) == null) {
+			Query query = entityManager.createQuery("from PersonRole");
+			resultList = query.getResultList();
+		}
+		return resultList;
+	}
 
-    @Cacheable(CacheConstants.GENRES)
-    public List<GenresDictionary> getGenres() {
-        org.springframework.cache.Cache cache = cacheManager.getCache(CacheConstants.ROLES);
-        List resultList = new ArrayList();
-        if (cache.get(CacheConstants.GENRES) == null) {
-            Query query = entityManager.createQuery("from GenresDictionary");
-            resultList = query.getResultList();
-        }
-        return resultList;
-    }
+	@Cacheable(CacheConstants.GENRES)
+	public List<GenresDictionary> getGenres() {
+		org.springframework.cache.Cache cache = cacheManager.getCache(CacheConstants.ROLES);
+		List resultList = new ArrayList();
+		if (cache.get(CacheConstants.GENRES) == null) {
+			Query query = entityManager.createQuery("from GenresDictionary");
+			resultList = query.getResultList();
+		}
+		return resultList;
+	}
 
 
 }
