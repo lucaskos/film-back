@@ -35,4 +35,8 @@ public class CommentsController {
 		return new ResponseEntity(commentService.findComment(commentId), HttpStatus.OK);
 	}
 
+	@GetMapping("/detail/{id}")
+	public ResponseEntity getCommentDetails(@PathVariable(name = "id") Long commentId) {
+		return new ResponseEntity(commentService.findCommentDetails(commentId), HttpStatus.OK);
+	}
 }

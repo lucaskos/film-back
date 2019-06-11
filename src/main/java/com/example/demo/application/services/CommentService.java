@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CommentService {
@@ -54,6 +55,28 @@ public class CommentService {
 	public Object findComment(Long id) {
 		FilmComment one = filmCommentsRepo.getOne(id);
 		return one;
+	}
+
+	public Object findCommentDetails(Long id) {
+		FilmComment one = filmCommentsRepo.getOne(id);
+		CommentsDTO details = getDetails(one);
+		return details;
+	}
+
+	private CommentsDTO getDetails(FilmComment comment) {
+		Set<FilmComment> subComments = comment.getSubComments();
+		CommentsDTO commentsDTO = commentMapper.commentToCommentDTO(comment);
+
+		if (subComments != null) {
+			for (FilmComment subComment : subComments) {
+				CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
+//				subCommentDTO.setParentCommentId(commentsDTO);
+				commentsDTO.getSubComments().add(subCommentDTO);
+				subCommentDTO.getSubComments().add(getDetails(subComment));
+			}
+		}
+
+		return commentsDTO;
 	}
 
 }

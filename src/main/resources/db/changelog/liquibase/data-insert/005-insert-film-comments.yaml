@@ -85,10 +85,10 @@ databaseChangeLog:
                 value: 1
             - column:
                 name: title
-                value: 'test comment title sub sub 1'
+                value: 'test comment title sub sub 3'
             - column:
                 name: text
-                value: 'test comment text sub sub 1'
+                value: 'test comment text sub sub 3'
             - column:
                 name: owner_id
                 value: 1
