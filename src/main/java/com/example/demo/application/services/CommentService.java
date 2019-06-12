@@ -4,14 +4,19 @@ import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
 import com.example.demo.application.commands.ObjectType;
 import com.example.demo.application.model.Film;
+import com.example.demo.application.model.comments.Comment;
 import com.example.demo.application.model.comments.FilmComment;
 import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonRepo;
+import liquibase.util.CollectionUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,14 +71,27 @@ public class CommentService {
 	private CommentsDTO getDetails(FilmComment comment) {
 		Set<FilmComment> subComments = comment.getSubComments();
 		CommentsDTO commentsDTO = commentMapper.commentToCommentDTO(comment);
+		Set<CommentsDTO> subCommentsSet = new HashSet<>();
 
-		if (subComments != null) {
+		if (!CollectionUtils.isEmpty(subComments)) {
+
 			for (FilmComment subComment : subComments) {
 				CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
-//				subCommentDTO.setParentCommentId(commentsDTO);
 				commentsDTO.getSubComments().add(subCommentDTO);
-				subCommentDTO.getSubComments().add(getDetails(subComment));
+				CommentsDTO commentDetails = getDetails(subComment);
+
+				Iterator<CommentsDTO> iterator = commentsDTO.getSubComments().iterator();
+				while (iterator.hasNext()) {
+					CommentsDTO next = iterator.next();
+					if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
+						next.getSubComments().addAll(commentDetails.getSubComments());
+					} else {
+						subCommentsSet.add(commentDetails);
+					}
+				}
 			}
+
+			commentsDTO.getSubComments().addAll(subCommentsSet);
 		}
 
 		return commentsDTO;
