@@ -39,17 +39,13 @@ public class FilmComment extends Comment {
 	@ManyToOne
 	@JoinColumn(name = "film_id", nullable = true)
 	private Film filmId;
-
 	@ManyToOne
 	@JoinColumn(name = "owner_id", nullable = true)
 	private User userId;
-
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_comment_id")
-//	@Column(name = "parent_comment_id")
 	private FilmComment parentCommentId;
 	@JsonIgnore
-//	@JsonIgnoreProperties("subComments")
 	@OneToMany(mappedBy = "parentCommentId")
 	private Set<FilmComment> subComments = new HashSet<>();
 
@@ -67,7 +63,9 @@ public class FilmComment extends Comment {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		if (!super.equals(o)) return false;
+
 		FilmComment that = (FilmComment) o;
+
 		return Objects.equals(filmId, that.filmId) &&
 				Objects.equals(userId, that.userId);
 	}

@@ -2,22 +2,17 @@ package com.example.demo.application.services;
 
 import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
-import com.example.demo.application.commands.ObjectType;
-import com.example.demo.application.model.Film;
 import com.example.demo.application.model.comments.Comment;
 import com.example.demo.application.model.comments.FilmComment;
 import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonRepo;
-import liquibase.util.CollectionUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -68,33 +63,58 @@ public class CommentService {
 		return details;
 	}
 
-	private CommentsDTO getDetails(FilmComment comment) {
-		Set<FilmComment> subComments = comment.getSubComments();
-		CommentsDTO commentsDTO = commentMapper.commentToCommentDTO(comment);
-		Set<CommentsDTO> subCommentsSet = new HashSet<>();
+	/**
+	 * Getting main comment with all subComments and subComments children. We getting hierarchy in a manner:
+	 * comment
+	 * - subComment
+	 * - subComment2 (child of subComment)
+	 * - subComment3 (child of subComment2)
+	 *
+	 * @param comment
+	 * @return
+	 */
+	private CommentsDTO getDetails(Comment comment) {
+		CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
+		Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
+		Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
 
-		if (!CollectionUtils.isEmpty(subComments)) {
+		if (!CollectionUtils.isEmpty(mainCommentSubComments)) {
 
-			for (FilmComment subComment : subComments) {
+			for (FilmComment subComment : mainCommentSubComments) {
+
 				CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
-				commentsDTO.getSubComments().add(subCommentDTO);
+				mainCommentDTO.getSubComments().add(subCommentDTO);
 				CommentsDTO commentDetails = getDetails(subComment);
 
-				Iterator<CommentsDTO> iterator = commentsDTO.getSubComments().iterator();
-				while (iterator.hasNext()) {
-					CommentsDTO next = iterator.next();
-					if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
-						next.getSubComments().addAll(commentDetails.getSubComments());
-					} else {
-						subCommentsSet.add(commentDetails);
-					}
-				}
+				checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
 			}
 
-			commentsDTO.getSubComments().addAll(subCommentsSet);
+			mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
 		}
 
-		return commentsDTO;
+		return mainCommentDTO;
+	}
+
+	/**
+	 * @param commentsDTO    - main comment processed.
+	 * @param subCommentsSet - main comment children.
+	 * @param commentDetails - the child comment of the comment iterated list of subComments.
+	 */
+	private void checkIfCommentsAreDifferentAndAdd(CommentsDTO commentsDTO,
+												   Set<CommentsDTO> subCommentsSet,
+												   CommentsDTO commentDetails) {
+		Iterator<CommentsDTO> iterator = commentsDTO.getSubComments().iterator();
+
+		while (iterator.hasNext()) {
+			CommentsDTO next = iterator.next();
+
+			if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
+				next.getSubComments().addAll(commentDetails.getSubComments());
+			} else {
+				subCommentsSet.add(commentDetails);
+			}
+
+		}
 	}
 
 }
