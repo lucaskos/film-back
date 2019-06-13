@@ -41,10 +41,10 @@ databaseChangeLog:
                 value: 1
             - column:
                 name: title
-                value: 'test comment title sub 1'
+                value: 'test comment 2 title sub 1'
             - column:
                 name: text
-                value: 'test comment text sub 1'
+                value: 'test comment 2 text sub 1'
             - column:
                 name: owner_id
                 value: 1
@@ -52,31 +52,31 @@ databaseChangeLog:
                 name: parent_comment_id
                 value: 1
             tableName: film_comments
-#- changeSet:
-#    id: insert film sub2 comments
-#    author: lkosmala
-#    changes:
-#     - insert:
-#            columns:
-#            - column:
-#                name: film_id
-#                value: 1
-#            - column:
-#                name: depth
-#                value: 1
-#            - column:
-#                name: title
-#                value: 'test comment title sub 2'
-#            - column:
-#                name: text
-#                value: 'test comment text sub 2'
-#            - column:
-#                name: owner_id
-#                value: 1
-#            - column:
-#                name: parent_comment_id
-#                value: 1
-#            tableName: film_comments
+- changeSet:
+    id: insert film sub2 comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: film_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 3 title sub 2'
+            - column:
+                name: text
+                value: 'test comment 3 text sub 2'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 1
+            tableName: film_comments
 - changeSet:
     id: insert film sub3 comments
     author: lkosmala
@@ -91,10 +91,10 @@ databaseChangeLog:
                 value: 1
             - column:
                 name: title
-                value: 'test comment title sub sub 3'
+                value: 'test comment 4 title sub sub 3'
             - column:
                 name: text
-                value: 'test comment text sub sub 3'
+                value: 'test comment 4 text sub sub 3'
             - column:
                 name: owner_id
                 value: 1
@@ -102,3 +102,53 @@ databaseChangeLog:
                 name: parent_comment_id
                 value: 2
             tableName: film_comments
+- changeSet:
+    id: insert film sub4 comments
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: film_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 2
+          tableName: film_comments
+- changeSet:
+    id: insert film sub5 comments
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: film_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 5
+          tableName: film_comments
