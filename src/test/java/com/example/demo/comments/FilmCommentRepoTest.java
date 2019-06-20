@@ -27,7 +27,7 @@
 //	@Transactional
 //	public void addCommentToFilm() {
 //		Film film = filmRepo.getOne(1L);
-//		FilmComment filmComment = getFilmComment();
+//		FilmComment filmComment =filmCommentsRepo.findDetails(1L).get().get(0);
 //
 //		filmComment.setFilmId(film);
 //
