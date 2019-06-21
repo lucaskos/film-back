@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,6 +37,7 @@ public class CommentService {
 	//	@Transactional
 	public Object addComment(CommentsDTO commentDto) {
 		JpaRepository jpaRepository;
+
 		if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
 			jpaRepository = filmDao;
 			Film film = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
@@ -44,8 +47,6 @@ public class CommentService {
 			}
 
 			FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
-			filmComment.setFilmId(film);
-
 			FilmComment save = filmCommentsRepo.save(filmComment);
 
 			return save;
