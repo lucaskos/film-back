@@ -12,10 +12,11 @@ import com.example.demo.application.repository.PersonRepo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -33,18 +34,21 @@ public class CommentService {
 		this.filmCommentsRepo = filmCommentsRepo;
 	}
 
-	@Transactional
+	//	@Transactional
 	public Object addComment(CommentsDTO commentDto) {
 		JpaRepository jpaRepository;
+
 		if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
 			jpaRepository = filmDao;
-			Film one = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
-			if (one == null) {
-				throw new RuntimeException("brak filmu dla zapytanie " + commentDto.toString());
+			Film film = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
+
+			if (film == null) {
+				throw new RuntimeException("Brak filmu dla zapytania: " + commentDto.toString());
 			}
+
 			FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
-			filmComment.setFilmId(one);
 			FilmComment save = filmCommentsRepo.save(filmComment);
+
 			return save;
 		}
 		if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
@@ -61,7 +65,7 @@ public class CommentService {
 
 	public Object findCommentDetails(Long id) {
 		FilmComment one = filmCommentsRepo.getOne(id);
-		CommentsDTO details = getDetails(one);
+		CommentsDTO details = getFilmCommentDetails(one);
 		return details;
 	}
 
@@ -75,7 +79,7 @@ public class CommentService {
 	 * @param comment
 	 * @return
 	 */
-	private CommentsDTO getDetails(Comment comment) {
+	private CommentsDTO getFilmCommentDetails(Comment comment) {
 		CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
 		Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
 		Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
@@ -86,7 +90,7 @@ public class CommentService {
 
 				CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
 				mainCommentDTO.getSubComments().add(subCommentDTO);
-				CommentsDTO commentDetails = getDetails(subComment);
+				CommentsDTO commentDetails = getFilmCommentDetails(subComment);
 
 				checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
 			}
