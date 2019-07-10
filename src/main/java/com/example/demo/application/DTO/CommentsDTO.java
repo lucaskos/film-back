@@ -10,7 +10,7 @@ import java.util.Set;
 public class CommentsDTO {
 
 	private Long id;
-	private Long entityId; //todo entityDTO
+	private Long entityId;
 	private String entityType;
 	private LocalDate createdDate;
 	private int depth;

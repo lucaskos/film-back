@@ -1,0 +1,10 @@
+{
+    "text": "test comment text",
+    "title": "test comment title",
+    "entityType": "FILM",
+    "entityId" : 1,
+    "userId": {
+        "id": 1
+    },
+    "parentCommentId": null
+}
