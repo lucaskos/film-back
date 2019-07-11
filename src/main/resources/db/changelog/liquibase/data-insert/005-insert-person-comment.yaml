@@ -1,0 +1,154 @@
+databaseChangeLog:
+- changeSet:
+    id: insert person comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: id
+                value: 1
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: depth
+                value: 0
+            - column:
+                name: title
+                value: 'test comment title'
+            - column:
+                name: text
+                value: 'test comment text'
+            - column:
+                name: owner_id
+                value: 1
+            tableName: person_comments
+- changeSet:
+    id: insert person sub1 comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: id
+                value: 2
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 2 title sub 1'
+            - column:
+                name: text
+                value: 'test comment 2 text sub 1'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 1
+            tableName: person_comments
+- changeSet:
+    id: insert person sub2 comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 3 title sub 2'
+            - column:
+                name: text
+                value: 'test comment 3 text sub 2'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 1
+            tableName: person_comments
+- changeSet:
+    id: insert person sub3 comments
+    author: lkosmala
+    changes:
+     - insert:
+            columns:
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 4 title sub sub 3'
+            - column:
+                name: text
+                value: 'test comment 4 text sub sub 3'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 2
+            tableName: person_comments
+- changeSet:
+    id: insert person sub4 comments
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 2
+          tableName: person_comments
+- changeSet:
+    id: insert person sub5 comments
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: depth
+                value: 1
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: 5
+          tableName: person_comments

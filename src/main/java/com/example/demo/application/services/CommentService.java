@@ -4,10 +4,13 @@ import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
 import com.example.demo.application.commands.ObjectType;
 import com.example.demo.application.model.Film;
+import com.example.demo.application.model.Person;
 import com.example.demo.application.model.comments.Comment;
 import com.example.demo.application.model.comments.FilmComment;
+import com.example.demo.application.model.comments.PersonComment;
 import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
+import com.example.demo.application.repository.PersonCommentsRepo;
 import com.example.demo.application.repository.PersonRepo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,12 +29,18 @@ public class CommentService {
 	private PersonRepo personRepo;
 	private CommentMapper commentMapper;
 	private FilmCommentsRepo filmCommentsRepo;
+	private PersonCommentsRepo personCommentsRepo;
 
-	public CommentService(FilmRepo filmDao, PersonRepo personRepo, CommentMapper commentMapper, FilmCommentsRepo filmCommentsRepo) {
+	public CommentService(FilmRepo filmDao,
+						  PersonRepo personRepo,
+						  CommentMapper commentMapper,
+						  FilmCommentsRepo filmCommentsRepo,
+						  PersonCommentsRepo personCommentsRepo) {
 		this.filmDao = filmDao;
 		this.personRepo = personRepo;
 		this.commentMapper = commentMapper;
 		this.filmCommentsRepo = filmCommentsRepo;
+		this.personCommentsRepo = personCommentsRepo;
 	}
 
 	//	@Transactional
@@ -52,6 +61,13 @@ public class CommentService {
 			return save;
 		}
 		if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
+			jpaRepository = personRepo;
+			Person person = personRepo.getOne(commentDto.getEntityId());
+
+			if (person == null) {
+				throw new RuntimeException("Brak osoby dla zapytania: " + commentDto.toString());
+			}
+
 			return new Object();
 		}
 

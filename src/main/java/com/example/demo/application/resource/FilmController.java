@@ -35,7 +35,7 @@ public class FilmController {
 		return new ResponseEntity(filmService.getFilmDetails(id), HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping()
 	public ResponseEntity updateFilm(@RequestBody FilmDTO filmDTO) {
 		return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
 	}

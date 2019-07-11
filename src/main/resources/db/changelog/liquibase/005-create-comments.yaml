@@ -77,6 +77,15 @@ databaseChangeLog:
         startWith: 1
         tableName: film_comments
 - changeSet:
+    id: person comments auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: long
+        columnName: id
+        startWith: 1
+        tableName: person_comments
+- changeSet:
     id: create film comments index
     author: Luke (generated)
     changes:

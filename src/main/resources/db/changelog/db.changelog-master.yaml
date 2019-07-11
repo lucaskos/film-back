@@ -27,6 +27,8 @@ databaseChangeLog:
     file: db/changelog/liquibase/005-create-comments.yaml
 - include:
     file: db/changelog/liquibase/data-insert/005-insert-film-comments.yaml
+- include:
+    file: db/changelog/liquibase/data-insert/005-insert-person-comment.yaml
 #- include:
 #    file: db/changelog/001-film-creation.yaml
 #- include:
