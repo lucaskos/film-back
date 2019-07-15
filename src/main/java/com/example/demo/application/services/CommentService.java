@@ -14,6 +14,7 @@ import com.example.demo.application.repository.PersonCommentsRepo;
 import com.example.demo.application.repository.PersonRepo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -139,4 +140,15 @@ public class CommentService {
 		}
 	}
 
+	public List<FilmComment> findEntityComments(CommentsDTO commentsDTO) {
+
+		if(ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
+			Optional<List<FilmComment>> byFilmId = filmCommentsRepo.findByFilmId(filmDao.getOne(commentsDTO.getEntityId()));
+			List<FilmComment> filmComments = byFilmId.get();
+			return filmComments;
+		} else {
+			return null;
+		}
+
+	}
 }

@@ -1,5 +1,6 @@
 package com.example.demo.application.repository;
 
+import com.example.demo.application.model.Film;
 import com.example.demo.application.model.comments.FilmComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,6 @@ public interface FilmCommentsRepo extends JpaRepository<FilmComment, Long> {
 	@Query("select fc from FilmComment fc " +
 			"where fc.id = :id")
 	Optional<List<FilmComment>> findDetails(@Param("id") Long id);
+
+	Optional<List<FilmComment>> findByFilmId(@Param("filmId") Film filmId);
 }
