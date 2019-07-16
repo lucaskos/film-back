@@ -152,3 +152,28 @@ databaseChangeLog:
                 name: parent_comment_id
                 value: 5
           tableName: film_comments
+- changeSet:
+    id: insert second film comments
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: film_id
+                value: 1
+            - column:
+                name: depth
+                value: 0
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner_id
+                value: 1
+            - column:
+                name: parent_comment_id
+                value: null
+          tableName: film_comments

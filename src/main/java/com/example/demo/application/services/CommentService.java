@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -140,12 +141,16 @@ public class CommentService {
 		}
 	}
 
-	public List<FilmComment> findEntityComments(CommentsDTO commentsDTO) {
+	public List<CommentsDTO> findEntityComments(CommentsDTO commentsDTO) {
 
 		if(ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
-			Optional<List<FilmComment>> byFilmId = filmCommentsRepo.findByFilmId(filmDao.getOne(commentsDTO.getEntityId()));
+
+			Optional<List<FilmComment>> byFilmId = filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()));
 			List<FilmComment> filmComments = byFilmId.get();
-			return filmComments;
+			List<CommentsDTO> comments = new ArrayList<>();
+			filmComments.forEach(comment -> comments.add(commentMapper.commentToCommentDTO(comment)));
+
+			return comments;
 		} else {
 			return null;
 		}
