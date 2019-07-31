@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -64,7 +65,7 @@ public class FilmService {
 	}
 
 	@PreAuthorize("hasRole('ADMIN') || hasAuthority('can_write')")
-	public FilmDTO saveFilm(FilmDTO film) {
+	public Optional<FilmDTO> saveFilm(FilmDTO film) {
 
 		Film filmToUpdate;
 		if (film.getFilmId() != null) {
@@ -79,7 +80,7 @@ public class FilmService {
 		filmToUpdate.setFilmRelations(createAndUpdateFilmRelations(filmToUpdate, film));
 
 		Film updatedFilm = filmDao.saveAndFlush(filmToUpdate);
-		return filmMapper.filmToFilmDTO(updatedFilm);
+		return Optional.of(filmMapper.filmToFilmDTO(updatedFilm));
 	}
 
 	public List<FilmDTO> getFilmsByTitle(String title) {

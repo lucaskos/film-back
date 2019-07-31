@@ -52,7 +52,10 @@ public class FilmController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity addNewFilm(@RequestBody FilmDTO filmDTO) {
-		return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
+	public ResponseEntity<FilmDTO> addNewFilm(@RequestBody FilmDTO filmDTO) {
+
+		return filmService.saveFilm(filmDTO).map(film -> ResponseEntity.ok(film))
+				.orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+		
 	}
 }
