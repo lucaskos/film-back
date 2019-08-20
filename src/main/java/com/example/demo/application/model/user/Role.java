@@ -19,33 +19,29 @@ import java.util.Collection;
 @Data
 public class Role {
 
-	public enum ROLE_TYPE {
-		ADMIN, REVIEWER, USER, EDITOR
-	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-	@Column(name = "role")
-	private String roleName;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "roles_privileges",
-			joinColumns = @JoinColumn(
-					name = "role_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(
-					name = "privilege_id", referencedColumnName = "id"))
-	private Collection<Privilege> privileges;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "role")
+    private String roleName;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "roles_privileges",
+            joinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "privilege_id", referencedColumnName = "id"))
+    private Collection<Privilege> privileges;
 //	private User user;
 
 
-	public Role() {
-	}
+    public Role() {
+    }
 
-	public Role(String role) {
-		this.roleName = role;
-	}
+    public Role(String role) {
+        this.roleName = role;
+    }
 
 
 //	@ManyToOne(cascade= CascadeType.MERGE)

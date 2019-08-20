@@ -12,42 +12,42 @@ import java.util.List;
 @Service
 public class PersonService {
 
-	private PersonMapper personMapper;
-	private PersonRepo personRepo;
+    private PersonMapper personMapper;
+    private PersonRepo personRepo;
 
-	public PersonService(PersonMapper personMapper, PersonRepo personRepo) {
-		this.personMapper = personMapper;
-		this.personRepo = personRepo;
-	}
+    public PersonService(PersonMapper personMapper, PersonRepo personRepo) {
+        this.personMapper = personMapper;
+        this.personRepo = personRepo;
+    }
 
-	public List<PersonDTO> getAllPeople() {
-		List<PersonDTO> list = new ArrayList<>();
-		personRepo.findAll().forEach(person -> {
-			list.add(personMapper.personToPersonDTO(person));
-		});
+    public List<PersonDTO> getAllPeople() {
+        List<PersonDTO> list = new ArrayList<>();
+        personRepo.findAll().forEach(person -> {
+            list.add(personMapper.personToPersonDTO(person));
+        });
 
-		return list;
-	}
+        return list;
+    }
 
-	public PersonDTO getPerson(Long id) {
-		return personMapper.personToPersonDTO(personRepo.findById(id).get());
-	}
+    public PersonDTO getPerson(Long id) {
+        return personMapper.personToPersonDTO(personRepo.findById(id).get());
+    }
 
-	public List<PersonDTO> findByName(String name) {
-		List<Person> byFirstNameOrLastName = personRepo.autocompleteByFirstNameOrLastName(name);
-		List<PersonDTO> list = new ArrayList<>();
-		byFirstNameOrLastName.forEach(person -> list.add(personMapper.personToPersonDTO(person)));
-		return list;
-	}
+    public List<PersonDTO> findByName(String name) {
+        List<Person> byFirstNameOrLastName = personRepo.autocompleteByFirstNameOrLastName(name);
+        List<PersonDTO> list = new ArrayList<>();
+        byFirstNameOrLastName.forEach(person -> list.add(personMapper.personToPersonDTO(person)));
+        return list;
+    }
 
 
-	public PersonDTO addNewPerson(PersonDTO personDTO) {
-		Person person = personMapper.personDTOToPerson(personDTO);
-		Person save = personRepo.save(person);
-		return personMapper.personToPersonDTO(save);
-	}
+    public PersonDTO addNewPerson(PersonDTO personDTO) {
+        Person person = personMapper.personDTOToPerson(personDTO);
+        Person save = personRepo.save(person);
+        return personMapper.personToPersonDTO(save);
+    }
 
-	public void deletePerson(Long id) {
-		personRepo.delete(personRepo.findById(id).get());
-	}
+    public void deletePerson(Long id) {
+        personRepo.delete(personRepo.findById(id).get());
+    }
 }
