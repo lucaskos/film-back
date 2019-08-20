@@ -35,9 +35,6 @@ import static com.example.demo.security.Roles.USER;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
-    private final static String ROLE_PREFIX = "ROLE";
-
     private UserRepository userDao;
     private BCryptPasswordEncoder bcryptEncoder;
     private UserMapper userMapper;
@@ -126,19 +123,7 @@ public class UserServiceImpl implements UserService {
         return userDao.save(userEntity);
     }
 
-    private Collection<? extends GrantedAuthority> getAuthorities(
-            Collection<Role> roles) {
-        List<GrantedAuthority> authorities
-                = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName().replace(ROLE_PREFIX, "")));
-            role.getPrivileges().stream()
-                    .map(p -> new SimpleGrantedAuthority(p.getName()))
-                    .forEach(authorities::add);
-        }
 
-        return authorities;
-    }
 
     Role getDefaultRole() {
         Role role_user = roleRepo.findRoleByRoleName(USER);
