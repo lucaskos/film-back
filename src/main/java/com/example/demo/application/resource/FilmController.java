@@ -48,7 +48,7 @@ public class FilmController {
 
 	@GetMapping("/title/{title}")
 	public ResponseEntity getFilmsByTitle(@PathVariable String title) {
-		return new ResponseEntity(filmService.getFilmsByTitle(title), HttpStatus.OK);
+		return new ResponseEntity(filmService.getFilmDTOByTitle(title), HttpStatus.OK);
 	}
 
 	@PostMapping("/add")
