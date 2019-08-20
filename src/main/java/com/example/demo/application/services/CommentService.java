@@ -27,133 +27,141 @@ import java.util.Set;
 @Service
 public class CommentService {
 
-	private FilmRepo filmDao;
-	private PersonRepo personRepo;
-	private CommentMapper commentMapper;
-	private FilmCommentsRepo filmCommentsRepo;
-	private PersonCommentsRepo personCommentsRepo;
+    private FilmRepo filmDao;
+    private PersonRepo personRepo;
+    private CommentMapper commentMapper;
+    private FilmCommentsRepo filmCommentsRepo;
+    private PersonCommentsRepo personCommentsRepo;
 
-	public CommentService(FilmRepo filmDao,
-						  PersonRepo personRepo,
-						  CommentMapper commentMapper,
-						  FilmCommentsRepo filmCommentsRepo,
-						  PersonCommentsRepo personCommentsRepo) {
-		this.filmDao = filmDao;
-		this.personRepo = personRepo;
-		this.commentMapper = commentMapper;
-		this.filmCommentsRepo = filmCommentsRepo;
-		this.personCommentsRepo = personCommentsRepo;
-	}
+    public CommentService(FilmRepo filmDao,
+                          PersonRepo personRepo,
+                          CommentMapper commentMapper,
+                          FilmCommentsRepo filmCommentsRepo,
+                          PersonCommentsRepo personCommentsRepo) {
+        this.filmDao = filmDao;
+        this.personRepo = personRepo;
+        this.commentMapper = commentMapper;
+        this.filmCommentsRepo = filmCommentsRepo;
+        this.personCommentsRepo = personCommentsRepo;
+    }
 
-	//	@Transactional
-	public Object addComment(CommentsDTO commentDto) {
-		JpaRepository jpaRepository;
+    //	@Transactional
+    public Comment addComment(CommentsDTO commentDto) {
+        Comment comment = null;
 
-		if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
-			jpaRepository = filmDao;
-			Film film = ((FilmRepo) jpaRepository).getFilmDetails(commentDto.getEntityId()).get();
+        if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
+            comment = addFilmComment(commentDto);
+        }
 
-			if (film == null) {
-				throw new RuntimeException("Brak filmu dla zapytania: " + commentDto.toString());
-			}
+        if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
+            comment = addPersonComment(commentDto);
+        }
 
-			FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
-			FilmComment save = filmCommentsRepo.save(filmComment);
+        return comment;
+    }
 
-			return save;
-		}
-		if (ObjectType.PERSON.toString().equals(commentDto.getEntityType())) {
-			jpaRepository = personRepo;
-			Person person = personRepo.getOne(commentDto.getEntityId());
+    private Comment addFilmComment(CommentsDTO commentDTO) {
+        FilmRepo filmRepo;
+        Film film = this.filmDao.getFilmDetails(commentDTO.getEntityId()).get();
+        if (film == null) {
+            throw new RuntimeException("Brak filmu dla zapytania: " + commentDTO.toString());
+        }
 
-			if (person == null) {
-				throw new RuntimeException("Brak osoby dla zapytania: " + commentDto.toString());
-			}
+        FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDTO);
+        return filmCommentsRepo.save(filmComment);
+    }
 
-			return new Object();
-		}
+    private Comment addPersonComment(CommentsDTO commentsDTO) {
+        Person person = personRepo.getOne(commentsDTO.getEntityId());
 
-		return new Object();
-	}
+//        personRepo.getPersonDetails(commentsDTO.getEntityId());
 
-	public Object findComment(Long id) {
-		FilmComment one = filmCommentsRepo.getOne(id);
-		return one;
-	}
+        if (person == null) {
+            throw new RuntimeException("Brak osoby dla zapytania: " + commentsDTO.toString());
+        }
 
-	public Object findCommentDetails(Long id) {
-		FilmComment one = filmCommentsRepo.getOne(id);
-		CommentsDTO details = getFilmCommentDetails(one);
-		return details;
-	}
 
-	/**
-	 * Getting main comment with all subComments and subComments children. We getting hierarchy in a manner:
-	 * comment
-	 * - subComment
-	 * - subComment2 (child of subComment)
-	 * - subComment3 (child of subComment2)
-	 *
-	 * @param comment
-	 * @return
-	 */
-	private CommentsDTO getFilmCommentDetails(Comment comment) {
-		CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
-		Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
-		Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
+        return null;
+    }
 
-		if (!CollectionUtils.isEmpty(mainCommentSubComments)) {
+    public Object findComment(Long id) {
+        FilmComment one = filmCommentsRepo.getOne(id);
+        return one;
+    }
 
-			for (FilmComment subComment : mainCommentSubComments) {
+    public Object findCommentDetails(Long id) {
+        FilmComment one = filmCommentsRepo.getOne(id);
+        CommentsDTO details = getFilmCommentDetails(one);
+        return details;
+    }
 
-				CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
-				mainCommentDTO.getSubComments().add(subCommentDTO);
-				CommentsDTO commentDetails = getFilmCommentDetails(subComment);
+    /**
+     * Getting main comment with all subComments and subComments children. We getting hierarchy in a manner:
+     * comment
+     * - subComment
+     * - subComment2 (child of subComment)
+     * - subComment3 (child of subComment2)
+     *
+     * @param comment
+     * @return
+     */
+    private CommentsDTO getFilmCommentDetails(Comment comment) {
+        CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
+        Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
+        Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
 
-				checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
-			}
+        if (!CollectionUtils.isEmpty(mainCommentSubComments)) {
 
-			mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
-		}
+            for (FilmComment subComment : mainCommentSubComments) {
 
-		return mainCommentDTO;
-	}
+                CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
+                mainCommentDTO.getSubComments().add(subCommentDTO);
+                CommentsDTO commentDetails = getFilmCommentDetails(subComment);
 
-	/**
-	 * @param commentsDTO    - main comment processed.
-	 * @param subCommentsSet - main comment children.
-	 * @param commentDetails - the child comment of the comment iterated list of subComments.
-	 */
-	private void checkIfCommentsAreDifferentAndAdd(CommentsDTO commentsDTO,
-												   Set<CommentsDTO> subCommentsSet,
-												   CommentsDTO commentDetails) {
-		Iterator<CommentsDTO> iterator = commentsDTO.getSubComments().iterator();
+                checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
+            }
 
-		while (iterator.hasNext()) {
-			CommentsDTO next = iterator.next();
+            mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
+        }
 
-			if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
-				next.getSubComments().addAll(commentDetails.getSubComments());
-			} else {
-				subCommentsSet.add(commentDetails);
-			}
+        return mainCommentDTO;
+    }
 
-		}
-	}
+    /**
+     * @param commentsDTO    - main comment processed.
+     * @param subCommentsSet - main comment children.
+     * @param commentDetails - the child comment of the comment iterated list of subComments.
+     */
+    private void checkIfCommentsAreDifferentAndAdd(CommentsDTO commentsDTO,
+                                                   Set<CommentsDTO> subCommentsSet,
+                                                   CommentsDTO commentDetails) {
+        Iterator<CommentsDTO> iterator = commentsDTO.getSubComments().iterator();
 
-	public List<CommentsDTO> findEntityComments(CommentsDTO commentsDTO) {
+        while (iterator.hasNext()) {
+            CommentsDTO next = iterator.next();
 
-		if(ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
+            if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
+                next.getSubComments().addAll(commentDetails.getSubComments());
+            } else {
+                subCommentsSet.add(commentDetails);
+            }
 
-			Optional<List<FilmComment>> byFilmId = filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()));
-			List<FilmComment> filmComments = byFilmId.get();
-			List<CommentsDTO> comments = new ArrayList<>();
-			filmComments.forEach(comment -> comments.add(commentMapper.commentToCommentDTO(comment)));
+        }
+    }
 
-			return comments;
-		} else {
-			return null;
-		}
+    public List<CommentsDTO> findEntityComments(CommentsDTO commentsDTO) {
 
-	}
+        if (ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
+
+            Optional<List<FilmComment>> byFilmId = filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()));
+            List<FilmComment> filmComments = byFilmId.get();
+            List<CommentsDTO> comments = new ArrayList<>();
+            filmComments.forEach(comment -> comments.add(commentMapper.commentToCommentDTO(comment)));
+
+            return comments;
+        } else {
+            return null;
+        }
+
+    }
 }
