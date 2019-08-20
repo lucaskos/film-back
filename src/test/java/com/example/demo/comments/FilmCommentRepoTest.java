@@ -46,10 +46,7 @@ public class FilmCommentRepoTest extends CommentsCommon {
         filmComment.setTitle("PARENT_COMMENT_TITLE");
         film.getFilmComments().add(filmComment);
         Film save = filmRepo.save(film);
-
-        Assert.assertNotNull(film);
         List<FilmComment> filmComments = save.getFilmComments();
-        Assert.assertTrue(filmComments.size() > 0);
 
         FilmComment singleComment = filmComments.get(0);
 
