@@ -18,30 +18,30 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "FILM_COMMENTS")
+@Table(name = "FILM_COMMENT")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class FilmComment extends Comment {
 
 	@ManyToOne
-	@JoinColumn(name = "film_id", nullable = true)
-	private Film filmId;
+	@JoinColumn(name = "film", nullable = true)
+	private Film film;
 	@ManyToOne
-	@JoinColumn(name = "owner_id", nullable = true)
-	private User userId;
+	@JoinColumn(name = "owner", nullable = true)
+	private User owner;
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-	@JoinColumn(name = "parent_comment_id")
-	private FilmComment parentCommentId;
+	@JoinColumn(name = "parent_comment")
+	private FilmComment parentComment;
 	@JsonIgnore
-	@OneToMany(mappedBy = "parentCommentId")
+	@OneToMany(mappedBy = "parentComment")
 	private Set<FilmComment> subComments = new HashSet<>();
 
 
 	@Override
 	public String toString() {
 		return "FilmComment{" +
-				"filmId=" + filmId +
-				", userId=" + userId +
+				"film=" + film +
+				", userId=" + owner +
 				'}';
 	}
 
@@ -53,12 +53,12 @@ public class FilmComment extends Comment {
 
 		FilmComment that = (FilmComment) o;
 
-		return Objects.equals(filmId, that.filmId) &&
-				Objects.equals(userId, that.userId);
+		return Objects.equals(film, that.film) &&
+				Objects.equals(owner, that.owner);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), filmId, userId);
+		return Objects.hash(super.hashCode(), film, owner);
 	}
 }

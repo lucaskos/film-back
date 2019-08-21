@@ -17,9 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -48,23 +46,38 @@ public class FilmCommentsServiceTest extends CommentsCommon {
 		Mockito.when(filmCommentsRepo.save(Mockito.any())).thenReturn(getFilmComment());
 		Mockito.when(filmRepo.save(Mockito.any())).thenReturn(getFilm());
 
-		commentService.addComment(getCommentDTO());
+		commentService.addComment(getFilmCommentDTO());
 
 		Assert.assertNotNull(film.getFilmComments().get(0));
 	}
 
 
 
-	private CommentCommand getCommand() {
+	private CommentCommand getFilmCommand() {
 		CommentCommand commentCommand = new CommentCommand();
 		commentCommand.setEntityType("FILM");
 
-		commentCommand.setCommentsDTO(getCommentDTO());
+		commentCommand.setCommentsDTO(getFilmCommentDTO());
 
 		return commentCommand;
 	}
 
-	private CommentsDTO getCommentDTO() {
+	private CommentCommand getPersonCommand() {
+		CommentCommand commentCommand = new CommentCommand();
+		commentCommand.setEntityType("PERSON");
+
+		commentCommand.setCommentsDTO(getPersonCommentDTO());
+
+		return commentCommand;
+	}
+
+	private CommentsDTO getPersonCommentDTO() {
+		CommentsDTO commentsDTO = new CommentsDTO();
+
+		return commentsDTO;
+	}
+
+	private CommentsDTO getFilmCommentDTO() {
 		CommentsDTO commentsDTO = new CommentsDTO();
 		commentsDTO.setText(COMMENT_TEXT);
 		commentsDTO.setUserId(new UserDTO());

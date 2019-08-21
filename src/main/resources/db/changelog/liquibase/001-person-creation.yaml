@@ -33,9 +33,9 @@ databaseChangeLog:
         - column:
             name: modification_date
             type: date
-        - column:
-            name: person_comments
-            type: int
+#        - column:
+#            name: person_comment
+#            type: int
         tableName: person
 - changeSet:
     id: person auto increment

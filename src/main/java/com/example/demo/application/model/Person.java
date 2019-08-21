@@ -1,11 +1,15 @@
 package com.example.demo.application.model;
 
+import com.example.demo.application.model.comments.FilmComment;
+import com.example.demo.application.model.comments.PersonComment;
 import com.example.demo.application.model.generic.DataModelObject;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +37,9 @@ public class Person extends DataModelObject implements Serializable {
     private Date diedDate;
     @Column(name = "biography", columnDefinition = "text")
     private String bio;
+    @JsonBackReference
+    @OneToMany(targetEntity = PersonComment.class, cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<PersonComment> personComment;
 
     //    private Set<PersonComments> personComments;
     //    @JoinColumn(name = "person_PERSON_ID")

@@ -11,7 +11,7 @@ databaseChangeLog:
             name: id
             type: int
         - column:
-            name: person_id
+            name: person
             type: int
         - column:
             name: created_date
@@ -22,7 +22,7 @@ databaseChangeLog:
         - column:
             constraints:
               nullable: true
-            name: parent_comment_id
+            name: parent_comment
             type: int
         - column:
             constraints:
@@ -33,9 +33,9 @@ databaseChangeLog:
             name: title
             type: varchar(255)
         - column:
-            name: owner_id
+            name: owner
             type: int
-        tableName: person_comments
+        tableName: person_comment
 - changeSet:
     id: create film comments
     author: Luke (generated)
@@ -46,7 +46,7 @@ databaseChangeLog:
             name: id
             type: long
         - column:
-            name: film_id
+            name: film
             type: int
         - column:
             name: created_date
@@ -55,7 +55,7 @@ databaseChangeLog:
             name: depth
             type: int
         - column:
-            name: parent_comment_id
+            name: parent_comment
             type: int
         - column:
             name: text
@@ -64,9 +64,9 @@ databaseChangeLog:
             name: title
             type: varchar(255)
         - column:
-            name: owner_id
+            name: owner
             type: int
-        tableName: film_comments
+        tableName: film_comment
 - changeSet:
     id: film comments auto increment
     author: Luke
@@ -75,7 +75,7 @@ databaseChangeLog:
         columnDataType: long
         columnName: id
         startWith: 1
-        tableName: film_comments
+        tableName: film_comment
 - changeSet:
     id: person comments auto increment
     author: Luke
@@ -84,7 +84,7 @@ databaseChangeLog:
         columnDataType: long
         columnName: id
         startWith: 1
-        tableName: person_comments
+        tableName: person_comment
 - changeSet:
     id: create film comments index
     author: Luke (generated)
@@ -92,9 +92,9 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: film_id
-        indexName: film_id
-        tableName: film_comments
+            name: film
+        indexName: film
+        tableName: film_comment
 - changeSet:
     id: 1542224623996-19
     author: Luke (generated)
@@ -102,17 +102,17 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: owner_id
-        indexName: owner_id
-        tableName: person_comments
+            name: owner
+        indexName: owner
+        tableName: person_comment
 - changeSet:
     id: film comment reference film entity
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: film_id
-        baseTableName: film_comments
-        constraintName: film_id
+        baseColumnNames: film
+        baseTableName: film_comment
+        constraintName: film
         deferrable: false
         initiallyDeferred: false
         onDelete: set null
@@ -126,9 +126,9 @@ databaseChangeLog:
     author: Luke
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: owner_id
-        baseTableName: film_comments
-        constraintName: owner_film_comment_id
+        baseColumnNames: owner
+        baseTableName: film_comment
+        constraintName: owner_film_comment
         deferrable: false
         initiallyDeferred: false
         onDelete: set null
@@ -142,25 +142,25 @@ databaseChangeLog:
     author: Luke
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: parent_comment_id
-        baseTableName: film_comments
-        constraintName: parent_comment_id
-#        deferrable: false
-#        initiallyDeferred: false
+        baseColumnNames: parent_comment
+        baseTableName: film_comment
+        constraintName: parent_comment_film
+        deferrable: false
+        initiallyDeferred: false
         onDelete: set null
         onDelete: cascade
         onUpdate: no action
         referencedColumnNames: id
-        referencedTableName: film_comments
+        referencedTableName: film_comment
 #        validate: true
 - changeSet:
     id: 1542224623996-32
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: owner_id
-        baseTableName: person_comments
-        constraintName: owner_person_comment_id
+        baseColumnNames: owner
+        baseTableName: person_comment
+        constraintName: owner_person_comment
         deferrable: false
         initiallyDeferred: false
         onDelete: no action
@@ -173,9 +173,9 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: person_id
-        baseTableName: person_comments
-        constraintName: person_id
+        baseColumnNames: person
+        baseTableName: person_comment
+        constraintName: person
         deferrable: false
         initiallyDeferred: false
         onDelete: no action
@@ -190,57 +190,47 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: person_id
-        indexName: person_person_id
-        tableName: person_comments
-- changeSet:
-    id: 1542224623996-20
-    author: Luke (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: person_comments
-        indexName: person_comments
-        tableName: person
-- changeSet:
-    id: 1542224623996-33
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: person_comments
-        baseTableName: person
-        constraintName: person_comments
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: no action
-        onUpdate: no action
-        referencedColumnNames: id
-        referencedTableName: person_comments
-        validate: true
+            name: person
+        indexName: person_comment_id
+        tableName: person_comment
+#- changeSet:
+#    id: 1542224623996-33
+#    author: Luke (generated)
+#    changes:
+#    - addForeignKeyConstraint:
+#        baseColumnNames: person_comment
+#        baseTableName: person
+#        constraintName: person_comment
+#        deferrable: false
+#        initiallyDeferred: false
+#        onDelete: no action
+#        onUpdate: no action
+#        referencedColumnNames: id
+#        referencedTableName: person_comment
+#        validate: true
 #- changeSet:
 #    id: self film comment relation
 #    author: Luke
 #    changes:
 #    - addForeignKeyConstraint:
 #        baseColumnNames: parent_comment_id
-#        baseTableName: film_comments
+#        baseTableName: film_comment
 #        constraintName: parent_comment_id
 #        deferrable: false
 #        initiallyDeferred: false
 #        onDelete: cascade
 #        onUpdate: no action
 #        referencedColumnNames: id
-#        referencedTableName: film_comments
+#        referencedTableName: film_comment
 #        validate: true
 - changeSet:
     id: create filmcomments to user relation
     author: Luke
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: owner_id
-        baseTableName: film_comments
-        constraintName: owner_id_film_comments
+        baseColumnNames: owner
+        baseTableName: film_comment
+        constraintName: owner_id_film_comment
         deferrable: false
         initiallyDeferred: false
         onDelete: set null

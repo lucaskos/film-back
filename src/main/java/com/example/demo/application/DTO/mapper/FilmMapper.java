@@ -51,7 +51,7 @@ public interface FilmMapper {
 //		filmDTO.getFilmCommentsList().forEach(filmComment -> commentsDTOS.add(commentToFilmCommentDTO(filmComment)));
 //		film.getFilmComments().addAll(commentsDTOS);
 //
-//		film.getFilmComments().forEach(filmComment -> filmComment.setFilmId(film));
+//		film.getFilmComments().forEach(filmComment -> filmComment.setFilm(film));
 //		return film;
 //	}
 //
@@ -65,7 +65,7 @@ public interface FilmMapper {
 //		filmDTO.getFilmCommentsList().addAll(commentsDTOS);
 //
 //		filmDTO.getFilmCommentsList().forEach(commentsDTO -> {
-//			commentsDTO.setEntityId(filmDTO.getFilmId());
+//			commentsDTO.setEntityId(filmDTO.getFilm());
 //			commentsDTO.setEntityType(ObjectType.FILM.name());
 //		});
 //

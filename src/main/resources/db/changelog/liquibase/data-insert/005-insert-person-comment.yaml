@@ -9,7 +9,7 @@ databaseChangeLog:
                 name: id
                 value: 1
             - column:
-                name: person_id
+                name: person
                 value: 1
             - column:
                 name: depth
@@ -21,9 +21,9 @@ databaseChangeLog:
                 name: text
                 value: 'test comment text'
             - column:
-                name: owner_id
+                name: owner
                 value: 1
-            tableName: person_comments
+            tableName: person_comment
 - changeSet:
     id: insert person sub1 comments
     author: lkosmala
@@ -34,7 +34,7 @@ databaseChangeLog:
                 name: id
                 value: 2
             - column:
-                name: person_id
+                name: person
                 value: 1
             - column:
                 name: depth
@@ -46,12 +46,12 @@ databaseChangeLog:
                 name: text
                 value: 'test comment 2 text sub 1'
             - column:
-                name: owner_id
+                name: owner
                 value: 1
             - column:
-                name: parent_comment_id
+                name: parent_comment
                 value: 1
-            tableName: person_comments
+            tableName: person_comment
 - changeSet:
     id: insert person sub2 comments
     author: lkosmala
@@ -59,7 +59,7 @@ databaseChangeLog:
      - insert:
             columns:
             - column:
-                name: person_id
+                name: person
                 value: 1
             - column:
                 name: depth
@@ -71,12 +71,12 @@ databaseChangeLog:
                 name: text
                 value: 'test comment 3 text sub 2'
             - column:
-                name: owner_id
+                name: owner
                 value: 1
             - column:
-                name: parent_comment_id
+                name: parent_comment
                 value: 1
-            tableName: person_comments
+            tableName: person_comment
 - changeSet:
     id: insert person sub3 comments
     author: lkosmala
@@ -84,7 +84,7 @@ databaseChangeLog:
      - insert:
             columns:
             - column:
-                name: person_id
+                name: person
                 value: 1
             - column:
                 name: depth
@@ -96,12 +96,12 @@ databaseChangeLog:
                 name: text
                 value: 'test comment 4 text sub sub 3'
             - column:
-                name: owner_id
+                name: owner
                 value: 1
             - column:
-                name: parent_comment_id
+                name: parent_comment
                 value: 2
-            tableName: person_comments
+            tableName: person_comment
 - changeSet:
     id: insert person sub4 comments
     author: lkosmala
@@ -109,7 +109,7 @@ databaseChangeLog:
       - insert:
           columns:
             - column:
-                name: person_id
+                name: person
                 value: 1
             - column:
                 name: depth
@@ -121,12 +121,12 @@ databaseChangeLog:
                 name: text
                 value: 'test comment 5 text sub sub 4'
             - column:
-                name: owner_id
+                name: owner
                 value: 1
             - column:
-                name: parent_comment_id
+                name: parent_comment
                 value: 2
-          tableName: person_comments
+          tableName: person_comment
 - changeSet:
     id: insert person sub5 comments
     author: lkosmala
@@ -134,7 +134,7 @@ databaseChangeLog:
       - insert:
           columns:
             - column:
-                name: person_id
+                name: person
                 value: 1
             - column:
                 name: depth
@@ -146,9 +146,9 @@ databaseChangeLog:
                 name: text
                 value: 'test comment 5 text sub sub 4'
             - column:
-                name: owner_id
+                name: owner
                 value: 1
             - column:
-                name: parent_comment_id
+                name: parent_comment
                 value: 5
-          tableName: person_comments
+          tableName: person_comment

@@ -72,44 +72,6 @@ databaseChangeLog:
         columnName: id
         startWith: 1
         tableName: film_relation
-#- changeSet:
-#    id: 1542224623996-4
-#    author: Luke (generated)
-#    changes:
-#    - createTable:
-#        columns:
-#        - column:
-#            name: next_val
-#            type: BIGINT
-#        tableName: hibernate_sequence
-- changeSet:
-    id: creation of persisten logins table
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              nullable: false
-            name: username
-            type: varchar(64)
-        - column:
-            constraints:
-              primaryKey: true
-            name: series
-            type: varchar(64)
-        - column:
-            constraints:
-              nullable: false
-            name: token
-            type: varchar(64)
-        - column:
-            constraints:
-              nullable: false
-            defaultValueComputed: current_timestamp
-            name: last_used
-            type: timestamp
-        tableName: persistent_logins
 - changeSet:
     id: create person table
     author: Luke (generated)
@@ -144,9 +106,6 @@ databaseChangeLog:
         - column:
             name: modification_date
             type: date
-        - column:
-            name: person_comments
-            type: int
         tableName: person
 - changeSet:
     id: person auto increment
@@ -172,7 +131,7 @@ databaseChangeLog:
             name: rating
             type: int
         - column:
-            name: filmId
+            name: film
             type: int
         - column:
             name: user_id
@@ -190,7 +149,7 @@ databaseChangeLog:
             name: rating_id
             type: bigint
         - column:
-            name: filmId
+            name: film
             type: int
         - column:
             name: person_id
@@ -343,7 +302,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: filmId
+            name: film
         indexName: FKej8yur1ov17ypdv25grdrs3xo
         tableName: rating
 - changeSet:
@@ -373,7 +332,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: filmId
+            name: film
         indexName: rating_films_film_FILM_ID_fk
         tableName: rating_films
 - changeSet:
@@ -422,7 +381,7 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: filmId
+        baseColumnNames: film
         baseTableName: rating
         constraintName: FKej8yur1ov17ypdv25grdrs3xo
         deferrable: false
@@ -482,7 +441,7 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: filmId
+        baseColumnNames: film
         baseTableName: rating_films
         constraintName: rating_films_film_FILM_ID_fk
         deferrable: false

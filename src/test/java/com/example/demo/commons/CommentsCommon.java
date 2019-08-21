@@ -25,7 +25,7 @@ public class CommentsCommon {
 
 	public FilmComment getFilmComment() {
 		FilmComment filmComment = new FilmComment();
-		filmComment.setUserId(new User());//todo fix
+		filmComment.setOwner(new User());//todo fix
 		filmComment.setText(COMMENT_TEXT);
 		return filmComment;
 	}

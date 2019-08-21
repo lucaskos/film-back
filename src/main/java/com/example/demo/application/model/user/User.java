@@ -1,6 +1,6 @@
 package com.example.demo.application.model.user;
 
-import com.example.demo.application.model.PersonComments;
+import com.example.demo.application.model.comments.PersonComment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
@@ -58,8 +58,8 @@ public class User {
 	private String lastName;
 	//    public Set<Rating> rating = new HashSet<>();
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "OWNER_ID")
-	private Set<PersonComments> personComments;
+	@JoinColumn(name = "OWNER")
+	private Set<PersonComment> personComments;
 
 	public User() {
 

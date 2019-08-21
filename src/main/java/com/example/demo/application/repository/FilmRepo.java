@@ -16,7 +16,7 @@ public interface FilmRepo extends JpaRepository<Film, Long> {
 	@Query("select f from Film f " +
 //			"left join fetch f.filmComments " +
 //			"left join fetch f.filmRelations " +
-			"where f.id = :filmId")
-	Optional<Film> getFilmDetails(@Param("filmId") Long filmId);
+			"where f.id = :film")
+	Optional<Film> getFilmDetails(@Param("film") Long filmId);
 
 }

@@ -23,20 +23,20 @@ import java.util.Optional;
 @SpringBootTest(classes = DemoApplication.class)
 public class FilmRepoTest extends FilmMapperTest {
 
-	@Autowired
-	private FilmRepo filmRepo;
+    @Autowired
+    private FilmRepo filmRepo;
 
-	@Autowired
-	private FilmCommentsRepo filmCommentsRepo;
+    @Autowired
+    private FilmCommentsRepo filmCommentsRepo;
 
-	@Test
-	@Transactional
-	public void getSingleFilmThenOk() {
-		Film one = filmRepo.getOne(Long.valueOf(1));
+    @Test
+    @Transactional
+    public void getSingleFilmThenOk() {
+        Film one = filmRepo.getOne(Long.valueOf(1));
 
-		Assert.assertEquals(Long.valueOf(1), one.getId());
-		Assert.assertNotNull(one.getDescription());
-	}
+        Assert.assertEquals(Long.valueOf(1), one.getId());
+        Assert.assertNotNull(one.getDescription());
+    }
 
 //	@Test
 //	@Transactional
@@ -52,30 +52,30 @@ public class FilmRepoTest extends FilmMapperTest {
 //		Assert.assertNotNull(film.getFilmComments().get(0).getId());
 //	}
 
-	@Test(expected = LazyInitializationException.class)
-	public void getSingleFilmWithFilmRelation_lazyException() {
-		Film simpleFilm = getSimpleFilm();
+    @Test(expected = LazyInitializationException.class)
+    public void getSingleFilmWithFilmRelation_lazyException() {
+        Film simpleFilm = getSimpleFilm();
 
-		Film compareFilm = filmRepo.save(simpleFilm);
+        Film compareFilm = filmRepo.save(simpleFilm);
 
-		Assert.assertEquals(simpleFilm.getTitle(), compareFilm.getTitle());
-		Assert.assertNotNull(compareFilm.getId());
+        Assert.assertEquals(simpleFilm.getTitle(), compareFilm.getTitle());
+        Assert.assertNotNull(compareFilm.getId());
 
-		Film film = filmRepo.getOne(compareFilm.getId());
+        Film film = filmRepo.getOne(compareFilm.getId());
 
-		Assert.assertNotNull(film.getFilmRelations().iterator().next().getId());
-	}
+        Assert.assertNotNull(film.getFilmRelations().iterator().next().getId());
+    }
 
-	@Test(expected = NoSuchElementException.class)
-	public void getSingleFilmAndDelete() {
-		Film film = getSimpleFilm();
+    @Test(expected = NoSuchElementException.class)
+    public void getSingleFilmAndDelete() {
+        Film film = getSimpleFilm();
 
-		Film compareFilm = filmRepo.save(film);
+        Film compareFilm = filmRepo.save(film);
 
-		Film afterSaveFilm = filmRepo.getFilmDetails(compareFilm.getId()).get();
-		filmRepo.delete(afterSaveFilm);
-		filmRepo.getFilmDetails(afterSaveFilm.getId()).get();
-	}
+        Film afterSaveFilm = filmRepo.getFilmDetails(compareFilm.getId()).get();
+        filmRepo.delete(afterSaveFilm);
+        filmRepo.getFilmDetails(afterSaveFilm.getId()).get();
+    }
 //
 //	@Test
 //	public void getSingleFilmWithComments() {
@@ -83,16 +83,16 @@ public class FilmRepoTest extends FilmMapperTest {
 //		Assert.assertNotNull(film.getFilmComments());
 //	}
 
-	@Test
-	public void deleteSingleFilmWithComments_persistComments() {
-		Film film = filmRepo.getFilmDetails(1L).get();
+    @Test
+    public void deleteSingleFilmWithComments_persistComments() {
+        Film film = filmRepo.getFilmDetails(1L).get();
 
 //		List<Long> list = new ArrayList<>();
 ////		film.getFilmComments().forEach( filmComment -> list.add(filmComment.getId()));
 //
-		filmRepo.delete(film);
+        filmRepo.delete(film);
 
-		Assert.assertEquals(Optional.empty(), filmRepo.getFilmDetails(1L));
+        Assert.assertEquals(Optional.empty(), filmRepo.getFilmDetails(1L));
 //
 //		list.forEach(idValue -> {
 //			FilmComment singleComment = filmCommentsRepo.getOne(idValue);
@@ -100,6 +100,6 @@ public class FilmRepoTest extends FilmMapperTest {
 //			Assert.assertNotNull(singleComment.getTitle());
 //		});
 
-	}
+    }
 
 }

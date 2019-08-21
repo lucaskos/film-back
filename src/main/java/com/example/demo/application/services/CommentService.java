@@ -3,21 +3,19 @@ package com.example.demo.application.services;
 import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
 import com.example.demo.application.commands.ObjectType;
-import com.example.demo.application.model.Film;
 import com.example.demo.application.model.Person;
 import com.example.demo.application.model.comments.Comment;
 import com.example.demo.application.model.comments.FilmComment;
-import com.example.demo.application.model.comments.PersonComment;
 import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonCommentsRepo;
 import com.example.demo.application.repository.PersonRepo;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.NotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -60,39 +58,30 @@ public class CommentService {
         return comment;
     }
 
-    private Comment addFilmComment(CommentsDTO commentDTO) {
-        FilmRepo filmRepo;
-        Film film = this.filmDao.getFilmDetails(commentDTO.getEntityId()).get();
-        if (film == null) {
-            throw new RuntimeException("Brak filmu dla zapytania: " + commentDTO.toString());
-        }
+    private Comment addFilmComment(CommentsDTO commentDto) {
 
-        FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDTO);
+        this.filmDao.getFilmDetails(commentDto.getEntityId()).orElseThrow(() ->
+                new NotFoundException("Couldn't find film : " + commentDto.getEntityId()));
+
+        FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
         return filmCommentsRepo.save(filmComment);
     }
 
-    private Comment addPersonComment(CommentsDTO commentsDTO) {
-        Person person = personRepo.getOne(commentsDTO.getEntityId());
-
-//        personRepo.getPersonDetails(commentsDTO.getEntityId());
-
-        if (person == null) {
-            throw new RuntimeException("Brak osoby dla zapytania: " + commentsDTO.toString());
-        }
-
+    private Comment addPersonComment(CommentsDTO commentDto) {
+        Person person = personRepo.getPersonDetails(commentDto.getEntityId()).orElseThrow(() ->
+                new NotFoundException("Couldn't find person : " + commentDto.getEntityId()));
+//        personRepo.getPersonDetails(commentDto.getEntityId());
 
         return null;
     }
 
     public Object findComment(Long id) {
-        FilmComment one = filmCommentsRepo.getOne(id);
-        return one;
+        return filmCommentsRepo.getOne(id);
     }
 
     public Object findCommentDetails(Long id) {
         FilmComment one = filmCommentsRepo.getOne(id);
-        CommentsDTO details = getFilmCommentDetails(one);
-        return details;
+        return getFilmCommentDetails(one);
     }
 
     /**
@@ -135,33 +124,32 @@ public class CommentService {
     private void checkIfCommentsAreDifferentAndAdd(CommentsDTO commentsDTO,
                                                    Set<CommentsDTO> subCommentsSet,
                                                    CommentsDTO commentDetails) {
-        Iterator<CommentsDTO> iterator = commentsDTO.getSubComments().iterator();
 
-        while (iterator.hasNext()) {
-            CommentsDTO next = iterator.next();
-
+        commentsDTO.getSubComments().forEach(next -> {
             if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
                 next.getSubComments().addAll(commentDetails.getSubComments());
             } else {
                 subCommentsSet.add(commentDetails);
             }
-
-        }
+        });
     }
 
     public List<CommentsDTO> findEntityComments(CommentsDTO commentsDTO) {
 
         if (ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
 
-            Optional<List<FilmComment>> byFilmId = filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()));
-            List<FilmComment> filmComments = byFilmId.get();
+            Optional<List<FilmComment>> filmCommentsByFilmId =
+                    filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()));
+
+            List<FilmComment> filmComments = filmCommentsByFilmId.orElseThrow(
+                    () -> new NotFoundException("For film : " + commentsDTO.getEntityId() + " no comments found"));
+
             List<CommentsDTO> comments = new ArrayList<>();
             filmComments.forEach(comment -> comments.add(commentMapper.commentToCommentDTO(comment)));
 
             return comments;
         } else {
-            return null;
+            return Collections.emptyList();
         }
-
     }
 }

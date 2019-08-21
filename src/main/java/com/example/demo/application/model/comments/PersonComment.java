@@ -17,22 +17,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PERSON_COMMENTS")
+@Table(name = "PERSON_COMMENT")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PersonComment extends Comment {
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "person")
 	private Person person;
 	@ManyToOne
-	@JoinColumn(name = "owner_id")
+	@JoinColumn(name = "owner")
 	private User userId;
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-	@JoinColumn(name = "parent_comment_id")
-	private PersonComment parentCommentId;
+	@JoinColumn(name = "parent_comment")
+	private PersonComment parentComment;
 	@JsonIgnore
-	@OneToMany(mappedBy = "parentCommentId")
+	@OneToMany(mappedBy = "parentComment")
 	private Set<PersonComment> subComments = new HashSet<>();
 
 	@Override

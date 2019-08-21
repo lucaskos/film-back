@@ -99,7 +99,7 @@ public class FilmMapperTest extends FilmMapperCommons {
 //		Film simpleFilm = getSimpleFilm();
 //
 //		FilmComment filmComment = new FilmComment();
-//		filmComment.setFilmId(simpleFilm);
+//		filmComment.setFilm(simpleFilm);
 //		filmComment.setId(1L);
 //		filmComment.setText("TEXT");
 //		filmComment.setDepth(0);
@@ -109,7 +109,7 @@ public class FilmMapperTest extends FilmMapperCommons {
 //
 //		FilmDTO filmDTO = mapper.filmToFilmDTO(simpleFilm);
 //
-//		Assert.assertEquals(filmDTO.getFilmId(), simpleFilm.getId());
+//		Assert.assertEquals(filmDTO.getFilm(), simpleFilm.getId());
 //		Assert.assertEquals(filmDTO.getFilmCommentsList().get(0).getId(), simpleFilm.getFilmComments().get(0).getId());
 //	}
 }

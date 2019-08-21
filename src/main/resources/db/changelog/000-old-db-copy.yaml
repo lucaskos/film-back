@@ -52,7 +52,7 @@ databaseChangeLog:
             name: rating
             type: int
         - column:
-            name: filmId
+            name: film
             type: int
         - column:
             name: user_id
@@ -161,7 +161,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: filmId
+            name: film
         indexName: FKej8yur1ov17ypdv25grdrs3xo
         tableName: rating
 - changeSet:
@@ -171,7 +171,7 @@ databaseChangeLog:
     - createIndex:
         columns:
         - column:
-            name: filmId
+            name: film
         indexName: rating_films_film_FILM_ID_fk
         tableName: rating_films
 - changeSet:
@@ -220,7 +220,7 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: filmId
+        baseColumnNames: film
         baseTableName: rating
         constraintName: FKej8yur1ov17ypdv25grdrs3xo
         deferrable: false
@@ -250,7 +250,7 @@ databaseChangeLog:
     author: Luke (generated)
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: filmId
+        baseColumnNames: film
         baseTableName: rating_films
         constraintName: rating_films_film_FILM_ID_fk
         deferrable: false

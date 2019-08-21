@@ -81,7 +81,7 @@ public class Rating {
         this.ratingId = ratingId;
     }
 
-    @JoinColumn(name = "filmId")
+    @JoinColumn(name = "film")
     public Integer getFilmId() {
         return filmId;
     }
