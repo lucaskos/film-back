@@ -16,15 +16,15 @@ import java.util.Date;
 @MappedSuperclass
 //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Comment implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@Column(name = "created_date")
-	private Date createdDate;
-	@Column(name = "depth")
-	private int depth;
-	@Column(name = "text", nullable = false, columnDefinition = "text")
-	private String text;
-	@Column(name = "title", nullable = false)
-	private String title;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "created_date")
+    private Date createdDate;
+    @Column(name = "depth")
+    private int depth;
+    @Column(name = "text", nullable = false, columnDefinition = "text")
+    private String text;
+    @Column(name = "title", nullable = false)
+    private String title;
 }

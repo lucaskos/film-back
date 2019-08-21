@@ -26,7 +26,7 @@ import java.io.Serializable;
 @Table(name = "FILM_RELATION")
 @Getter
 @Setter
-public class FilmRelations implements Serializable{
+public class FilmRelations implements Serializable {
 
     @Id
     @Column(name = "id")

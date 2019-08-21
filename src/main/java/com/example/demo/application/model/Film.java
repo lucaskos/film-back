@@ -24,34 +24,34 @@ import java.util.Set;
 @Table(name = "film")
 @Data
 @JsonIgnoreProperties(value = {"creationDate", "modificationDate"},
-		allowGetters = true)
+        allowGetters = true)
 public class Film extends DataModelObject {
 
-	@Size(max = 60)
-	@Column(name = "title")
-	private String title;
-	@Min(1800)
-	@Column(name = "release_year")
-	private Integer year;
-	@Column(name = "description", columnDefinition = "text")
-	private String description;
-	@JsonIgnore
-	@OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", cascade = {CascadeType
-			.ALL}, fetch = FetchType.LAZY)
-	private Set<FilmRelations> filmRelations = new HashSet<>();
-	@JsonBackReference
-	@OneToMany(targetEntity = FilmComment.class, cascade = CascadeType.ALL, mappedBy = "film", fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<FilmComment> filmComments = new ArrayList<>();
+    @Size(max = 60)
+    @Column(name = "title")
+    private String title;
+    @Min(1800)
+    @Column(name = "release_year")
+    private Integer year;
+    @Column(name = "description", columnDefinition = "text")
+    private String description;
+    @JsonIgnore
+    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", cascade = {CascadeType
+            .ALL}, fetch = FetchType.LAZY)
+    private Set<FilmRelations> filmRelations = new HashSet<>();
+    @JsonBackReference
+    @OneToMany(targetEntity = FilmComment.class, cascade = CascadeType.ALL, mappedBy = "film", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<FilmComment> filmComments = new ArrayList<>();
 
-	public Film() {
+    public Film() {
 
-	}
+    }
 
-	public Film(String title, Integer year, String description) {
-		this.title = title;
-		this.year = year;
-		this.description = description;
-	}
+    public Film(String title, Integer year, String description) {
+        this.title = title;
+        this.year = year;
+        this.description = description;
+    }
 
 //    @JsonIgnore
 //    @OneToMany(targetEntity = FilmRelations.class, mappedBy = "film", fetch = FetchType.LAZY, cascade = CascadeType
@@ -65,36 +65,36 @@ public class Film extends DataModelObject {
 //    }
 
 
-	public Film(String title, int year) {
-		this.title = title;
-		this.year = year;
-	}
+    public Film(String title, int year) {
+        this.title = title;
+        this.year = year;
+    }
 
-	public Film(Long id, String title, int year, String description) {
-		this.id = id;
-		this.title = title;
-		this.year = year;
-		this.description = description;
-	}
+    public Film(Long id, String title, int year, String description) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.description = description;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + (id != null ? id.hashCode() : 0);
-		result = 31 * result + (title != null ? title.hashCode() : 0);
-		result = 31 * result + (year != null ? year.hashCode() : 0);
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "Film{" +
-				"id=" + id +
-				", title='" + title + '\'' +
-				", year=" + year +
-				", description='" + description + '\'' +
-				", filmRelations=" + filmRelations +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", year=" + year +
+                ", description='" + description + '\'' +
+                ", filmRelations=" + filmRelations +
+                '}';
+    }
 }
