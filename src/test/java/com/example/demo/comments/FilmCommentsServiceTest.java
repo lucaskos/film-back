@@ -1,6 +1,7 @@
 package com.example.demo.comments;
 
 import com.example.demo.application.DTO.CommentsDTO;
+import com.example.demo.application.DTO.FilmDTO;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
 import com.example.demo.application.commands.CommentCommand;
@@ -20,71 +21,79 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FilmCommentsServiceTest extends CommentsCommon {
 
-	@Mock
-	private FilmRepo filmRepo;
+    @Mock
+    private FilmRepo filmRepo;
 
-	@InjectMocks
-	private CommentService commentService;
+    @InjectMocks
+    private CommentService commentService;
 
-	@Mock
-	private CommentMapper commentMapper;
+    @Mock
+    private CommentMapper commentMapper;
 
-	@Mock
-	private FilmCommentsRepo filmCommentsRepo;
+    @Mock
+    private FilmCommentsRepo filmCommentsRepo;
 
-	@Test
-	public void test() {
-		Film film = getFilm();
+    @Test
+    public void testAddAnotherComment() {
+        Film film = getFilm();
 
-		Mockito.when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
+        Assert.assertTrue(film.getFilmComments().isEmpty());
 
-		Mockito.when(commentMapper.commentCommandToFilmCommentEntity(Mockito.any())).thenReturn(getFilmComment());
-		Mockito.when(filmCommentsRepo.save(Mockito.any())).thenReturn(getFilmComment());
-		Mockito.when(filmRepo.save(Mockito.any())).thenReturn(getFilm());
+        FilmComment filmComment = getFilmComment();
+        filmComment.setFilm(film);
+        film.getFilmComments().add(filmComment);
 
-		commentService.addComment(getFilmCommentDTO());
+        Mockito.when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
 
-		Assert.assertNotNull(film.getFilmComments().get(0));
-	}
+        Mockito.when(commentMapper.commentCommandToFilmCommentEntity(any())).thenReturn(getFilmComment());
+        Mockito.when(filmCommentsRepo.save(any())).thenReturn(filmComment);
+        Mockito.when(filmRepo.save(any())).thenReturn(getFilm());
+
+        commentService.addComment(getFilmCommentDTO());
+
+        Assert.assertNotNull(film.getFilmComments().get(0));
+        Assert.assertEquals(film.getFilmComments().get(0).getTitle(), filmComment.getTitle());
+    }
 
 
+    private CommentCommand getFilmCommand() {
+        CommentCommand commentCommand = new CommentCommand();
+        commentCommand.setEntityType("FILM");
 
-	private CommentCommand getFilmCommand() {
-		CommentCommand commentCommand = new CommentCommand();
-		commentCommand.setEntityType("FILM");
+        commentCommand.setCommentsDTO(getFilmCommentDTO());
 
-		commentCommand.setCommentsDTO(getFilmCommentDTO());
+        return commentCommand;
+    }
 
-		return commentCommand;
-	}
+    private CommentCommand getPersonCommand() {
+        CommentCommand commentCommand = new CommentCommand();
+        commentCommand.setEntityType("PERSON");
 
-	private CommentCommand getPersonCommand() {
-		CommentCommand commentCommand = new CommentCommand();
-		commentCommand.setEntityType("PERSON");
+        commentCommand.setCommentsDTO(getPersonCommentDTO());
 
-		commentCommand.setCommentsDTO(getPersonCommentDTO());
+        return commentCommand;
+    }
 
-		return commentCommand;
-	}
+    private CommentsDTO getPersonCommentDTO() {
+        CommentsDTO commentsDTO = new CommentsDTO();
 
-	private CommentsDTO getPersonCommentDTO() {
-		CommentsDTO commentsDTO = new CommentsDTO();
+        return commentsDTO;
+    }
 
-		return commentsDTO;
-	}
-
-	private CommentsDTO getFilmCommentDTO() {
-		CommentsDTO commentsDTO = new CommentsDTO();
-		commentsDTO.setText(COMMENT_TEXT);
-		commentsDTO.setUserId(new UserDTO());
-		commentsDTO.setEntityId(FILM_ID);
-		commentsDTO.setEntityType("FILM");
-		return commentsDTO;
-	}
+    private CommentsDTO getFilmCommentDTO() {
+        CommentsDTO commentsDTO = new CommentsDTO();
+        commentsDTO.setText(COMMENT_TEXT);
+        commentsDTO.setUserId(new UserDTO());
+        commentsDTO.setEntityId(FILM_ID);
+        commentsDTO.setEntityType("FILM");
+        return commentsDTO;
+    }
 
 
 }

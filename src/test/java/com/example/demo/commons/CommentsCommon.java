@@ -18,8 +18,8 @@ public class CommentsCommon {
 		film.setId(1L);
 		film.setTitle("TITLE");
 		film.setYear(1000);
-		FilmComment filmComment = getFilmComment();
-		film.setFilmComments(Arrays.asList(filmComment));
+//		FilmComment filmComment = getFilmComment();
+//		film.setFilmComments(Arrays.asList(filmComment));
 		return film;
 	}
 
