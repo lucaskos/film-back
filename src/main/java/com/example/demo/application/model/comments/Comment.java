@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,7 +27,4 @@ public class Comment implements Serializable {
     private String text;
     @Column(name = "title", nullable = false)
     private String title;
-    @ManyToOne
-    @JoinColumn(name = "owner")
-    private User owner;
 }
