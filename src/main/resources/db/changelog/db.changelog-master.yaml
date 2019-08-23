@@ -1,34 +1,38 @@
 databaseChangeLog:
-- include:
-    file: db/changelog/liquibase/000-role-creation.yaml
-- include:
-    file: db/changelog/liquibase/000-user-creation.yaml
-- include:
-    file: db/changelog/liquibase/000-user-role-relation.yaml
-- include:
-    file: db/changelog/liquibase/001-film-creation.yaml
-- include:
-    file: db/changelog/liquibase/001-person-creation.yaml
-- include:
-    file: db/changelog/liquibase/001-person-role.yaml
-- include:
+  - include:
+      file: db/changelog/liquibase/000-role-creation.yaml
+  - include:
+      file: db/changelog/liquibase/000-user-creation.yaml
+  - include:
+      file: db/changelog/liquibase/000-user-role-relation.yaml
+  - include:
+      file: db/changelog/liquibase/001-film-creation.yaml
+  - include:
+      file: db/changelog/liquibase/001-person-creation.yaml
+  - include:
+      file: db/changelog/liquibase/001-person-role.yaml
+  - include:
       file: db/changelog/liquibase/002-film-person-relation.yaml
-- include:
+  - include:
+      file: db/changelog/liquibase/005-create-comments.yaml
+  - include:
+      file: db/changelog/liquibase/006-create-rating.yaml
+
+  #DATA INSERT
+  - include:
       file: db/changelog/liquibase/data-insert/001-user-data.yaml
-- include:
+  - include:
       file: db/changelog/liquibase/data-insert/002-privilages-roles.yml
-- include:
+  - include:
       file: db/changelog/liquibase/data-insert/002-insert-film-data.yaml
-- include:
-    file: db/changelog/liquibase/data-insert/003-insert-person-data.yaml
-- include:
-    file: db/changelog/liquibase/data-insert/004-insert-film-person-relations.yaml
-- include:
-    file: db/changelog/liquibase/005-create-comments.yaml
-- include:
-    file: db/changelog/liquibase/data-insert/005-insert-film-comments.yaml
-- include:
-    file: db/changelog/liquibase/data-insert/005-insert-person-comment.yaml
+  - include:
+      file: db/changelog/liquibase/data-insert/003-insert-person-data.yaml
+  - include:
+      file: db/changelog/liquibase/data-insert/004-insert-film-person-relations.yaml
+  - include:
+      file: db/changelog/liquibase/data-insert/005-insert-film-comments.yaml
+  - include:
+      file: db/changelog/liquibase/data-insert/005-insert-person-comment.yaml
 #- include:
 #    file: db/changelog/001-film-creation.yaml
 #- include:

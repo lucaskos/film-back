@@ -1,0 +1,82 @@
+databaseChangeLog:
+- changeSet:
+    id: rating table creation
+    author: Luke (generated)
+    changes:
+      - createTable:
+          columns:
+            - column:
+                constraints:
+                  primaryKey: true
+                name: id
+                type: int
+            - column:
+                name: creation_date
+                type: date
+            - column:
+                name: modification_date
+                type: date
+            - column:
+                name: object_type
+                type: varchar
+            - column:
+                name: object_id
+                type: long
+            - column:
+                name: rating
+                type: int
+            - column:
+                name: user
+                type: int
+          tableName: OBJECT_RATING
+#- changeSet:
+#    id: 1542224623996-23
+#    author: Luke (generated)
+#    changes:
+#      - createIndex:
+#          columns:
+#            - column:
+#                name: film
+#          indexName: rating_films_film_FILM_ID_fk
+#          tableName: OBJECT_RATING
+#
+#- changeSet:
+#    id: 1542224623996-24
+#    author: Luke (generated)
+#    changes:
+#      - createIndex:
+#          columns:
+#            - column:
+#                name: person
+#          indexName: rating_films_person_PERSON_ID_fk
+#          tableName: OBJECT_RATING
+#- changeSet:
+#    id: rating for film
+#    author: Luke (generated)
+#    changes:
+#      - addForeignKeyConstraint:
+#          baseColumnNames: film
+#          baseTableName: OBJECT_RATING
+#          constraintName: rating_films_film_FILM_ID_fk
+#          deferrable: false
+#          initiallyDeferred: false
+#          onDelete: no action
+#          onUpdate: no action
+#          referencedColumnNames: id
+#          referencedTableName: FILM
+#          validate: true
+#- changeSet:
+#    id: rating for person
+#    author: Luke (generated)
+#    changes:
+#      - addForeignKeyConstraint:
+#          baseColumnNames: person
+#          baseTableName: rating_film
+#          constraintName: rating_films_person_PERSON_ID_fk
+#          deferrable: false
+#          initiallyDeferred: false
+#          onDelete: no action
+#          onUpdate: no action
+#          referencedColumnNames: id
+#          referencedTableName: person
+#          validate: true

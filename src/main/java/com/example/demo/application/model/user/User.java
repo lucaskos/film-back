@@ -1,5 +1,6 @@
 package com.example.demo.application.model.user;
 
+import com.example.demo.application.model.ObjectRating;
 import com.example.demo.application.model.comments.PersonComment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -19,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,7 +58,9 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    //    public Set<Rating> rating = new HashSet<>();
+
+    @OneToMany(mappedBy = "rating")
+    public Set<ObjectRating> rating = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "OWNER")
     private Set<PersonComment> personComments;

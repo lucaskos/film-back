@@ -138,30 +138,6 @@ databaseChangeLog:
             type: int
         tableName: rating
 - changeSet:
-    id: 1542224623996-9
-    author: Luke (generated)
-    changes:
-    - createTable:
-        columns:
-        - column:
-            constraints:
-              primaryKey: true
-            name: rating_id
-            type: bigint
-        - column:
-            name: film
-            type: int
-        - column:
-            name: person_id
-            type: int
-        - column:
-            name: rating
-            type: int
-        - column:
-            name: user_id
-            type: int
-        tableName: rating_films
-- changeSet:
     id: 1542224623996-10
     author: Luke (generated)
     changes:
@@ -326,26 +302,6 @@ databaseChangeLog:
         indexName: FKtijdyq0jyy5bn2d22wajdwljl
         tableName: film_relation
 - changeSet:
-    id: 1542224623996-23
-    author: Luke (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: film
-        indexName: rating_films_film_FILM_ID_fk
-        tableName: rating_films
-- changeSet:
-    id: 1542224623996-24
-    author: Luke (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: person_id
-        indexName: rating_films_person_PERSON_ID_fk
-        tableName: rating_films
-- changeSet:
     id: 1542224623996-25
     author: Luke (generated)
     changes:
@@ -435,36 +391,6 @@ databaseChangeLog:
         onUpdate: no action
         referencedColumnNames: id
         referencedTableName: SL_PERSON_ROLE
-        validate: true
-- changeSet:
-    id: 1542224623996-36
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: film
-        baseTableName: rating_films
-        constraintName: rating_films_film_FILM_ID_fk
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: no action
-        onUpdate: no action
-        referencedColumnNames: id
-        referencedTableName: FILM
-        validate: true
-- changeSet:
-    id: 1542224623996-37
-    author: Luke (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: person_id
-        baseTableName: rating_films
-        constraintName: rating_films_person_PERSON_ID_fk
-        deferrable: false
-        initiallyDeferred: false
-        onDelete: no action
-        onUpdate: no action
-        referencedColumnNames: id
-        referencedTableName: person
         validate: true
 - changeSet:
     id: 1542224623996-38
