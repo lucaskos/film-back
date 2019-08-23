@@ -14,7 +14,7 @@ public interface FilmRepo extends JpaRepository<Film, Long> {
 	Optional<List<Film>> findFilmsByTitleContainingIgnoreCase(String title);
 
 	@Query("select f from Film f " +
-//			"left join fetch f.filmComments " +
+			"left join fetch f.filmComments " +
 //			"left join fetch f.filmRelations " +
 			"where f.id = :film")
 	Optional<Film> getFilmDetails(@Param("film") Long filmId);

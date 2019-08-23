@@ -80,9 +80,9 @@ public class FilmCommentRepoTest extends CommentsCommon {
 
         filmCommentsRepo.save(save);
 
-        List<FilmComment> filmComments = filmCommentsRepo.findDetails(save.getId()).get();
+        FilmComment filmComments = filmCommentsRepo.findCommentDetailsById(save.getId()).get();
 
-        Assert.assertNotNull(filmComments.get(0).getSubComments().iterator().next().getId());
+        Assert.assertNotNull(filmComments.getSubComments().iterator().next().getId());
 
     }
 

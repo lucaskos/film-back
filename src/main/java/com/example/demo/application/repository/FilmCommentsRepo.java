@@ -13,7 +13,7 @@ public interface FilmCommentsRepo extends JpaRepository<FilmComment, Long> {
 
 	@Query("select fc from FilmComment fc " +
 			"where fc.id = :id")
-	Optional<List<FilmComment>> findDetails(@Param("id") Long id);
+	Optional<FilmComment> findCommentDetailsById(@Param("id") Long id);
 
 	Optional<List<FilmComment>> findByFilmIdAndParentCommentIdIsNull(@Param("film") Film filmId);
 }

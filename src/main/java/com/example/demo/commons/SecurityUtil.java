@@ -1,4 +1,4 @@
-package com.example.demo.application.utils;
+package com.example.demo.commons;
 
 import com.example.demo.application.model.user.Role;
 import org.springframework.security.core.Authentication;

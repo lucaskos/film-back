@@ -13,12 +13,12 @@ import java.util.Collection;
 @Entity
 public class Privilege {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String name;
+    private String name;
 
-	@ManyToMany(mappedBy = "privileges")
-	private Collection<Role> roles;
+    @ManyToMany(mappedBy = "privileges")
+    private Collection<Role> roles;
 }

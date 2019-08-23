@@ -95,9 +95,8 @@ public class FilmRepoTest extends FilmMapperTest {
         Assert.assertEquals(Optional.empty(), filmRepo.getFilmDetails(1L));
 
         list.forEach(idValue -> {
-            FilmComment singleComment = filmCommentsRepo.getOne(idValue);
-            Assert.assertNotNull(singleComment);
-            Assert.assertNotNull(singleComment.getTitle());
+            Optional<FilmComment> singleComment = filmCommentsRepo.findCommentDetailsById(idValue);
+            Assert.assertEquals(Optional.empty(), singleComment);
         });
 
     }
