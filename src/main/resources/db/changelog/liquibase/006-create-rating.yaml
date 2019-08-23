@@ -1,5 +1,12 @@
 databaseChangeLog:
 - changeSet:
+    id: create enum type for object rating
+    author: Luke
+    changes:
+      - sql:
+          sql: create type object_type_enum as ENUM ('FILM', 'PERSON');
+
+- changeSet:
     id: rating table creation
     author: Luke (generated)
     changes:
@@ -15,10 +22,10 @@ databaseChangeLog:
                 type: date
             - column:
                 name: modification_date
-                type: date
+                type: datec
             - column:
                 name: object_type
-                type: varchar
+                type: object_type_enum
             - column:
                 name: object_id
                 type: long
