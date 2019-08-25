@@ -22,7 +22,7 @@ databaseChangeLog:
                 type: date
             - column:
                 name: modification_date
-                type: datec
+                type: date
             - column:
                 name: object_type
                 type: object_type_enum
@@ -36,6 +36,27 @@ databaseChangeLog:
                 name: user
                 type: int
           tableName: OBJECT_RATING
+- changeSet:
+    id: rating auto increment
+    author: Luke
+    changes:
+    - addAutoIncrement:
+        columnDataType: int
+        columnName: id
+        startWith: 1
+        tableName: OBJECT_RATING
+- changeSet:
+    id: rating_user_fk
+    author: lucaskos
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user
+        baseTableName: OBJECT_RATING
+        constraintName: fk_user_rating_id
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: users
 #- changeSet:
 #    id: 1542224623996-23
 #    author: Luke (generated)
