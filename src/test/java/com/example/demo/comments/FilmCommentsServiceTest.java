@@ -24,67 +24,66 @@ import java.util.Optional;
 @SpringBootTest
 public class FilmCommentsServiceTest extends CommentsCommon {
 
-	@Mock
-	private FilmRepo filmRepo;
+    @Mock
+    private FilmRepo filmRepo;
 
-	@InjectMocks
-	private CommentService commentService;
+    @InjectMocks
+    private CommentService commentService;
 
-	@Mock
-	private CommentMapper commentMapper;
+    @Mock
+    private CommentMapper commentMapper;
 
-	@Mock
-	private FilmCommentsRepo filmCommentsRepo;
+    @Mock
+    private FilmCommentsRepo filmCommentsRepo;
 
-	@Test
-	public void test() {
-		Film film = getFilm();
+    @Test
+    public void test() {
+        Film film = getFilm();
 
-		Mockito.when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
+        Mockito.when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
 
-		Mockito.when(commentMapper.commentCommandToFilmCommentEntity(Mockito.any())).thenReturn(getFilmComment());
-		Mockito.when(filmCommentsRepo.save(Mockito.any())).thenReturn(getFilmComment());
-		Mockito.when(filmRepo.save(Mockito.any())).thenReturn(getFilm());
+        Mockito.when(commentMapper.commentCommandToFilmCommentEntity(Mockito.any())).thenReturn(getFilmComment());
+        Mockito.when(filmCommentsRepo.save(Mockito.any())).thenReturn(getFilmComment());
+        Mockito.when(filmRepo.save(Mockito.any())).thenReturn(getFilm());
 
-		commentService.addComment(getFilmCommentDTO());
+        commentService.addComment(getFilmCommentDTO());
 
-		Assert.assertNotNull(film.getFilmComments().get(0));
-	}
+        Assert.assertNotNull(film.getFilmComments().get(0));
+    }
 
 
+    private CommentCommand getFilmCommand() {
+        CommentCommand commentCommand = new CommentCommand();
+        commentCommand.setEntityType("FILM");
 
-	private CommentCommand getFilmCommand() {
-		CommentCommand commentCommand = new CommentCommand();
-		commentCommand.setEntityType("FILM");
+        commentCommand.setCommentsDTO(getFilmCommentDTO());
 
-		commentCommand.setCommentsDTO(getFilmCommentDTO());
+        return commentCommand;
+    }
 
-		return commentCommand;
-	}
+    private CommentCommand getPersonCommand() {
+        CommentCommand commentCommand = new CommentCommand();
+        commentCommand.setEntityType("PERSON");
 
-	private CommentCommand getPersonCommand() {
-		CommentCommand commentCommand = new CommentCommand();
-		commentCommand.setEntityType("PERSON");
+        commentCommand.setCommentsDTO(getPersonCommentDTO());
 
-		commentCommand.setCommentsDTO(getPersonCommentDTO());
+        return commentCommand;
+    }
 
-		return commentCommand;
-	}
+    private CommentsDTO getPersonCommentDTO() {
+        CommentsDTO commentsDTO = new CommentsDTO();
 
-	private CommentsDTO getPersonCommentDTO() {
-		CommentsDTO commentsDTO = new CommentsDTO();
+        return commentsDTO;
+    }
 
-		return commentsDTO;
-	}
-
-	private CommentsDTO getFilmCommentDTO() {
-		CommentsDTO commentsDTO = new CommentsDTO();
-		commentsDTO.setText(COMMENT_TEXT);
-		commentsDTO.setUserId(new UserDTO());
-		commentsDTO.setEntityId(FILM_ID);
-		commentsDTO.setEntityType("FILM");
-		return commentsDTO;
-	}
+    private CommentsDTO getFilmCommentDTO() {
+        CommentsDTO commentsDTO = new CommentsDTO();
+        commentsDTO.setText(COMMENT_TEXT);
+        commentsDTO.setUserId(new UserDTO());
+        commentsDTO.setEntityId(FILM_ID);
+        commentsDTO.setEntityType("FILM");
+        return commentsDTO;
+    }
 
 
 }

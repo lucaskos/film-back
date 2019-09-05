@@ -1,6 +1,7 @@
 package com.example.demo.commons;
 
 import com.example.demo.application.model.user.Role;
+import com.example.demo.application.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static com.example.demo.security.Roles.ADMIN;
 
 @Component
 public class SecurityUtil {

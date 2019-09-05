@@ -19,21 +19,27 @@ public class RatingService {
     private FilmRepo filmRepo;
     private PersonRepo personRepo;
     private SecurityUtil securityUtil;
+    private UserService userService;
 
-    public RatingService(RatingRepo ratingRepo, FilmRepo filmRepo, PersonRepo personRepo, SecurityUtil securityUtil) {
+    public RatingService(RatingRepo ratingRepo, FilmRepo filmRepo, PersonRepo personRepo, SecurityUtil securityUtil, UserService userService) {
         this.ratingRepo = ratingRepo;
         this.filmRepo = filmRepo;
         this.personRepo = personRepo;
         this.securityUtil = securityUtil;
+        this.userService = userService;
     }
 
     public void addRating(RatingDTO ratingDTO) {
         org.springframework.security.core.userdetails.User currentlyLoggedUser = securityUtil.getCurrentlyLoggedUser();
+        User user = userService.findOne(currentlyLoggedUser.getUsername());
+
         switch (ratingDTO.getObjectType()) {
             case FILM:
                 Film one = filmRepo.getOne(ratingDTO.getObjectId());
-                addFilmRating(one);
+                addFilmRating(one, user);
             case PERSON:
+                Person person = personRepo.getOne(ratingDTO.getObjectId());
+                addPersonRating(person, user);
                 return;
         }
     }
