@@ -26,9 +26,13 @@ databaseChangeLog:
             - column:
                 name: object_type
                 type: object_type_enum
+                constraints:
+                  nullable: false
             - column:
                 name: object_id
                 type: long
+                constraints:
+                  nullable: false
             - column:
                 name: rating
                 type: int
