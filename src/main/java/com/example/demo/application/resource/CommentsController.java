@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class CommentsController {
 
-	private CommentService commentService;
+    private CommentService commentService;
 
-	public CommentsController(CommentService commentService) {
-		this.commentService = commentService;
-	}
+    public CommentsController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
-	@PostMapping("/add")
-	public ResponseEntity addComment(@RequestBody CommentsDTO commentsDTO) {
-		Object savedComment = commentService.addComment(commentsDTO);
-		return new ResponseEntity(savedComment, HttpStatus.OK);
-	}
+    @PostMapping("/add")
+    public ResponseEntity addComment(@RequestBody CommentsDTO commentsDTO) {
+        Object savedComment = commentService.addComment(commentsDTO);
+        return new ResponseEntity(savedComment, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity getComment(@PathVariable(name = "id") Long commentId) {
-		return new ResponseEntity(commentService.findComment(commentId), HttpStatus.OK);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity getComment(@PathVariable(name = "id") Long commentId) {
+        return new ResponseEntity(commentService.findComment(commentId), HttpStatus.OK);
+    }
 
-	@GetMapping("/detail/{id}")
-	public ResponseEntity getCommentDetails(@PathVariable(name = "id") Long commentId) {
-		return new ResponseEntity(commentService.findCommentDetails(commentId), HttpStatus.OK);
-	}
+    @GetMapping("/detail/{id}")
+    public ResponseEntity getCommentDetails(@PathVariable(name = "id") Long commentId) {
+        return new ResponseEntity(commentService.findCommentDetails(commentId), HttpStatus.OK);
+    }
 
-	@GetMapping("/list")
-	public ResponseEntity getEntityComments(@RequestBody CommentsDTO commentsDTO) {
-		return new ResponseEntity(commentService.findEntityComments(commentsDTO), HttpStatus.OK);
-	}
+    @GetMapping("/list")
+    public ResponseEntity getEntityComments(@RequestBody CommentsDTO commentsDTO) {
+        return new ResponseEntity(commentService.findEntityComments(commentsDTO), HttpStatus.OK);
+    }
 }

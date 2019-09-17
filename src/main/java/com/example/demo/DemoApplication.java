@@ -17,25 +17,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableJpaRepositories(basePackages = "com.example.demo.application.repository")
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
-	@Bean
-	@ConfigurationProperties(prefix = "security.token")
-	public TokenProperties tokenProperties() {
-		return new TokenProperties();
-	}
+    @Bean
+    @ConfigurationProperties(prefix = "security.token")
+    public TokenProperties tokenProperties() {
+        return new TokenProperties();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder(@Value("${security.password.strength:10}") int strength) {
-		return new BCryptPasswordEncoder(strength);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder(@Value("${security.password.strength:10}") int strength) {
+        return new BCryptPasswordEncoder(strength);
+    }
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-		propertySourcesPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
-		return propertySourcesPlaceholderConfigurer;
-	}
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+        propertySourcesPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
+        return propertySourcesPlaceholderConfigurer;
+    }
 }

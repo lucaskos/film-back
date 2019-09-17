@@ -1,6 +1,6 @@
 spring:
   application:
-    name: uaa-service
+    name: film data base
   profiles:
     active: dev
   jpa:
@@ -32,7 +32,6 @@ spring:
     username: sa
     password: sa
     driverClassName: org.h2.Driver
-    initialize: true
   h2:
     console:
       enabled: true
