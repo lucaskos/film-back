@@ -10,6 +10,7 @@ import com.example.demo.application.model.user.User;
 import com.example.demo.application.resource.filter.UserNotFoundException;
 import com.example.demo.commons.SecurityUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -59,14 +60,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @Secured(ADMIN)
     public void delete(Long id) {
         User userToRemove = findById(id);
 
-        if (isActualUserLoggedOrAdmin(userToRemove)) {
+//        if (isActualUserLoggedOrAdmin(userToRemove)) {
             userDao.delete(userToRemove);
-        } else {
-            throw new AuthenticationServiceException("You're cannot perform this operation");
-        }
+//        } else {
+//            throw new AuthenticationServiceException("You're cannot perform this operation");
+//        }
     }
 
     private boolean isActualUserLoggedOrAdmin(User loggedUser) {
