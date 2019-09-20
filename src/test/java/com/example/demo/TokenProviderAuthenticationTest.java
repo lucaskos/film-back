@@ -54,7 +54,7 @@ public class TokenProviderAuthenticationTest {
 		privilege.setName(USER_PRIVILEGE_TEST);
 		role.setPrivileges(Collections.singletonList(privilege));
 
-		User user = new User(USER_NAME, ENCODED_PASSWORD, Arrays.asList(role));
+		User user = User.getUserWithUsernamePasswordRoles(USER_NAME, ENCODED_PASSWORD, Arrays.asList(role));
 		Optional<User> userOptional = Optional.of(user);
 
 		List<String> a = new ArrayList<>();

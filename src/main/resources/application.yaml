@@ -53,8 +53,6 @@ spring:
     hibernate.ddl-auto: update
     show-sql: true
   profiles: prod
-server:
-  port: 8085
 ---
 spring:
   datasource:
@@ -68,5 +66,3 @@ spring:
     generate-ddl: true
     show-sql: true
   profiles: dev
-server:
-  port: 8085

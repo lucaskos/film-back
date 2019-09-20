@@ -46,17 +46,17 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity getUsers() {
+    public ResponseEntity<java.util.List<UserDTO>> getUsers() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/update")
-    public ResponseEntity updateUser(@RequestBody RegisterDTO user) {
+    public ResponseEntity<User> updateUser(@RequestBody RegisterDTO user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity authenticateUser(@RequestBody RegisterDTO userDTO) {
+    public ResponseEntity<AuthToken> authenticateUser(@RequestBody RegisterDTO userDTO) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -73,12 +73,12 @@ public class UserController {
     }
 
     @GetMapping("/register/checkEmail/{email}")
-    public ResponseEntity checkEmailAddress(@PathVariable("email") String email) {
+    public ResponseEntity<Boolean> checkEmailAddress(@PathVariable("email") String email) {
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 
     @GetMapping("/userRoles")
-    public ResponseEntity getLoggedUserRoles() {
-        return new ResponseEntity(userService.findLoggedUserRoles(), HttpStatus.OK);
+    public ResponseEntity<java.util.Collection<String>> getLoggedUserRoles() {
+        return new ResponseEntity<>(userService.findLoggedUserRoles(), HttpStatus.OK);
     }
 }

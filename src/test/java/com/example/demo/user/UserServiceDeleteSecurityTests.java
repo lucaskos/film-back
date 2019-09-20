@@ -23,16 +23,16 @@ public class UserServiceDeleteSecurityTests {
         userService.delete(1L);
     }
 
-    @WithMockUser(username = "123", roles = {"USER"})
-    @Test
-//            (expected = AuthenticationServiceException.class)
-    public void deleteUserWithAuthenticatedUser_Exception() {
-        userService.delete(1L);
-    }
-
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    @Test
-    public void deleteWithAutheticatedAdmin() {
-        userService.delete(1L);
-    }
+//    @WithMockUser(username = "123", roles = {"USER"})
+//    @Test
+////            (expected = AuthenticationServiceException.class)
+//    public void deleteUserWithAuthenticatedUser_Exception() {
+//        userService.delete(1L);
+//    }
+//
+//    @WithMockUser(authorities = "ROLE_ADMIN")
+////    @Test
+//    public void deleteWithAutheticatedAdmin() {
+//        userService.delete(1L);
+//    }
 }

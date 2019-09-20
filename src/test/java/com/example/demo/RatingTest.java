@@ -22,7 +22,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
-
+//https://stackoverflow.com/questions/360520/unit-testing-with-spring-security //todo
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class RatingTest {
@@ -51,7 +51,7 @@ public class RatingTest {
     @WithMockUser(username = "test")
     public void test() {
         Mockito.when(securityUtil.getCurrentlyLoggedUser()).thenReturn(getUser());
-        Mockito.when(userService.findOne(Mockito.any())).thenReturn(new User());
+        Mockito.when(userService.findOne(Mockito.any())).thenReturn(User.getInstance());
 
         ratingService.addRating(getRatingDTO());
     }

@@ -66,8 +66,20 @@ public class User {
     private Set<PersonComment> personComments;
 
     public User() {
-
     }
+
+    public static User getInstance() {
+        return new User();
+    }
+
+    public static User getUserWithUsernamePasswordRoles(String username, String password, List<Role> role) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRoles(role);
+        return user;
+    }
+
 
     public User(String username, String password, List<Role> role) {
         this.username = username;
@@ -143,11 +155,8 @@ public class User {
         if (enabled != other.enabled)
             return false;
         if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+            return other.username == null;
+        } else return username.equals(other.username);
     }
 
 }
