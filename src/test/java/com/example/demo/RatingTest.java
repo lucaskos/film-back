@@ -26,7 +26,6 @@ import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 
-//https://stackoverflow.com/questions/360520/unit-testing-with-spring-security //todo
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class RatingTest {

@@ -14,6 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,10 +48,9 @@ public class UserServiceImpl implements UserService {
         this.bcryptEncoder = bcryptEncoder;
         this.userMapper = userMapper;
         this.roleRepo = roleRepo;
-        this.securityUtil = securityUtil;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured(ADMIN)
     public List<UserDTO> findAll() {
         List<UserDTO> list = new ArrayList<>();
         userDao.findAll().stream().forEach(user -> {
@@ -64,11 +64,11 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User userToRemove = findById(id);
 
-//        if (isActualUserLoggedOrAdmin(userToRemove)) {
+        if (isActualUserLoggedOrAdmin(userToRemove)) {
             userDao.delete(userToRemove);
-//        } else {
-//            throw new AuthenticationServiceException("You're cannot perform this operation");
-//        }
+        } else {
+            throw new AuthenticationServiceException("You're cannot perform this operation");
+        }
     }
 
     private boolean isActualUserLoggedOrAdmin(User loggedUser) {
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     public User findById(Long id) {
         Optional<User> optionalUser = userDao.findById(id);
-        return optionalUser.isPresent() ? optionalUser.get() : null;
+        return optionalUser.orElse(null);
     }
 
     public UserDTO update(UserDTO UserDTO) {
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     public Collection<String> findLoggedUserRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null ? authentication.getAuthorities().stream()
-                .map(o -> o.getAuthority()).collect(Collectors.toList()) : null;
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList()) : null;
     }
 
 
@@ -122,17 +122,16 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     Role getDefaultRole() {
         Role role_user = roleRepo.findRoleByRoleName(USER);
         return role_user;
     }
 
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws UserNotFoundException {
         return userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
-    public User findByUserName(String username) {
+    public User findByUserName(String username) throws UserNotFoundException {
         return userDao.findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
 }

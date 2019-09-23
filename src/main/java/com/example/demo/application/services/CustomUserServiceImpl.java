@@ -19,31 +19,31 @@ import java.util.Optional;
 @Transactional
 public class CustomUserServiceImpl implements UserDetailsService {
 
-	private UserRepository userDao;
+    private UserRepository userDao;
 
-	public CustomUserServiceImpl(UserRepository userDao) {
-		this.userDao = userDao;
-	}
+    public CustomUserServiceImpl(UserRepository userDao) {
+        this.userDao = userDao;
+    }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> optionalUser = userDao.findByUsername(username);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userDao.findByUsername(username);
 
-		if (!optionalUser.isPresent()) {
-			throw new UsernameNotFoundException("Invalid username or password.");
-		}
+        if (!optionalUser.isPresent()) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
 
-		User user = optionalUser.get();
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user.getRoles()));
-	}
+        User user = optionalUser.get();
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user.getRoles()));
+    }
 
-	private static List<GrantedAuthority> getAuthorities(List<Role> roles) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
+    private static List<GrantedAuthority> getAuthorities(List<Role> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-		for (Role role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-		}
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
 
-		return authorities;
-	}
+        return authorities;
+    }
 }
