@@ -37,10 +37,11 @@ public class RatingService {
             case FILM:
                 Film one = filmRepo.getOne(ratingDTO.getObjectId());
                 addFilmRating(one, user);
+                break;
             case PERSON:
                 Person person = personRepo.getOne(ratingDTO.getObjectId());
                 addPersonRating(person, user);
-                return;
+                break;
         }
     }
 
