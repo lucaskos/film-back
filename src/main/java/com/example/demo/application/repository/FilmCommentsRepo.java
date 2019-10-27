@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public interface FilmCommentsRepo extends JpaRepository<FilmComment, Long> {
 
-	@Query("select fc from FilmComment fc " +
-			"where fc.id = :id")
-	Optional<FilmComment> findCommentDetailsById(@Param("id") Long id);
+    @Query("select fc from FilmComment fc " +
+            "where fc.id = :id")
+    Optional<FilmComment> findCommentDetailsById(@Param("id") Long id);
 
-	Optional<List<FilmComment>> findByFilmIdAndParentCommentIdIsNull(@Param("film") Film filmId);
+    Optional<List<FilmComment>> findByFilmIdAndParentCommentIdIsNull(@Param("film") Long filmId);
 }

@@ -40,7 +40,7 @@ public class CommentsController {
         return new ResponseEntity(commentService.findCommentDetails(commentId), HttpStatus.OK);
     }
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public ResponseEntity getEntityComments(@RequestBody CommentsDTO commentsDTO) {
         return new ResponseEntity(commentService.findEntityComments(commentsDTO), HttpStatus.OK);
     }

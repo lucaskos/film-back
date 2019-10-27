@@ -139,7 +139,7 @@ public class CommentService {
         if (ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
 
             Optional<List<FilmComment>> filmCommentsByFilmId =
-                    filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()));
+                    filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()).getId());
 
             List<FilmComment> filmComments = filmCommentsByFilmId.orElseThrow(
                     () -> new NotFoundException("For film : " + commentsDTO.getEntityId() + " no comments found"));

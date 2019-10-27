@@ -9,15 +9,15 @@ import java.util.Set;
 @Data
 public class CommentsDTO {
 
-	private Long id;
-	private Long entityId;
-	private String entityType;
-	private LocalDate createdDate;
-	private int depth;
-	private CommentsDTO parentCommentId;
-	private Set<CommentsDTO> subComments = new HashSet<>();
-	private String title;
-	private String text;
-	private UserDTO userId;
+    private Long id;
+    private Long entityId;
+    private String entityType;
+    private LocalDate createdDate;
+    private int depth;
+    private CommentsDTO parentCommentId;
+    private Set<CommentsDTO> subComments = new HashSet<>();
+    private String title;
+    private String text;
+    private UserDTO userId;
 
 }
