@@ -2,6 +2,7 @@ package com.example.demo.application.services;
 
 import com.example.demo.application.DTO.CommentsDTO;
 import com.example.demo.application.DTO.mapper.CommentMapper;
+import com.example.demo.application.DTO.mapper.UserMapper;
 import com.example.demo.application.commands.ObjectType;
 import com.example.demo.application.model.Person;
 import com.example.demo.application.model.comments.Comment;
@@ -30,17 +31,20 @@ public class CommentService {
     private CommentMapper commentMapper;
     private FilmCommentsRepo filmCommentsRepo;
     private PersonCommentsRepo personCommentsRepo;
+    private UserMapper userMapper;
 
     public CommentService(FilmRepo filmDao,
                           PersonRepo personRepo,
                           CommentMapper commentMapper,
                           FilmCommentsRepo filmCommentsRepo,
-                          PersonCommentsRepo personCommentsRepo) {
+                          PersonCommentsRepo personCommentsRepo,
+                          UserMapper userMapper) {
         this.filmDao = filmDao;
         this.personRepo = personRepo;
         this.commentMapper = commentMapper;
         this.filmCommentsRepo = filmCommentsRepo;
         this.personCommentsRepo = personCommentsRepo;
+        this.userMapper = userMapper;
     }
 
     //	@Transactional

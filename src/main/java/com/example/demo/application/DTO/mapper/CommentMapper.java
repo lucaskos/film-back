@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-	FilmComment commentCommandToFilmCommentEntity(CommentsDTO commentsDTO);
+    FilmComment commentCommandToFilmCommentEntity(CommentsDTO commentsDTO);
 
-	CommentsDTO commentToCommentDTO(Comment comment);
+    CommentsDTO commentToCommentDTO(Comment comment);
 }

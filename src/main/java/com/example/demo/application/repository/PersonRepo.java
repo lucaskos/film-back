@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface PersonRepo extends JpaRepository<Person, Long> {
 
-	@Query("select p from Person p where p.firstName LIKE CONCAT('%', :name, '%') OR p.lastName LIKE CONCAT('%', :name, '%')")
-	List<Person> autocompleteByFirstNameOrLastName(String name);
+    @Query("select p from Person p where p.firstName LIKE CONCAT('%', :name, '%') OR p.lastName LIKE CONCAT('%', :name, '%')")
+    List<Person> autocompleteByFirstNameOrLastName(String name);
 
-	@Query("select p from Person p where p.id = :personId")
-	Optional<Person> getPersonDetails(@Param("personId")Long entityId);
+    @Query("select p from Person p where p.id = :personId")
+    Optional<Person> getPersonDetails(@Param("personId") Long entityId);
 
 }

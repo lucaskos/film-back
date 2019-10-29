@@ -1,5 +1,6 @@
 package com.example.demo.application.DTO.mapper;
 
+import com.example.demo.application.DTO.LoginUserDTO;
 import com.example.demo.application.DTO.UserDTO;
 import com.example.demo.application.model.user.User;
 import org.mapstruct.Mapper;
@@ -24,4 +25,6 @@ public interface UserMapper {
         userDTO.setUsername(user.getUsername());
         return userDTO;
     }
+
+    LoginUserDTO userToLoginUserDTO(User user);
 }
