@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -25,9 +26,6 @@ public class PersonComment extends Comment {
     @ManyToOne
     @JoinColumn(name = "person")
     private Person person;
-    @ManyToOne
-    @JoinColumn(name = "owner")
-    private User userId;
     @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_comment")
     private PersonComment parentComment;
@@ -39,7 +37,6 @@ public class PersonComment extends Comment {
     public String toString() {
         return "PersonComment{" +
                 "person=" + person +
-                ", userId=" + userId +
                 '}';
     }
 
@@ -48,18 +45,16 @@ public class PersonComment extends Comment {
         if (this == o) return true;
         if (!(o instanceof PersonComment)) return false;
         if (!super.equals(o)) return false;
-
         PersonComment that = (PersonComment) o;
-
-        if (getPerson() != null ? !getPerson().equals(that.getPerson()) : that.getPerson() != null) return false;
-        return getUserId() != null ? getUserId().equals(that.getUserId()) : that.getUserId() == null;
+        return Objects.equals(getPerson(), that.getPerson()) &&
+                Objects.equals(getParentComment(), that.getParentComment()) &&
+                Objects.equals(getSubComments(), that.getSubComments());
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (getPerson() != null ? getPerson().hashCode() : 0);
-        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
         return result;
     }
 }

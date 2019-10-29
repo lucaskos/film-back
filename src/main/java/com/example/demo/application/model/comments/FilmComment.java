@@ -26,9 +26,7 @@ public class FilmComment extends Comment {
     @ManyToOne
     @JoinColumn(name = "film", nullable = true)
     private Film film;
-    @ManyToOne
-    @JoinColumn(name = "owner", nullable = true)
-    private User owner;
+
     @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_comment")
     private FilmComment parentComment;
@@ -41,7 +39,6 @@ public class FilmComment extends Comment {
     public String toString() {
         return "FilmComment{" +
                 "film=" + film +
-                ", userId=" + owner +
                 '}';
     }
 
@@ -53,12 +50,11 @@ public class FilmComment extends Comment {
 
         FilmComment that = (FilmComment) o;
 
-        return Objects.equals(film, that.film) &&
-                Objects.equals(owner, that.owner);
+        return Objects.equals(film, that.film);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), film, owner);
+        return Objects.hash(super.hashCode(), film);
     }
 }
