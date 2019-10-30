@@ -9,6 +9,7 @@ import com.example.demo.application.repository.UserRepository;
 import com.example.demo.application.model.user.User;
 import com.example.demo.application.resource.filter.UserNotFoundException;
 import com.example.demo.commons.SecurityUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,22 +34,13 @@ import static com.example.demo.security.Roles.USER;
  * Created by Luke on 24.10.2018.
  */
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private UserRepository userDao;
-    private BCryptPasswordEncoder bcryptEncoder;
-    private UserMapper userMapper;
-    private RoleRepo roleRepo;
-    private SecurityUtil securityUtil;
-
-    public UserServiceImpl(UserRepository userDao,
-                           BCryptPasswordEncoder bcryptEncoder,
-                           UserMapper userMapper,
-                           RoleRepo roleRepo) {
-        this.userDao = userDao;
-        this.bcryptEncoder = bcryptEncoder;
-        this.userMapper = userMapper;
-        this.roleRepo = roleRepo;
-    }
+    private final UserRepository userDao;
+    private final BCryptPasswordEncoder bcryptEncoder;
+    private final UserMapper userMapper;
+    private final RoleRepo roleRepo;
+    private final SecurityUtil securityUtil;
 
     @Secured(ADMIN)
     public List<UserDTO> findAll() {

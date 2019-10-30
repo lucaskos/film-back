@@ -3,6 +3,7 @@ package com.example.demo.application.services;
 import com.example.demo.application.model.user.Role;
 import com.example.demo.application.model.user.User;
 import com.example.demo.application.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +18,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class CustomUserServiceImpl implements UserDetailsService {
 
-    private UserRepository userDao;
-
-    public CustomUserServiceImpl(UserRepository userDao) {
-        this.userDao = userDao;
-    }
+    private final UserRepository userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

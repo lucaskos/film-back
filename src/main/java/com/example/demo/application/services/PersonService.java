@@ -4,21 +4,17 @@ import com.example.demo.application.DTO.PersonDTO;
 import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Person;
 import com.example.demo.application.repository.PersonRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PersonService {
-
-    private PersonMapper personMapper;
-    private PersonRepo personRepo;
-
-    public PersonService(PersonMapper personMapper, PersonRepo personRepo) {
-        this.personMapper = personMapper;
-        this.personRepo = personRepo;
-    }
+    private final PersonMapper personMapper;
+    private final PersonRepo personRepo;
 
     public List<PersonDTO> getAllPeople() {
         List<PersonDTO> list = new ArrayList<>();

@@ -28,12 +28,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class CommentService {
 
-    private FilmRepo filmDao;
-    private PersonRepo personRepo;
-    private CommentMapper commentMapper;
-    private FilmCommentsRepo filmCommentsRepo;
-    private PersonCommentsRepo personCommentsRepo;
-    private UserMapper userMapper;
+    private final FilmRepo filmDao;
+    private final PersonRepo personRepo;
+    private final CommentMapper commentMapper;
+    private final FilmCommentsRepo filmCommentsRepo;
+    private final PersonCommentsRepo personCommentsRepo;
+    private final UserMapper userMapper;
 
     //	@Transactional
     public Comment addComment(CommentsDTO commentDto) {

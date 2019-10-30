@@ -7,6 +7,7 @@ import com.example.demo.application.DTO.mapper.PersonMapper;
 import com.example.demo.application.model.Film;
 import com.example.demo.application.model.FilmRelations;
 import com.example.demo.application.repository.FilmRepo;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,19 +25,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class FilmService {
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    private FilmRepo filmDao;
-    private FilmMapper filmMapper;
-    private PersonMapper personMapper;
-
-    public FilmService(FilmRepo filmDao, FilmMapper filmMapper, PersonMapper personMapper) {
-        this.filmDao = filmDao;
-        this.filmMapper = filmMapper;
-        this.personMapper = personMapper;
-    }
+    private final FilmRepo filmDao;
+    private final FilmMapper filmMapper;
+    private final PersonMapper personMapper;
 
     public List<FilmDTO> getAllFilms() {
         List<FilmDTO> filmList = new ArrayList<>();

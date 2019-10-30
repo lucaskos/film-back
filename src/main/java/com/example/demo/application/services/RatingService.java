@@ -10,24 +10,19 @@ import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonRepo;
 import com.example.demo.application.repository.RatingRepo;
 import com.example.demo.commons.SecurityUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class RatingService {
 
-    private RatingRepo ratingRepo;
-    private FilmRepo filmRepo;
-    private PersonRepo personRepo;
-    private SecurityUtil securityUtil;
-    private UserService userService;
+    private final RatingRepo ratingRepo;
+    private final FilmRepo filmRepo;
+    private final PersonRepo personRepo;
+    private final SecurityUtil securityUtil;
+    private final UserService userService;
 
-    public RatingService(RatingRepo ratingRepo, FilmRepo filmRepo, PersonRepo personRepo, SecurityUtil securityUtil, UserService userService) {
-        this.ratingRepo = ratingRepo;
-        this.filmRepo = filmRepo;
-        this.personRepo = personRepo;
-        this.securityUtil = securityUtil;
-        this.userService = userService;
-    }
 
     public void addRating(RatingDTO ratingDTO) {
         org.springframework.security.core.userdetails.User currentlyLoggedUser = securityUtil.getCurrentlyLoggedUser();
