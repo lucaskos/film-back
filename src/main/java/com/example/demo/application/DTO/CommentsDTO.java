@@ -18,6 +18,6 @@ public class CommentsDTO {
     private Set<CommentsDTO> subComments = new HashSet<>();
     private String title;
     private String text;
-    private UserDTO userId;
+    private LoginUserDTO userId;
 
 }

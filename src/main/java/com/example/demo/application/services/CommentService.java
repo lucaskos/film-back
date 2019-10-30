@@ -11,6 +11,7 @@ import com.example.demo.application.repository.FilmCommentsRepo;
 import com.example.demo.application.repository.FilmRepo;
 import com.example.demo.application.repository.PersonCommentsRepo;
 import com.example.demo.application.repository.PersonRepo;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class CommentService {
 
     private FilmRepo filmDao;
@@ -32,20 +34,6 @@ public class CommentService {
     private FilmCommentsRepo filmCommentsRepo;
     private PersonCommentsRepo personCommentsRepo;
     private UserMapper userMapper;
-
-    public CommentService(FilmRepo filmDao,
-                          PersonRepo personRepo,
-                          CommentMapper commentMapper,
-                          FilmCommentsRepo filmCommentsRepo,
-                          PersonCommentsRepo personCommentsRepo,
-                          UserMapper userMapper) {
-        this.filmDao = filmDao;
-        this.personRepo = personRepo;
-        this.commentMapper = commentMapper;
-        this.filmCommentsRepo = filmCommentsRepo;
-        this.personCommentsRepo = personCommentsRepo;
-        this.userMapper = userMapper;
-    }
 
     //	@Transactional
     public Comment addComment(CommentsDTO commentDto) {
@@ -100,6 +88,7 @@ public class CommentService {
      */
     private CommentsDTO getFilmCommentDetails(Comment comment) {
         CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
+        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
         Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
         Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
 
@@ -108,6 +97,8 @@ public class CommentService {
             for (FilmComment subComment : mainCommentSubComments) {
 
                 CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
+                subCommentDTO.setUserId(userMapper.userToLoginUserDTO(subComment.getOwner()));
+
                 mainCommentDTO.getSubComments().add(subCommentDTO);
                 CommentsDTO commentDetails = getFilmCommentDetails(subComment);
 
