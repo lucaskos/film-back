@@ -220,7 +220,7 @@ public class FilmServiceTest extends FilmMapperCommons {
 
 
     private Film getFilm(Long id) {
-        Film film = new Film(FILM_TITLE, FILM_YEAR, FILM_DESCRIPTION);
+        Film film = Film.getFilmWithTitleYearDescription(FILM_TITLE, FILM_YEAR, FILM_DESCRIPTION);
         film.setId(id);
 
         FilmRelations filmRelation = new FilmRelations();

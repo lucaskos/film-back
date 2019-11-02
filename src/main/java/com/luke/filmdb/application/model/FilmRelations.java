@@ -43,8 +43,5 @@ public class FilmRelations implements Serializable {
     @JoinColumn(name = "person_role_id")
     private PersonRole personRoleDictionary;
 
-    @Override
-    public String toString() {
-        return new String();
-    }
+    //todo toString?
 }

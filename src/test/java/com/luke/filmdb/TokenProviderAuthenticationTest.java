@@ -29,47 +29,43 @@ import java.util.Optional;
 @AutoConfigureMockMvc
 public class TokenProviderAuthenticationTest {
 
-	private static final String USER_NAME = "TEST";
-	private static final String USER_ROLE_NAME = "ROLE_TEST";
+    private static final String USER_NAME = "TEST";
+    private static final String USER_ROLE_NAME = "ROLE_TEST";
 
-	/* "TEST" password */
-	private final static String ENCODED_PASSWORD = "$2a$10$EU.Q.2fkmnHvsuq/H4aSGenywkxX7NFmU2CIcKcL.SIAlX62N0YFK";
-	private static final String USER_PRIVILEGE_TEST = "PRIVILEGE_TEST";
-
-	@Autowired
-	private TokenProvider tokenProvider;
-
-	@Autowired
-	AuthenticationManager authenticationManager;
-
-	@MockBean
+    /* "TEST" password */
+    private final static String ENCODED_PASSWORD = "$2a$10$EU.Q.2fkmnHvsuq/H4aSGenywkxX7NFmU2CIcKcL.SIAlX62N0YFK";
+    private static final String USER_PRIVILEGE_TEST = "PRIVILEGE_TEST";
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @MockBean
     UserRepository userRepository;
+    @Autowired
+    private TokenProvider tokenProvider;
 
-	@Test
-	public void generateToken() {
-		Role role = new Role();
-		role.setRoleName(USER_ROLE_NAME);
-		Privilege privilege = new Privilege();
-		privilege.setName(USER_PRIVILEGE_TEST);
-		role.setPrivileges(Collections.singletonList(privilege));
+    @Test
+    public void generateToken() {
+        Role role = new Role();
+        role.setRoleName(USER_ROLE_NAME);
+        Privilege privilege = new Privilege();
+        privilege.setName(USER_PRIVILEGE_TEST);
+        role.setPrivileges(Collections.singletonList(privilege));
 
-		User user = User.getUserWithUsernamePasswordRoles(USER_NAME, ENCODED_PASSWORD, Arrays.asList(role));
-		Optional<User> userOptional = Optional.of(user);
+        User user = User.getUserWithUsernamePasswordRoles(USER_NAME, ENCODED_PASSWORD, Arrays.asList(role));
+        Optional<User> userOptional = Optional.of(user);
 
-		List<String> a = new ArrayList<>();
-		user.getRoles().stream().forEach(role1 -> {
-			a.add(role1.getRoleName());
-		});
+        List<String> roleList = new ArrayList<>();
+        user.getRoles().forEach(simpleRole -> {
+            roleList.add(simpleRole.getRoleName());
+        });
 
+        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(userOptional);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("TEST", "TEST"));
 
-		Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(userOptional);
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("TEST", "TEST"));
+        Assert.notNull(authentication);
+        Assert.isTrue(authentication.getName().equals(USER_NAME));
 
-		Assert.notNull(authentication);
-		Assert.isTrue(authentication.getName().equals(USER_NAME));
+        String tokenGenerated = tokenProvider.generateToken(authentication);
+        Assert.notNull(tokenGenerated);
 
-		String tokenGenerated = tokenProvider.generateToken(authentication);
-		Assert.notNull(tokenGenerated);
-
-	}
+    }
 }

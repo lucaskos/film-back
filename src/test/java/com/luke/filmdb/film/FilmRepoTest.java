@@ -32,7 +32,7 @@ public class FilmRepoTest extends FilmMapperTest {
     @Test
     @Transactional
     public void getSingleFilmThenOk() {
-        Film one = filmRepo.getOne(Long.valueOf(1));
+        Film one = filmRepo.getOne(1L);
 
         Assert.assertEquals(Long.valueOf(1), one.getId());
         Assert.assertNotNull(one.getDescription());

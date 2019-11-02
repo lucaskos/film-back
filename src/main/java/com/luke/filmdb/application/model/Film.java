@@ -47,10 +47,12 @@ public class Film extends DataModelObject {
 
     }
 
-    public Film(String title, Integer year, String description) {
-        this.title = title;
-        this.year = year;
-        this.description = description;
+    public static Film getFilmWithTitleYearDescription(String title, Integer year, String description) {
+        Film film = new Film();
+        film.setTitle(title);
+        film.setYear(year);
+        film.setDescription(description);
+        return film;
     }
 
 //    @JsonIgnore
@@ -64,17 +66,11 @@ public class Film extends DataModelObject {
 //        this.filmRelations = filmRelations;
 //    }
 
-
-    public Film(String title, int year) {
-        this.title = title;
-        this.year = year;
-    }
-
-    public Film(Long id, String title, int year, String description) {
-        this.id = id;
-        this.title = title;
-        this.year = year;
-        this.description = description;
+    public static Film getFilmWithTitleYear(String title, Integer year) {
+        Film film = new Film();
+        film.setTitle(title);
+        film.setYear(year);
+        return film;
     }
 
     @Override
