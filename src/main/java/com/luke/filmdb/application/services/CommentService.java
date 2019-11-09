@@ -87,7 +87,7 @@ public class CommentService {
      */
     private CommentsDTO getFilmCommentDetails(Comment comment) {
         CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
-        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
+//        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
         Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
         Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
 
@@ -96,8 +96,6 @@ public class CommentService {
             for (FilmComment subComment : mainCommentSubComments) {
 
                 CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
-                subCommentDTO.setUserId(userMapper.userToLoginUserDTO(subComment.getOwner()));
-
                 mainCommentDTO.getSubComments().add(subCommentDTO);
                 CommentsDTO commentDetails = getFilmCommentDetails(subComment);
 

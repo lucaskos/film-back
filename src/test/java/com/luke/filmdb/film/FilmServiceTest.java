@@ -211,8 +211,6 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         Mockito.when(filmRepo.findById(any())).thenReturn(Optional.of(film));
 
-        FilmDTO filmDTO = new FilmDTO();
-
         filmService.deleteFilm(film.id);
 
         Mockito.verify(filmRepo, Mockito.times(1)).delete(film);
