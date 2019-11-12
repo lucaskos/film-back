@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -90,19 +91,27 @@ public class CommentService {
 //        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
         Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
         Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
+        Set<Long> idSet = new HashSet<>();
 
         if (!CollectionUtils.isEmpty(mainCommentSubComments)) {
 
             for (FilmComment subComment : mainCommentSubComments) {
 
+                idSet.add(subComment.getId());
+
                 CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
                 mainCommentDTO.getSubComments().add(subCommentDTO);
                 CommentsDTO commentDetails = getFilmCommentDetails(subComment);
 
+
                 checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
             }
 
-            mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
+            List<Long> collect = mainCommentDTO.getSubComments().stream().map(CommentsDTO::getId).collect(Collectors.toList());
+
+            if (!collect.contains(mainCommentDTO)) {
+                mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
+            }
         }
 
         return mainCommentDTO;
