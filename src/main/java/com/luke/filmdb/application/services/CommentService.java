@@ -73,7 +73,11 @@ public class CommentService {
 
     public Object findCommentDetails(Long id) {
         FilmComment one = filmCommentsRepo.getOne(id);
-        return getFilmCommentDetails(one);
+        CommentsDTO subComments = getSubComments(one);
+
+//        CommentsDTO filmCommentDetails = getFilmCommentDetails(one);
+
+        return subComments;
     }
 
     /**
@@ -104,17 +108,27 @@ public class CommentService {
                 CommentsDTO commentDetails = getFilmCommentDetails(subComment);
 
 
-                checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
+//                checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
+                List<Long> collect = mainCommentDTO.getSubComments().stream().map(CommentsDTO::getId).collect(Collectors.toList());
+                if (!collect.contains(mainCommentDTO)) {
+                    mainCommentDTO.getSubComments().add(subCommentDTO);
+                }
             }
 
-            List<Long> collect = mainCommentDTO.getSubComments().stream().map(CommentsDTO::getId).collect(Collectors.toList());
-
-            if (!collect.contains(mainCommentDTO)) {
-                mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
-            }
         }
 
         return mainCommentDTO;
+    }
+
+    public CommentsDTO getSubComments(Comment comment) {
+        FilmComment filmComment = (FilmComment) comment;
+        CommentsDTO commentsDTO = commentMapper.commentToCommentDTO(comment);
+        Set<CommentsDTO> commentsDTOS = new HashSet<>();
+        filmComment.getSubComments().forEach(filmComment1 -> commentsDTOS.add(commentMapper.commentToCommentDTO(filmComment1)));
+
+        commentsDTO.setSubComments(commentsDTOS);
+
+        return commentsDTO;
     }
 
     /**
