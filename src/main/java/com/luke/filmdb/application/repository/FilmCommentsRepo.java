@@ -14,5 +14,5 @@ public interface FilmCommentsRepo extends JpaRepository<FilmComment, Long> {
             "where fc.id = :id")
     Optional<FilmComment> findCommentDetailsById(@Param("id") Long id);
 
-    Optional<List<FilmComment>> findByFilmIdAndParentCommentIdIsNull(@Param("film") Long filmId);
+    Optional<List<FilmComment>> findByFilmId(@Param("film") Long filmId);
 }

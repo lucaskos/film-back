@@ -19,19 +19,18 @@ import java.util.Set;
 @Entity
 @Table(name = "FILM_COMMENT")
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class FilmComment extends Comment {
 
     @ManyToOne
     @JoinColumn(name = "film", nullable = true)
     private Film film;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "parent_comment")
-    private FilmComment parentComment;
-    @JsonIgnore
-    @OneToMany(mappedBy = "parentComment")
-    private Set<FilmComment> subComments = new HashSet<>();
+//
+//    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "parent_comment")
+//    private FilmComment parentComment;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "parentComment")
+//    private Set<FilmComment> subComments = new HashSet<>();
 
 
     @Override

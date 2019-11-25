@@ -22,8 +22,6 @@ public class Comment implements Serializable {
     private Long id;
     @Column(name = "created_date")
     private Date createdDate;
-    @Column(name = "depth")
-    private int depth;
     @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
     @Column(name = "title", nullable = false)

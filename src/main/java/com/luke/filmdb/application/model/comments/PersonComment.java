@@ -25,12 +25,12 @@ public class PersonComment extends Comment {
     @ManyToOne
     @JoinColumn(name = "person")
     private Person person;
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "parent_comment")
-    private PersonComment parentComment;
-    @JsonIgnore
-    @OneToMany(mappedBy = "parentComment")
-    private Set<PersonComment> subComments = new HashSet<>();
+//    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "parent_comment")
+//    private PersonComment parentComment;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "parentComment")
+//    private Set<PersonComment> subComments = new HashSet<>();
 
     @Override
     public String toString() {
@@ -45,9 +45,7 @@ public class PersonComment extends Comment {
         if (!(o instanceof PersonComment)) return false;
         if (!super.equals(o)) return false;
         PersonComment that = (PersonComment) o;
-        return Objects.equals(getPerson(), that.getPerson()) &&
-                Objects.equals(getParentComment(), that.getParentComment()) &&
-                Objects.equals(getSubComments(), that.getSubComments());
+        return Objects.equals(getPerson(), that.getPerson());
     }
 
     @Override

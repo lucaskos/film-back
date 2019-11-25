@@ -39,7 +39,6 @@ public class FilmCommentRepoTest extends CommentsCommon {
 
         FilmComment filmComment = new FilmComment();
 
-        filmComment.setParentComment(null);
         filmComment.setFilm(film);
         filmComment.setText("PARENT_COMMENT_TEXT");
         filmComment.setTitle("PARENT_COMMENT_TITLE");
@@ -58,7 +57,6 @@ public class FilmCommentRepoTest extends CommentsCommon {
         Film film = filmRepo.getOne(1L);
         FilmComment filmComment = new FilmComment();
 
-        filmComment.setParentComment(null);
         filmComment.setFilm(film);
         filmComment.setText("PARENT_COMMENT_TEXT");
         filmComment.setTitle("PARENT_COMMENT_TITLE");
@@ -66,24 +64,18 @@ public class FilmCommentRepoTest extends CommentsCommon {
         FilmComment save = filmCommentsRepo.save(filmComment);
 
         Assert.assertNotNull(save);
-        Assert.assertEquals(save.getSubComments(), new HashSet<>());
         Assert.assertNotNull(save.getId());
 
         //first sub comment of freshly added filmComment
         FilmComment newFilmComment = new FilmComment();
-        newFilmComment.setParentComment(save);
         newFilmComment.setText("TEXT");
         newFilmComment.setFilm(film);
         newFilmComment.setId(null);
         FilmComment save1 = filmCommentsRepo.save(newFilmComment);
-        save.getSubComments().add(save1);
 
         filmCommentsRepo.save(save);
 
         FilmComment filmComments = filmCommentsRepo.findCommentDetailsById(save.getId()).get();
-
-        Assert.assertNotNull(filmComments.getSubComments().iterator().next().getId());
-
     }
 
     @Test(expected = ObjectRetrievalFailureException.class)

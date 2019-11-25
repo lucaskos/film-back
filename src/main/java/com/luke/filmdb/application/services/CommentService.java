@@ -12,17 +12,13 @@ import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.repository.PersonCommentsRepo;
 import com.luke.filmdb.application.repository.PersonRepo;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -76,71 +72,76 @@ public class CommentService {
         return getFilmCommentDetails(one);
     }
 
-    /**
-     * Getting main comment with all subComments and subComments children. We getting hierarchy in a manner:
-     * comment
-     * - subComment
-     * - subComment2 (child of subComment)
-     * - subComment3 (child of subComment2)
-     *
-     * @param comment
-     * @return
-     */
-    private CommentsDTO getFilmCommentDetails(Comment comment) { //todo testy INSERT INTO "PUBLIC"."FILM_COMMENT"("ID","FILM","DEPTH","PARENT_COMMENT","TEXT","TITLE","OWNER")VALUES(11,1,0,9,'test','test',1), wiecej niz > 1 komentarz w hierarchi
-        CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
-//        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
-        Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
-        Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
-        Set<Long> idSet = new HashSet<>();
-
-        if (!CollectionUtils.isEmpty(mainCommentSubComments)) {
-
-            for (FilmComment subComment : mainCommentSubComments) {
-
-                idSet.add(subComment.getId());
-
-                CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
-                mainCommentDTO.getSubComments().add(subCommentDTO);
-                CommentsDTO commentDetails = getFilmCommentDetails(subComment);
-
-
-                checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
-            }
-
-            List<Long> collect = mainCommentDTO.getSubComments().stream().map(CommentsDTO::getId).collect(Collectors.toList());
-
-            if (!collect.contains(mainCommentDTO)) {
-                mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
-            }
-        }
-
-        return mainCommentDTO;
+    private Object getFilmCommentDetails(FilmComment one) {
+        return commentMapper.commentToCommentDTO(one);
     }
 
-    /**
-     * @param commentsDTO    - main comment processed.
-     * @param subCommentsSet - main comment children.
-     * @param commentDetails - the child comment of the comment iterated list of subComments.
-     */
-    private void checkIfCommentsAreDifferentAndAdd(CommentsDTO commentsDTO,
-                                                   Set<CommentsDTO> subCommentsSet,
-                                                   CommentsDTO commentDetails) {
 
-        commentsDTO.getSubComments().forEach(next -> {
-            if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
-                next.getSubComments().addAll(commentDetails.getSubComments());
-            } else {
-                subCommentsSet.add(commentDetails);
-            }
-        });
-    }
+//    /**
+//     * Getting main comment with all subComments and subComments children. We getting hierarchy in a manner:
+//     * comment
+//     * - subComment
+//     * - subComment2 (child of subComment)
+//     * - subComment3 (child of subComment2)
+//     *
+//     * @param comment
+//     * @return
+//     */
+//    private CommentsDTO getFilmCommentDetails(Comment comment) { //todo testy INSERT INTO "PUBLIC"."FILM_COMMENT"("ID","FILM","DEPTH","PARENT_COMMENT","TEXT","TITLE","OWNER")VALUES(11,1,0,9,'test','test',1), wiecej niz > 1 komentarz w hierarchi
+//        CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
+////        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
+//        Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();
+//        Set<CommentsDTO> mainCommentSubCommentsDTO = new HashSet<>();
+//        Set<Long> idSet = new HashSet<>();
+//
+//        if (!CollectionUtils.isEmpty(mainCommentSubComments)) {
+//
+//            for (FilmComment subComment : mainCommentSubComments) {
+//
+//                idSet.add(subComment.getId());
+//
+//                CommentsDTO subCommentDTO = commentMapper.commentToCommentDTO(subComment);
+//                mainCommentDTO.getSubComments().add(subCommentDTO);
+//                CommentsDTO commentDetails = getFilmCommentDetails(subComment);
+//
+//
+//                checkIfCommentsAreDifferentAndAdd(mainCommentDTO, mainCommentSubCommentsDTO, commentDetails);
+//            }
+//
+//            List<Long> collect = mainCommentDTO.getSubComments().stream().map(CommentsDTO::getId).collect(Collectors.toList());
+//
+//            if (!collect.contains(mainCommentDTO)) {
+//                mainCommentDTO.getSubComments().addAll(mainCommentSubCommentsDTO);
+//            }
+//        }
+//
+//        return mainCommentDTO;
+//    }
+//
+//    /**
+//     * @param commentsDTO    - main comment processed.
+//     * @param subCommentsSet - main comment children.
+//     * @param commentDetails - the child comment of the comment iterated list of subComments.
+//     */
+//    private void checkIfCommentsAreDifferentAndAdd(CommentsDTO commentsDTO,
+//                                                   Set<CommentsDTO> subCommentsSet,
+//                                                   CommentsDTO commentDetails) {
+//
+//        commentsDTO.getSubComments().forEach(next -> {
+//            if (commentDetails != null && next.getId().equals(commentDetails.getId())) {
+//                next.getSubComments().addAll(commentDetails.getSubComments());
+//            } else {
+//                subCommentsSet.add(commentDetails);
+//            }
+//        });
+//    }
 
     public List<CommentsDTO> findEntityComments(CommentsDTO commentsDTO) {
 
         if (ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
 
             Optional<List<FilmComment>> filmCommentsByFilmId =
-                    filmCommentsRepo.findByFilmIdAndParentCommentIdIsNull(filmDao.getOne(commentsDTO.getEntityId()).getId());
+                    filmCommentsRepo.findByFilmId(filmDao.getOne(commentsDTO.getEntityId()).getId());
 
             List<FilmComment> filmComments = filmCommentsByFilmId.orElseThrow(
                     () -> new NotFoundException("For film : " + commentsDTO.getEntityId() + " no comments found"));
