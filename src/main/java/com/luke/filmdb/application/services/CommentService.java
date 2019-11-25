@@ -86,7 +86,7 @@ public class CommentService {
      * @param comment
      * @return
      */
-    private CommentsDTO getFilmCommentDetails(Comment comment) {
+    private CommentsDTO getFilmCommentDetails(Comment comment) { //todo testy INSERT INTO "PUBLIC"."FILM_COMMENT"("ID","FILM","DEPTH","PARENT_COMMENT","TEXT","TITLE","OWNER")VALUES(11,1,0,9,'test','test',1), wiecej niz > 1 komentarz w hierarchi
         CommentsDTO mainCommentDTO = commentMapper.commentToCommentDTO(comment);
 //        mainCommentDTO.setUserId(userMapper.userToLoginUserDTO(comment.getOwner()));
         Set<FilmComment> mainCommentSubComments = ((FilmComment) comment).getSubComments();

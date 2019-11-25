@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: insert film comments
+    id: insert film comments 1
     author: lkosmala
     changes:
      - insert:
@@ -25,7 +25,7 @@ databaseChangeLog:
                 value: 1
             tableName: film_comment
 - changeSet:
-    id: insert film sub1 comments
+    id: insert film sub1 comments 2
     author: lkosmala
     changes:
      - insert:
@@ -53,7 +53,7 @@ databaseChangeLog:
                 value: 1
             tableName: film_comment
 - changeSet:
-    id: insert film sub2 comments
+    id: insert film sub2 comments 3
     author: lkosmala
     changes:
      - insert:
@@ -78,7 +78,7 @@ databaseChangeLog:
                 value: 1
             tableName: film_comment
 - changeSet:
-    id: insert film sub3 comments
+    id: insert film sub3 comments 4
     author: lkosmala
     changes:
      - insert:
@@ -103,7 +103,7 @@ databaseChangeLog:
                 value: 2
             tableName: film_comment
 - changeSet:
-    id: insert film sub4 comments
+    id: insert film sub4 comments 5
     author: lkosmala
     changes:
       - insert:
@@ -128,7 +128,7 @@ databaseChangeLog:
                 value: 2
           tableName: film_comment
 - changeSet:
-    id: insert film sub5 comments
+    id: insert film sub5 comments 6
     author: lkosmala
     changes:
       - insert:
@@ -153,7 +153,7 @@ databaseChangeLog:
                 value: 5
           tableName: film_comment
 - changeSet:
-    id: insert second film comments
+    id: insert second film comments 7
     author: lkosmala
     changes:
       - insert:
@@ -176,4 +176,76 @@ databaseChangeLog:
             - column:
                 name: parent_comment
                 value: null
+          tableName: film_comment
+- changeSet:
+    id: insert 3rd main film comments 8
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: film
+                value: 1
+            - column:
+                name: depth
+                value: 0
+            - column:
+                name: title
+                value: '0'
+            - column:
+                name: text
+                value: '0'
+            - column:
+                name: owner
+                value: 1
+          tableName: film_comment
+- changeSet:
+    id: insert second film comments 9
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: film
+                value: 1
+            - column:
+                name: depth
+                value: 0
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner
+                value: 1
+            - column:
+                name: parent_comment
+                value: 8
+          tableName: film_comment
+- changeSet:
+    id: insert second film comments 10
+    author: lkosmala
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: film
+                value: 1
+            - column:
+                name: depth
+                value: 0
+            - column:
+                name: title
+                value: 'test comment 5 title sub sub 4'
+            - column:
+                name: text
+                value: 'test comment 5 text sub sub 4'
+            - column:
+                name: owner
+                value: 1
+            - column:
+                name: parent_comment
+                value: 9
           tableName: film_comment

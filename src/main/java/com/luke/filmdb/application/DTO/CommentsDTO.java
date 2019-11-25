@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class CommentsDTO {
+public class  CommentsDTO {
 
     private Long id;
     private Long entityId;
@@ -20,4 +20,20 @@ public class CommentsDTO {
     private String text;
     private LoginUserDTO userId;
 
+
+    @Override
+    public String toString() {
+        return "CommentsDTO{" +
+                "id=" + id +
+                ", entityId=" + entityId +
+                ", entityType='" + entityType + '\'' +
+                ", createdDate=" + createdDate +
+                ", depth=" + depth +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", userId=" + userId +
+                ", parentCommentId=" + parentCommentId +
+                ", subComments=" + subComments +
+                '}';
+    }
 }
