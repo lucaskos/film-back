@@ -79,7 +79,7 @@ public class FilmCommentsServiceTest extends CommentsCommon {
     private CommentsDTO getFilmCommentDTO() {
         CommentsDTO commentsDTO = new CommentsDTO();
         commentsDTO.setText(COMMENT_TEXT);
-        commentsDTO.setUserId(new UserDTO());
+        commentsDTO.setUser(new UserDTO());
         commentsDTO.setEntityId(FILM_ID);
         commentsDTO.setEntityType("FILM");
         return commentsDTO;

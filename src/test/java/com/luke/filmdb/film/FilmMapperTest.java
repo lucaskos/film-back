@@ -72,7 +72,7 @@ public class FilmMapperTest extends FilmMapperCommons {
 		commentsDTO.setText("TEXT");
 		commentsDTO.setTitle("TITLE");
 		commentsDTO.setEntityId(FILM_ID);
-		commentsDTO.setUserId(new UserDTO());
+		commentsDTO.setUser(new UserDTO());
 		commentsDTO.setId(1L);
 
 		filmDTO.getFilmCommentsList().add(commentsDTO);

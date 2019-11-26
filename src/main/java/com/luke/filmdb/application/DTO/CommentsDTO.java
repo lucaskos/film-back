@@ -15,7 +15,7 @@ public class CommentsDTO {
     private LocalDate createdDate;
     private String title;
     private String text;
-    private LoginUserDTO userId;
+    private LoginUserDTO user;
 
     @Override
     public String toString() {
@@ -26,7 +26,7 @@ public class CommentsDTO {
                 ", createdDate=" + createdDate +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", userId=" + userId +
+                ", userId=" + user +
                 '}';
     }
 }
