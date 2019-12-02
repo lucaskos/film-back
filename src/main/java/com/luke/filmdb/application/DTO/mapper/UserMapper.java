@@ -1,7 +1,7 @@
 package com.luke.filmdb.application.DTO.mapper;
 
-import com.luke.filmdb.application.DTO.LoginUserDTO;
-import com.luke.filmdb.application.DTO.UserDTO;
+import com.luke.filmdb.application.DTO.user.LoginUserDTO;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;

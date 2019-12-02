@@ -1,5 +1,6 @@
-package com.luke.filmdb.application.DTO;
+package com.luke.filmdb.application.DTO.user;
 
+import com.luke.filmdb.application.DTO.user.LoginUserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class UserDTO extends LoginUserDTO{
+public class UserDTO extends LoginUserDTO {
     @NotNull
     private String firstName;
     @NotNull

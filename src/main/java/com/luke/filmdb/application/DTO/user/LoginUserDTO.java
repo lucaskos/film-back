@@ -1,4 +1,4 @@
-package com.luke.filmdb.application.DTO;
+package com.luke.filmdb.application.DTO.user;
 
 import lombok.Getter;
 import lombok.Setter;

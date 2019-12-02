@@ -1,7 +1,7 @@
 package com.luke.filmdb.application.resource;
 
 import com.luke.filmdb.application.DTO.RegisterDTO;
-import com.luke.filmdb.application.DTO.UserDTO;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.services.UserService;
 import com.luke.filmdb.security.jwt.TokenProvider;

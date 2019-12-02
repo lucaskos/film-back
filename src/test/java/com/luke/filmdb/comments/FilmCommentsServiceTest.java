@@ -1,7 +1,7 @@
 package com.luke.filmdb.comments;
 
 import com.luke.filmdb.application.DTO.CommentsDTO;
-import com.luke.filmdb.application.DTO.UserDTO;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.DTO.mapper.CommentMapper;
 import com.luke.filmdb.application.commands.CommentCommand;
 import com.luke.filmdb.application.model.Film;

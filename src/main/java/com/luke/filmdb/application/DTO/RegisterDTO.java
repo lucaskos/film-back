@@ -1,5 +1,6 @@
 package com.luke.filmdb.application.DTO;
 
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import lombok.Data;
 
 @Data

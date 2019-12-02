@@ -1,7 +1,7 @@
 package com.luke.filmdb.application.services;
 
 import com.luke.filmdb.application.DTO.RegisterDTO;
-import com.luke.filmdb.application.DTO.UserDTO;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
 
 import java.util.Collection;

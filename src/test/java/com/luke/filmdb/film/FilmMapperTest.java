@@ -3,7 +3,7 @@ package com.luke.filmdb.film;
 import com.luke.filmdb.application.DTO.CommentsDTO;
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
-import com.luke.filmdb.application.DTO.UserDTO;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.DTO.mapper.FilmMapper;
 import com.luke.filmdb.application.DTO.mapper.PersonMapper;
 import com.luke.filmdb.application.model.Film;

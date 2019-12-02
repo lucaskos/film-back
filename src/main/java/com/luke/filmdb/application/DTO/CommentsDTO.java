@@ -1,10 +1,9 @@
 package com.luke.filmdb.application.DTO;
 
+import com.luke.filmdb.application.DTO.user.LoginUserDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 public class CommentsDTO {
