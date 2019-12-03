@@ -6,6 +6,7 @@ import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.services.UserService;
 import com.luke.filmdb.security.jwt.TokenProvider;
 import com.luke.filmdb.security.model.AuthToken;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +30,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
+@AllArgsConstructor
 public class UserController {
 
     private UserService userService;
     private AuthenticationManager authenticationManager;
     private TokenProvider jwtTokenUtil;
-
-    public UserController(UserService userService,
-                          AuthenticationManager authenticationManager,
-                          TokenProvider jwtTokenUtil) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterDTO user) {

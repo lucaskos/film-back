@@ -2,6 +2,7 @@ package com.luke.filmdb.application.resource;
 
 import com.luke.filmdb.application.DTO.PersonDTO;
 import com.luke.filmdb.application.services.PersonService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,13 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/person")
 @CrossOrigin
+@AllArgsConstructor
 public class PersonController {
 
     private PersonService personService;
-
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
 
     @GetMapping()
     public ResponseEntity<List<PersonDTO>> getAllPersons() {

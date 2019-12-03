@@ -1,10 +1,10 @@
 package com.luke.filmdb.application.DTO.user;
 
-import com.luke.filmdb.application.DTO.user.LoginUserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,4 +16,5 @@ public class UserDTO extends LoginUserDTO {
     private boolean enabled;
     @NotNull
     private String email;
+    private List<RoleDTO> roles;
 }
