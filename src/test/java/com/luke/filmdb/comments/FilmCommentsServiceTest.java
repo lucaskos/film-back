@@ -5,8 +5,11 @@ import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.DTO.mapper.CommentMapper;
 import com.luke.filmdb.application.commands.CommentCommand;
 import com.luke.filmdb.application.model.Film;
+import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.repository.FilmCommentsRepo;
 import com.luke.filmdb.application.repository.FilmRepo;
+import com.luke.filmdb.application.repository.PersonCommentsRepo;
+import com.luke.filmdb.application.repository.PersonRepo;
 import com.luke.filmdb.application.services.CommentService;
 import com.luke.filmdb.commons.CommentsCommon;
 import org.junit.Assert;
@@ -27,6 +30,9 @@ public class FilmCommentsServiceTest extends CommentsCommon {
     @Mock
     private FilmRepo filmRepo;
 
+    @Mock
+    private PersonRepo personRepo;
+
     @InjectMocks
     private CommentService commentService;
 
@@ -36,8 +42,11 @@ public class FilmCommentsServiceTest extends CommentsCommon {
     @Mock
     private FilmCommentsRepo filmCommentsRepo;
 
+    @Mock
+    private PersonCommentsRepo personCommentsRepo;
+
     @Test
-    public void test() {
+    public void filmCommentExistsTest() {
         Film film = getFilm();
 
         Mockito.when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
@@ -49,6 +58,21 @@ public class FilmCommentsServiceTest extends CommentsCommon {
         commentService.addComment(getFilmCommentDTO());
 
         Assert.assertNotNull(film.getFilmComments().get(0));
+    }
+
+    @Test
+    public void getPersonCommentExistsTest() {
+        Person person = getPerson();
+
+        Mockito.when(personRepo.getPersonDetails(Mockito.any())).thenReturn(Optional.of(person));
+
+        Mockito.when(commentMapper.commentCommandToPersonCommandEntity(Mockito.any())).thenReturn(getPersonComment());
+        Mockito.when(personCommentsRepo.save(Mockito.any())).thenReturn(getPersonComment());
+        Mockito.when(personRepo.save(Mockito.any())).thenReturn(getPerson());
+
+        commentService.addComment(getPersonCommentDTO());
+
+        Assert.assertNotNull(person.getPersonComment().get(0));
     }
 
 
@@ -72,7 +96,7 @@ public class FilmCommentsServiceTest extends CommentsCommon {
 
     private CommentsDTO getPersonCommentDTO() {
         CommentsDTO commentsDTO = new CommentsDTO();
-
+        commentsDTO.setEntityType("PERSON");
         return commentsDTO;
     }
 

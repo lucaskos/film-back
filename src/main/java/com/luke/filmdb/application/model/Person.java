@@ -35,7 +35,7 @@ public class Person extends DataModelObject implements Serializable {
     private String bio;
     @JsonBackReference
     @OneToMany(targetEntity = PersonComment.class, cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<PersonComment> personComment;
+    private List<PersonComment> personComment = new ArrayList<>();
 
     //    private Set<PersonComments> personComments;
     //    @JoinColumn(name = "person_PERSON_ID")

@@ -3,6 +3,7 @@ package com.luke.filmdb.application.DTO.mapper;
 import com.luke.filmdb.application.DTO.CommentsDTO;
 import com.luke.filmdb.application.model.comments.Comment;
 import com.luke.filmdb.application.model.comments.FilmComment;
+import com.luke.filmdb.application.model.comments.PersonComment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,4 +14,6 @@ public interface CommentMapper {
 
     @Mapping(target = "user", source = "owner")
     CommentsDTO commentToCommentDTO(Comment comment);
+
+    PersonComment commentCommandToPersonCommandEntity(CommentsDTO commentDto);
 }
