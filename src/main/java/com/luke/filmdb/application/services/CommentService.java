@@ -4,6 +4,7 @@ import com.luke.filmdb.application.DTO.CommentsDTO;
 import com.luke.filmdb.application.DTO.mapper.CommentMapper;
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
 import com.luke.filmdb.application.commands.ObjectType;
+import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.model.comments.Comment;
 import com.luke.filmdb.application.model.comments.FilmComment;
@@ -54,19 +55,21 @@ public class CommentService {
 
     private Comment addFilmComment(CommentsDTO commentDto) {
 
-        this.filmDao.getFilmDetails(commentDto.getEntityId()).orElseThrow(() ->
+        Film film = this.filmDao.getFilmDetails(commentDto.getEntityId()).orElseThrow(() ->
                 new NotFoundException("Couldn't find film : " + commentDto.getEntityId()));
 
         FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
+        filmComment.setFilm(film);
         return filmCommentsRepo.save(filmComment);
     }
 
     private Comment addPersonComment(CommentsDTO commentDto) {
-        personRepo.getPersonDetails(commentDto.getEntityId()).orElseThrow(() ->
+        Person person = personRepo.getPersonDetails(commentDto.getEntityId()).orElseThrow(() ->
                 new NotFoundException("Couldn't find person : " + commentDto.getEntityId()));
 //        personRepo.getPersonDetails(commentDto.getEntityId());
 
         PersonComment personComment = commentMapper.commentCommandToPersonCommandEntity(commentDto);
+        personComment.setPerson(person);
         return personCommentsRepo.save(personComment);
     }
 
