@@ -14,7 +14,10 @@ databaseChangeLog:
             name: person
             type: int
         - column:
-            name: created_date
+            name: creation_date
+            type: datetime
+        - column:
+            name: modification_date
             type: datetime
         - column:
             name: depth
@@ -49,8 +52,11 @@ databaseChangeLog:
             name: film
             type: int
         - column:
-            name: created_date
+            name: creation_date
             type: date
+        - column:
+            name: modification_date
+            type: datetime
         - column:
             name: depth
             type: int

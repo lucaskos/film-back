@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,10 +17,10 @@ import java.util.List;
 public class SecurityUtil {
     private final static String ROLE_PREFIX = "ROLE";
 
-    public User getCurrentlyLoggedUser() {
+    public String getCurrentlyLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return (User) authentication.getPrincipal();
+        return (String) authentication.getPrincipal();
     }
 
     public Collection<? extends GrantedAuthority> getCurrentlyLoggedAuthorities() {

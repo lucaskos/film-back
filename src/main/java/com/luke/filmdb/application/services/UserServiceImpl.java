@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,10 +65,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isActualUserLoggedOrAdmin(User loggedUser) {
-        org.springframework.security.core.userdetails.User user = this.securityUtil.getCurrentlyLoggedUser();
+        String username = this.securityUtil.getCurrentlyLoggedUser();
         boolean hasAdminAuthority = this.securityUtil.hasUserAuthority(ADMIN);
 
-        return user.getUsername().equals(loggedUser.getUsername()) || hasAdminAuthority;
+        return username.equals(loggedUser.getUsername()) || hasAdminAuthority;
     }
 
     public User findOne(String username) {
@@ -124,6 +125,16 @@ public class UserServiceImpl implements UserService {
     }
 
     public User findByUserName(String username) throws UserNotFoundException {
+        return userDao.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    }
+
+    public User getCurrentlyLoggedUser() throws UserNotFoundException {
+        String username = securityUtil.getCurrentlyLoggedUser();
+
+        if (username == null) {
+            throw new UsernameNotFoundException("Cannot find currently logged user");
+        }
+
         return userDao.findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
 }

@@ -48,6 +48,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
+//            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
         if (username != null
                 && (SecurityContextHolder.getContext().getAuthentication() == null

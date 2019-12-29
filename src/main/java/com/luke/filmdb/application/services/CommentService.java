@@ -9,10 +9,13 @@ import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.model.comments.Comment;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.model.comments.PersonComment;
+import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.FilmCommentsRepo;
 import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.repository.PersonCommentsRepo;
 import com.luke.filmdb.application.repository.PersonRepo;
+import com.luke.filmdb.application.resource.filter.UserNotFoundException;
+import com.luke.filmdb.commons.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +37,7 @@ public class CommentService {
     private final FilmCommentsRepo filmCommentsRepo;
     private final PersonCommentsRepo personCommentsRepo;
     private final UserMapper userMapper;
+    private final UserService userService;
 
     //	@Transactional
     public Comment addComment(CommentsDTO commentDto) {
@@ -57,7 +61,15 @@ public class CommentService {
         Film film = this.filmDao.getFilmDetails(commentDto.getEntityId()).orElseThrow(() ->
                 new NotFoundException("Couldn't find film : " + commentDto.getEntityId()));
 
+
         FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
+        User currentlyLoggedUser = null;
+        try {
+            currentlyLoggedUser = userService.getCurrentlyLoggedUser();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        filmComment.setOwner(currentlyLoggedUser);
         filmComment.setFilm(film);
         return filmCommentsRepo.save(filmComment);
     }

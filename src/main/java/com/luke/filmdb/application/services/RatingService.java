@@ -9,6 +9,7 @@ import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.repository.PersonRepo;
 import com.luke.filmdb.application.repository.RatingRepo;
+import com.luke.filmdb.application.resource.filter.UserNotFoundException;
 import com.luke.filmdb.commons.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,13 @@ public class RatingService {
 
 
     public void addRating(RatingDTO ratingDTO) {
-        org.springframework.security.core.userdetails.User currentlyLoggedUser = securityUtil.getCurrentlyLoggedUser();
-        User user = userService.findOne(currentlyLoggedUser.getUsername());
+        User user = null;
+        try {
+            user = userService.getCurrentlyLoggedUser();
+        } catch (UserNotFoundException e) {
+            //todo wynieść wszędzie do zewnętrznej wspólnej metody
+            e.printStackTrace();
+        }
 
         switch (ratingDTO.getObjectType()) {
             case FILM:
