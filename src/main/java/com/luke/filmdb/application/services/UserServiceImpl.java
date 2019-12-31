@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isActualUserLoggedOrAdmin(User loggedUser) {
-        String username = this.securityUtil.getCurrentlyLoggedUser();
+        String username = this.securityUtil.getCurrentlyLoggedUser().getUsername();
         boolean hasAdminAuthority = this.securityUtil.hasUserAuthority(ADMIN);
 
         return username.equals(loggedUser.getUsername()) || hasAdminAuthority;
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getCurrentlyLoggedUser() throws UserNotFoundException {
-        String username = securityUtil.getCurrentlyLoggedUser();
+        String username = securityUtil.getCurrentlyLoggedUser().getUsername();
 
         if (username == null) {
             throw new UsernameNotFoundException("Cannot find currently logged user");

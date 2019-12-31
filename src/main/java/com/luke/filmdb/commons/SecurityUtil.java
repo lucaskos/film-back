@@ -17,10 +17,10 @@ import java.util.List;
 public class SecurityUtil {
     private final static String ROLE_PREFIX = "ROLE";
 
-    public String getCurrentlyLoggedUser() {
+    public User getCurrentlyLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return (String) authentication.getPrincipal();
+        return (User) authentication.getPrincipal();
     }
 
     public Collection<? extends GrantedAuthority> getCurrentlyLoggedAuthorities() {

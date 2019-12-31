@@ -61,7 +61,7 @@ public class RatingTest {
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
         //end test
-        Mockito.when(securityUtil.getCurrentlyLoggedUser()).thenReturn(getUser());
+//        Mockito.when(securityUtil.getCurrentlyLoggedUser()).thenReturn(getUser());
         Mockito.when(userService.findOne(any())).thenReturn(User.getInstance());
         Mockito.when(filmRepo.getOne(any())).thenReturn(getFilm());
 
