@@ -40,8 +40,9 @@ public class CommentService {
     private final UserService userService;
 
     //	@Transactional
-    public Comment addComment(CommentsDTO commentDto) {
+    public CommentsDTO addComment(CommentsDTO commentDto) {
         Comment comment;
+        CommentsDTO commentsDTO = null;
 
         if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
             comment = addFilmComment(commentDto);
@@ -52,15 +53,17 @@ public class CommentService {
             throw new RuntimeException("Unknown comment type");
         }
 
+        if (comment != null) {
+            commentsDTO = commentMapper.commentToCommentDTO(comment);
+        }
 
-        return comment;
+        return commentsDTO;
     }
 
     private Comment addFilmComment(CommentsDTO commentDto) {
 
         Film film = this.filmDao.getFilmDetails(commentDto.getEntityId()).orElseThrow(() ->
                 new NotFoundException("Couldn't find film : " + commentDto.getEntityId()));
-
 
         FilmComment filmComment = commentMapper.commentCommandToFilmCommentEntity(commentDto);
         User currentlyLoggedUser = null;
