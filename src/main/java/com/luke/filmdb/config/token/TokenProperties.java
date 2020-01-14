@@ -12,11 +12,11 @@ public class TokenProperties {
     @Value("${security.token.maxAgeSeconds}")
     private long maxAgeSeconds;
     @Value("${security.token.secret}")
-    private String secret;
+    private static String secret;
 
     public TokenProperties(long maxAgeSeconds, String secret) {
         this.maxAgeSeconds = maxAgeSeconds;
-        this.secret = secret;
+        TokenProperties.secret = secret;
     }
 
     public TokenProperties() {
@@ -30,11 +30,11 @@ public class TokenProperties {
         this.maxAgeSeconds = maxAgeSeconds;
     }
 
-    public String getSecret() {
-        return "test";
+    public static String getSecret() {
+        return secret;
     }
 
     public void setSecret(String secret) {
-        this.secret = secret;
+        TokenProperties.secret = secret;
     }
 }

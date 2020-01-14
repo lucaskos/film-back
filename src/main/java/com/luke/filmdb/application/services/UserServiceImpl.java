@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
             //todo update user
         } else {
             //todo save new userEntity
-            userEntity.setPassword(bcryptEncoder.encode(userEntity.getPassword()));
+            userEntity.setPassword(bcryptEncoder.encode(user.getPassword()));
             userEntity.setRoles(Collections.singletonList(roleRepo.findRoleByRoleName(USER)));
         }
         return userDao.save(userEntity);

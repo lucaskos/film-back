@@ -1,30 +1,20 @@
 package com.luke.filmdb.commons;
 
+import com.luke.filmdb.application.DTO.CommentsDTO;
+import com.luke.filmdb.application.DTO.user.LoginUserDTO;
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.model.comments.PersonComment;
 import com.luke.filmdb.application.model.user.User;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.Collections;
 
-public class CommentsCommon {
+public class CommentsCommon extends FilmMapperCommons {
     public static String COMMENT_TEXT = "TEST_COMMENT";
     public static Long FILM_ID = 1L;
     public static Long USER_ID = 1L;
-
-    public Film getFilm() {
-        Film film = new Film();
-        film.setFilmComments(new ArrayList<>());
-        film.setId(1L);
-        film.setTitle("TITLE");
-        film.setYear(1000);
-        FilmComment filmComment = getFilmComment();
-        film.setFilmComments(Arrays.asList(filmComment));
-        return film;
-    }
 
     public FilmComment getFilmComment() {
         FilmComment filmComment = new FilmComment();
@@ -46,6 +36,25 @@ public class CommentsCommon {
         person.setLastName("TEST");
         person.getPersonComment().addAll(Collections.singleton(getPersonComment()));
         return person;
+    }
+
+    public CommentsDTO getCommentsDTO() {
+        CommentsDTO commentsDTO = new CommentsDTO();
+        commentsDTO.setUser(new LoginUserDTO());
+        commentsDTO.setText(COMMENT_TEXT);
+        commentsDTO.setId(1L);
+        commentsDTO.setTitle(COMMENT_TEXT);
+        commentsDTO.setEntityId(1L);
+        commentsDTO.setCreatedDate(LocalDate.now());
+        return commentsDTO;
+    }
+
+    public Film getSimpleFilmWithSingleComment() {
+        Film simpleFilm = getSimpleFilm();
+        FilmComment filmComment = getFilmComment();
+        simpleFilm.setFilmComments(Collections.singletonList(filmComment));
+        return simpleFilm;
+
     }
 
 }
