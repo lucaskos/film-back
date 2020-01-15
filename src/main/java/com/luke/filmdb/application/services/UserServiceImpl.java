@@ -65,6 +65,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isActualUserLoggedOrAdmin(User loggedUser) {
+        if (loggedUser == null || loggedUser.getUsername() == null)
+            return false;
+
+        if (this.securityUtil.getCurrentlyLoggedUser() == null)
+            return false;
+
         String username = this.securityUtil.getCurrentlyLoggedUser().getUsername();
         boolean hasAdminAuthority = this.securityUtil.hasUserAuthority(ADMIN);
 
@@ -95,15 +101,14 @@ public class UserServiceImpl implements UserService {
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList()) : null;
     }
 
-
-    //todo test
     public User saveUser(RegisterDTO user) {
         Role defaultRole = getDefaultRole();
 
         User userEntity = userMapper.userDtoToUser(user);
 
-        if (isActualUserLoggedOrAdmin(userEntity)) {
+        if (isActualUserLoggedOrAdmin(userEntity) || user.getPassword() == null) {
             userEntity.setRoles(Collections.singletonList(defaultRole));
+            userEntity.setPassword(bcryptEncoder.encode(user.getPassword()));
             userDao.save(userEntity);
             //todo update user
         } else {
