@@ -1,8 +1,8 @@
 package com.luke.filmdb.application.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luke.filmdb.application.model.ObjectRating;
 import com.luke.filmdb.application.model.comments.PersonComment;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
