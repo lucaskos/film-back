@@ -5,7 +5,9 @@ import com.luke.filmdb.application.DTO.mapper.UserMapper;
 import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.UserRepository;
+import com.luke.filmdb.application.resource.filter.UserNotFoundException;
 import com.luke.filmdb.application.services.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -19,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -37,7 +38,6 @@ public class UserServiceTests {
 
     @Autowired
     UserService userService;
-
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Mock
@@ -57,10 +57,12 @@ public class UserServiceTests {
     public void updateUserWithMockAdminUser() {
         Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn(USER_PASSWORD);
         Mockito.when(userMapper.userDtoToUser(getRegisterDTO())).thenReturn(new User(ADMIN_USERNAME, USER_PASSWORD, null));
+
         RegisterDTO registerDTO = getRegisterDTO();
         registerDTO.setUsername(ADMIN_USERNAME);
+
         User user = userService.saveUser(registerDTO);
-        Assert.isTrue(user.getId() > 0, "User has been updated.");
+        Assert.assertTrue( "User has been updated.", user.getId() > 0);
     }
 
     @Test
@@ -70,20 +72,37 @@ public class UserServiceTests {
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
+
         User user = userService.saveUser(getRegisterDTO());
-        Assert.isTrue(user.getId() > 0, "New user saved.");
+        Assert.assertTrue("New user saved.", user.getId() > 0);
     }
 
     @Test
     @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
     public void updateUser() {
         UserDTO userDTO = getUserDTO();
-        Assert.isTrue(!userDTO.getUsername().equals(USERNAME), "UserDTO.username != USERNAME_TEST.");
+        Assert.assertTrue("UserDTO.username != USERNAME_TEST.", !userDTO.getUsername().equals(USERNAME));
 
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.of(getUser()));
 
         UserDTO update = userService.update(userDTO);
-        Assert.isTrue(update.getUsername().equals(USERNAME_CHANGED_TEST), "Username equals changed value.");
+        Assert.assertTrue("Username equals changed value.", update.getUsername().equals(USERNAME_CHANGED_TEST));
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
+    public void getUserThrowUserNotfoundException() throws UserNotFoundException {
+        User currentlyLoggedUser = userService.getCurrentlyLoggedUser();
+    }
+
+    @Test
+    @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
+    public void getCurrentlyLoggedUsernameAndCheckName() throws UserNotFoundException {
+
+        Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(getUser()));
+
+        User currentlyLoggedUser = userService.getCurrentlyLoggedUser();
+        Assert.assertEquals(USERNAME, currentlyLoggedUser.getUsername());
     }
 
     private UserDTO getUserDTO() {
