@@ -1,6 +1,6 @@
 package com.luke.filmdb.application.services;
 
-import com.luke.filmdb.application.DTO.CommentsDTO;
+import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.DTO.mapper.CommentMapper;
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
 import com.luke.filmdb.application.commands.ObjectType;
@@ -15,7 +15,6 @@ import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.repository.PersonCommentsRepo;
 import com.luke.filmdb.application.repository.PersonRepo;
 import com.luke.filmdb.application.resource.filter.UserNotFoundException;
-import com.luke.filmdb.commons.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +39,9 @@ public class CommentService {
     private final UserService userService;
 
     //	@Transactional
-    public CommentsDTO addComment(CommentsDTO commentDto) {
+    public CommentDTO addComment(CommentDTO commentDto) {
         Comment comment;
-        CommentsDTO commentsDTO = null;
+        CommentDTO commentDTO = null;
 
         if (ObjectType.FILM.toString().equals(commentDto.getEntityType())) {
             comment = addFilmComment(commentDto);
@@ -54,13 +53,13 @@ public class CommentService {
         }
 
         if (comment != null) {
-            commentsDTO = commentMapper.commentToCommentDTO(comment);
+            commentDTO = commentMapper.commentToCommentDTO(comment);
         }
 
-        return commentsDTO;
+        return commentDTO;
     }
 
-    private Comment addFilmComment(CommentsDTO commentDto) {
+    private Comment addFilmComment(CommentDTO commentDto) {
 
         Film film = this.filmDao.getFilmDetails(commentDto.getEntityId()).orElseThrow(() ->
                 new NotFoundException("Couldn't find film : " + commentDto.getEntityId()));
@@ -77,7 +76,7 @@ public class CommentService {
         return filmCommentsRepo.save(filmComment);
     }
 
-    private Comment addPersonComment(CommentsDTO commentDto) {
+    private Comment addPersonComment(CommentDTO commentDto) {
         Person person = personRepo.getPersonDetails(commentDto.getEntityId()).orElseThrow(() ->
                 new NotFoundException("Couldn't find person : " + commentDto.getEntityId()));
 //        personRepo.getPersonDetails(commentDto.getEntityId());
@@ -160,32 +159,31 @@ public class CommentService {
 //        });
 //    }
 
-    public List<CommentsDTO> findEntityComments(CommentsDTO commentsDTO) {
+    public List<CommentDTO> findEntityComments(CommentDTO commentDTO) {
 
-        if (ObjectType.FILM.toString().equals(commentsDTO.getEntityType())) {
+        if (ObjectType.FILM.toString().equals(commentDTO.getEntityType())) {
 
             Optional<List<FilmComment>> filmCommentsByFilmId =
-                    filmCommentsRepo.findByFilmId(filmDao.getOne(commentsDTO.getEntityId()).getId());
+                    filmCommentsRepo.findByFilmId(commentDTO.getEntityId());
 
             List<FilmComment> filmComments = filmCommentsByFilmId.orElseThrow(
-                    () -> new NotFoundException("For film : " + commentsDTO.getEntityId() + " no comments found"));
+                    () -> new NotFoundException("For film : " + commentDTO.getEntityId() + " no comments found"));
 
-            List<CommentsDTO> comments = new ArrayList<>();
+            List<CommentDTO> comments = new ArrayList<>();
             filmComments.forEach(comment -> comments.add(commentMapper.commentToCommentDTO(comment)));
 
             return comments;
-        } else if (ObjectType.PERSON.toString().equals(commentsDTO.getEntityType())) {
-            Person one = personRepo.getOne(commentsDTO.getEntityId());
-            //must todo wywalic Optional<List<PersonComment>> byFilmId = personCommentsRepo.findByFilmId(one.getId());
-            Optional<List<PersonComment>> byFilmId = Optional.ofNullable(personCommentsRepo.findAll());
+        } else if (ObjectType.PERSON.toString().equals(commentDTO.getEntityType())) {
 
-            List<PersonComment> personComments = byFilmId.orElseThrow(
-                    () -> new NotFoundException("For person: " + commentsDTO.getEntityId() + " no comment found")
+            Optional<List<PersonComment>> personCommentsByFilmId = personCommentsRepo.findByPersonId(commentDTO.getEntityId());
+
+            List<PersonComment> personComments = personCommentsByFilmId.orElseThrow(
+                    () -> new NotFoundException("For person: " + commentDTO.getEntityId() + " no comment found")
             );
 
-            List<CommentsDTO> commentsDTOS = new ArrayList<>();
-            personComments.forEach(comment -> commentsDTOS.add(commentMapper.commentToCommentDTO(comment)));
-            return commentsDTOS;
+            List<CommentDTO> comments = new ArrayList<>();
+            personComments.forEach(comment -> comments.add(commentMapper.commentToCommentDTO(comment)));
+            return comments;
         } else {
             logger.error("Unknown comment type.");
             //throw new RuntimeException("Unknown object type.");

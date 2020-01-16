@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,9 +65,9 @@ public class FilmServiceTest extends FilmMapperCommons {
         Film film = new Film();
         film.setTitle(FILM_TITLE);
 
-        Mockito.when(filmRepo.save(any(Film.class))).thenReturn(film);
-        Mockito.when(filmMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(film);
-        Mockito.when(filmMapper.filmToFilmDTO(any(Film.class))).thenReturn(filmDTO);
+        when(filmRepo.save(any(Film.class))).thenReturn(film);
+        when(filmMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(film);
+        when(filmMapper.filmToFilmDTO(any(Film.class))).thenReturn(filmDTO);
 
         FilmDTO filmDTO1 = filmService.addFilm(filmDTO);
 
@@ -78,9 +79,9 @@ public class FilmServiceTest extends FilmMapperCommons {
         FilmDTO film = new FilmDTO();
         Film savedFilm = new Film();
 
-        Mockito.when(filmRepo.saveAndFlush(any(Film.class))).thenReturn(savedFilm);
-        Mockito.when(filmMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(savedFilm);
-        Mockito.when(filmMapper.filmToFilmDTO(any(Film.class))).thenReturn(film);
+        when(filmRepo.saveAndFlush(any(Film.class))).thenReturn(savedFilm);
+        when(filmMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(savedFilm);
+        when(filmMapper.filmToFilmDTO(any(Film.class))).thenReturn(film);
 
         FilmDTO filmDTO = filmService.saveFilm(film).get();
 
@@ -121,12 +122,12 @@ public class FilmServiceTest extends FilmMapperCommons {
         filmRelations.setFilm(updatedRelations.getFilmRelations().iterator().next().getFilm());
         updatedRelations.getFilmRelations().add(filmRelations);
 
-        Mockito.when(personMapper.personDTOToPerson(getPersonDtoTest(PERSON_ID))).thenReturn(getPerson());
-        Mockito.when(filmMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(FILM_ID));
-        Mockito.when(filmRepo.saveAndFlush(any())).thenReturn(updatedRelations);
-        Mockito.when(filmRepo.getOne(FILM_ID)).thenReturn(film);
+        when(personMapper.personDTOToPerson(getPersonDtoTest(PERSON_ID))).thenReturn(getPerson());
+        when(filmMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(FILM_ID));
+        when(filmRepo.saveAndFlush(any())).thenReturn(updatedRelations);
+        when(filmRepo.getOne(FILM_ID)).thenReturn(film);
 
-        FilmDTO filmDTO = getSimpleTestFilm();
+        FilmDTO filmDTO = getSimpleDTOFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -143,12 +144,12 @@ public class FilmServiceTest extends FilmMapperCommons {
     @Test
     public void filmWithEditedRelation() {
 
-        Mockito.when(filmMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(EDITED_FILM));
-        Mockito.when(filmRepo.saveAndFlush(any())).thenReturn(getFilm(EDITED_FILM));
-        Mockito.when(filmRepo.getOne(EDITED_FILM)).thenReturn(getFilm(EDITED_FILM));
-        Mockito.when(personMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
+        when(filmMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(EDITED_FILM));
+        when(filmRepo.saveAndFlush(any())).thenReturn(getFilm(EDITED_FILM));
+        when(filmRepo.getOne(EDITED_FILM)).thenReturn(getFilm(EDITED_FILM));
+        when(personMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
 
-        FilmDTO filmDTO = getSimpleTestFilm();
+        FilmDTO filmDTO = getSimpleDTOFilm();
         filmDTO.setFilmId(EDITED_FILM);
 
         List<PersonDTO> personDTOList = new ArrayList<>();
@@ -178,11 +179,11 @@ public class FilmServiceTest extends FilmMapperCommons {
         Person firstPerson = getPerson();
         Person secondPerson = getSecondPerson();
 
-        Mockito.when(filmRepo.saveAndFlush(any())).thenReturn(film);
-        Mockito.when(filmRepo.getOne(FILM_ID)).thenReturn(getFilm(FILM_ID));
-        Mockito.when(filmMapper.filmDTOToFilm(any())).thenReturn(getFilm(FILM_ID));
+        when(filmRepo.saveAndFlush(any())).thenReturn(film);
+        when(filmRepo.getOne(FILM_ID)).thenReturn(getFilm(FILM_ID));
+        when(filmMapper.filmDTOToFilm(any())).thenReturn(getFilm(FILM_ID));
 
-        FilmDTO filmDTO = getSimpleTestFilm();
+        FilmDTO filmDTO = getSimpleDTOFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -194,10 +195,10 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        Mockito.when(personMapper.personDTOToPerson(personDtoTest)).thenReturn(firstPerson);
-        Mockito.when(personMapper.personDTOToPerson(personDtoTestSecond)).thenReturn(secondPerson);
+        when(personMapper.personDTOToPerson(personDtoTest)).thenReturn(firstPerson);
+        when(personMapper.personDTOToPerson(personDtoTestSecond)).thenReturn(secondPerson);
 
-        Mockito.when(filmMapper.filmToFilmDTO(any())).thenReturn(filmDTO);
+        when(filmMapper.filmToFilmDTO(any())).thenReturn(filmDTO);
 
         FilmDTO filmDTO1 = filmService.saveFilm(filmDTO).get();
 
@@ -209,7 +210,7 @@ public class FilmServiceTest extends FilmMapperCommons {
     public void deleteFilm() {
         Film film = getFilm(FILM_ID);
 
-        Mockito.when(filmRepo.findById(any())).thenReturn(Optional.of(film));
+        when(filmRepo.findById(any())).thenReturn(Optional.of(film));
 
         filmService.deleteFilm(film.id);
 
@@ -270,5 +271,24 @@ public class FilmServiceTest extends FilmMapperCommons {
         filmDTO.setPeopleList(Arrays.asList(personDTO));
 
         return filmDTO;
+    }
+
+    @Test
+    public void getAllFilms() {
+        when(filmRepo.findAll()).thenReturn(Collections.singletonList(getSimpleFilm()));
+
+        List<FilmDTO> allFilms = filmService.getAllFilms();
+
+        Assert.assertTrue(allFilms.size() > 0);
+    }
+
+    @Test
+    public void getFilmDetails() {
+        when(filmRepo.getFilmDetails(FILM_ID)).thenReturn(Optional.ofNullable(getSimpleFilm()));
+        when(filmMapper.filmToFilmDTO(getSimpleFilm())).thenReturn(getSimpleDTOFilm());
+
+        FilmDTO filmDetails = filmService.getFilmDetails(FILM_ID);
+
+        Assert.assertNotNull(filmDetails);
     }
 }

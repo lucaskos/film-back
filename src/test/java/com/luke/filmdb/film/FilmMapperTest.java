@@ -1,6 +1,6 @@
 package com.luke.filmdb.film;
 
-import com.luke.filmdb.application.DTO.CommentsDTO;
+import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
 import com.luke.filmdb.application.DTO.user.UserDTO;
@@ -32,7 +32,7 @@ public class FilmMapperTest extends FilmMapperCommons {
     @Test
     public void mapFilmDto() {
 
-        FilmDTO filmDTO = getSimpleTestFilm();
+        FilmDTO filmDTO = getSimpleDTOFilm();
 
         Film film = mapper.filmDTOToFilm(filmDTO);
 
@@ -48,7 +48,7 @@ public class FilmMapperTest extends FilmMapperCommons {
     //todo mapping like that cannot be done person <-> film
     @Test
     public void mapFilmDtoWithRelations() {
-        FilmDTO filmDTO = getSimpleTestFilm();
+        FilmDTO filmDTO = getSimpleDTOFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
         PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
@@ -65,17 +65,17 @@ public class FilmMapperTest extends FilmMapperCommons {
 
     @Test
     public void mapFilmDtoWithComments() {
-        FilmDTO filmDTO = getSimpleTestFilm();
+        FilmDTO filmDTO = getSimpleDTOFilm();
 
-        CommentsDTO commentsDTO = new CommentsDTO();
-        commentsDTO.setCreatedDate(LocalDate.now());
-        commentsDTO.setText("TEXT");
-        commentsDTO.setTitle("TITLE");
-        commentsDTO.setEntityId(FILM_ID);
-        commentsDTO.setUser(new UserDTO());
-        commentsDTO.setId(1L);
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setCreatedDate(LocalDate.now());
+        commentDTO.setText("TEXT");
+        commentDTO.setTitle("TITLE");
+        commentDTO.setEntityId(FILM_ID);
+        commentDTO.setUser(new UserDTO());
+        commentDTO.setId(1L);
 
-        filmDTO.getFilmCommentsList().add(commentsDTO);
+        filmDTO.getFilmCommentsList().add(commentDTO);
 
         Film film = mapper.filmDTOToFilm(filmDTO);
 

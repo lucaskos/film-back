@@ -22,7 +22,7 @@ public abstract class FilmMapperCommons {
     protected static final Long PERSON_ID = 1L;
     protected static int FILM_YEAR = 2000;
 
-    public FilmDTO getSimpleTestFilm() {
+    public FilmDTO getSimpleDTOFilm() {
         FilmDTO filmDTO = new FilmDTO();
         filmDTO.setTitle(FILM_TITLE);
         filmDTO.setFilmId(FILM_ID);

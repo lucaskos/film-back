@@ -1,6 +1,6 @@
 package com.luke.filmdb.application.resource;
 
-import com.luke.filmdb.application.DTO.CommentsDTO;
+import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.services.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ public class CommentsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addComment(@RequestBody CommentsDTO commentsDTO) {
-        Object savedComment = commentService.addComment(commentsDTO);
+    public ResponseEntity addComment(@RequestBody CommentDTO commentDTO) {
+        Object savedComment = commentService.addComment(commentDTO);
         return new ResponseEntity(savedComment, HttpStatus.OK);
     }
 
@@ -40,7 +40,7 @@ public class CommentsController {
     }
 
     @PostMapping("/list")
-    public ResponseEntity getEntityComments(@RequestBody CommentsDTO commentsDTO) {
-        return new ResponseEntity(commentService.findEntityComments(commentsDTO), HttpStatus.OK);
+    public ResponseEntity getEntityComments(@RequestBody CommentDTO commentDTO) {
+        return new ResponseEntity(commentService.findEntityComments(commentDTO), HttpStatus.OK);
     }
 }

@@ -1,6 +1,6 @@
 package com.luke.filmdb.application.DTO.mapper;
 
-import com.luke.filmdb.application.DTO.CommentsDTO;
+import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
 import com.luke.filmdb.application.model.Film;
@@ -71,9 +71,9 @@ public interface FilmMapper {
 
     PersonDTO personToPersonDTO(Person person);
 
-    FilmComment commentToFilmCommentDTO(CommentsDTO commentsDTO);
+    FilmComment commentToFilmCommentDTO(CommentDTO commentDTO);
 
-    CommentsDTO filmToFilmDtoComments(FilmComment filmComment);
+    CommentDTO filmToFilmDtoComments(FilmComment filmComment);
 
 //    @Named("peopleToFilmRelations")
 //    default List<FilmRelations> peopleToFilmRelation(FilmDTO film) {

@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonCommentsRepo extends JpaRepository<PersonComment, Long> {
-//    Optional<List<PersonComment>> findByFilmId(@Param("film") Long filmId);
+    Optional<List<PersonComment>> findByPersonId(@Param("personId") Long personId);
 }

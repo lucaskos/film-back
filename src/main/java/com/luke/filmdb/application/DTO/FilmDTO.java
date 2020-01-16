@@ -18,7 +18,7 @@ public class FilmDTO {
     private LocalDate modificationDate;
     //    private MultiValueMap<String, PersonDTO> peopleList = new LinkedMultiValueMap<>();
     private List<PersonDTO> peopleList = new ArrayList<>();
-    private List<CommentsDTO> filmCommentsList = new ArrayList<>();
+    private List<CommentDTO> filmCommentsList = new ArrayList<>();
 
     @Override
     public String toString() {

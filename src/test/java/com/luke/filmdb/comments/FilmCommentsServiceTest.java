@@ -1,9 +1,7 @@
 package com.luke.filmdb.comments;
 
-import com.luke.filmdb.application.DTO.CommentsDTO;
+import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.DTO.mapper.CommentMapper;
-import com.luke.filmdb.application.DTO.user.UserDTO;
-import com.luke.filmdb.application.commands.CommentCommand;
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.repository.FilmCommentsRepo;
@@ -23,7 +21,11 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -54,13 +56,8 @@ public class FilmCommentsServiceTest extends CommentsCommon {
     public void filmCommentExistsTest() throws UserNotFoundException {
         Film film = getSimpleFilmWithSingleComment();
 
-        Mockito.when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
-        Mockito.when(commentMapper.commentCommandToFilmCommentEntity(Mockito.any())).thenReturn(getFilmComment());
-
-//        Mockito.when(userService.getCurrentlyLoggedUser()).thenReturn(new User());
-//        Mockito.when(filmCommentsRepo.save(Mockito.any())).thenReturn(getFilmComment());
-//        Mockito.when(filmRepo.save(Mockito.any())).thenReturn(getSimpleFilm());
-//        Mockito.when(commentMapper.commentToCommentDTO(Mockito.any())).thenReturn(getCommentsDTO());
+        when(filmRepo.getFilmDetails(Mockito.anyLong())).thenReturn(Optional.of(film));
+        when(commentMapper.commentCommandToFilmCommentEntity(Mockito.any())).thenReturn(getFilmComment());
 
         commentService.addComment(getFilmCommentDTO());
 
@@ -71,49 +68,41 @@ public class FilmCommentsServiceTest extends CommentsCommon {
     public void getPersonCommentExistsTest() {
         Person person = getPerson();
 
-        Mockito.when(personRepo.getPersonDetails(Mockito.any())).thenReturn(Optional.of(person));
+        when(personRepo.getPersonDetails(Mockito.any())).thenReturn(Optional.of(person));
 
-        Mockito.when(commentMapper.commentCommandToPersonCommandEntity(Mockito.any())).thenReturn(getPersonComment());
-        Mockito.when(personCommentsRepo.save(Mockito.any())).thenReturn(getPersonComment());
-        Mockito.when(personRepo.save(Mockito.any())).thenReturn(getPerson());
+        when(commentMapper.commentCommandToPersonCommandEntity(Mockito.any())).thenReturn(getPersonComment());
+        when(personCommentsRepo.save(Mockito.any())).thenReturn(getPersonComment());
+        when(personRepo.save(Mockito.any())).thenReturn(getPerson());
 
         commentService.addComment(getPersonCommentDTO());
 
         Assert.assertNotNull(person.getPersonComment().get(0));
     }
 
+    @Test
+    public void getSingleFilmComment() {
+        CommentDTO commentDTO = getFilmCommentDTO();
 
-    private CommentCommand getFilmCommand() {
-        CommentCommand commentCommand = new CommentCommand();
-        commentCommand.setEntityType("FILM");
+        when(filmCommentsRepo.findByFilmId(FILM_ID)).thenReturn(Optional.of(Collections.singletonList(getFilmComment())));
+        when(commentMapper.commentToCommentDTO(getFilmComment())).thenReturn(getCommentsDTO());
 
-        commentCommand.setCommentsDTO(getFilmCommentDTO());
+        List<CommentDTO> entityComments = commentService.findEntityComments(commentDTO);
 
-        return commentCommand;
+        Assert.assertTrue(entityComments.size() > 0);
+        Assert.assertEquals(getFilmComment().getText(), entityComments.get(0).getText());
     }
 
-    private CommentCommand getPersonCommand() {
-        CommentCommand commentCommand = new CommentCommand();
-        commentCommand.setEntityType("PERSON");
+    @Test
+    public void getSinglePersonComment() {
+        CommentDTO commentDTO = getPersonCommentDTO();
 
-        commentCommand.setCommentsDTO(getPersonCommentDTO());
+        when(personCommentsRepo.findByPersonId(PERSON_ID)).thenReturn(Optional.of(Collections.singletonList(getPersonComment())));
+        when(commentMapper.commentToCommentDTO(getPersonComment())).thenReturn(getCommentsDTO());
 
-        return commentCommand;
-    }
+        List<CommentDTO> entityComments = commentService.findEntityComments(commentDTO);
 
-    private CommentsDTO getPersonCommentDTO() {
-        CommentsDTO commentsDTO = new CommentsDTO();
-        commentsDTO.setEntityType("PERSON");
-        return commentsDTO;
-    }
-
-    private CommentsDTO getFilmCommentDTO() {
-        CommentsDTO commentsDTO = new CommentsDTO();
-        commentsDTO.setText(COMMENT_TEXT);
-        commentsDTO.setUser(new UserDTO());
-        commentsDTO.setEntityId(FILM_ID);
-        commentsDTO.setEntityType("FILM");
-        return commentsDTO;
+        Assert.assertTrue(entityComments.size() > 0);
+        Assert.assertEquals(getFilmComment().getText(), entityComments.get(0).getText());
     }
 
 
