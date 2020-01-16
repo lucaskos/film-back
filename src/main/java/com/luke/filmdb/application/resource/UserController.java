@@ -39,7 +39,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterDTO user) {
-        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.saveNewUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
@@ -48,8 +48,8 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<User> updateUser(@RequestBody RegisterDTO user) {
-        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO user) {
+        return new ResponseEntity<UserDTO>(userService.update(user), HttpStatus.OK);
     }
 
     @PostMapping("/signin")

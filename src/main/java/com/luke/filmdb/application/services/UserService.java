@@ -9,13 +9,11 @@ import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
-    User saveUser(RegisterDTO user);
+    User saveNewUser(RegisterDTO user);
 
     List<UserDTO> findAll();
 
     void delete(Long id);
-
-    User findOne(String username);
 
     User findById(Long id);
 
@@ -24,4 +22,6 @@ public interface UserService {
     Collection<String> findLoggedUserRoles();
 
     User getCurrentlyLoggedUser() throws UserNotFoundException;
+
+//    User findByUserName(String username) throws UserNotFoundException;
 }

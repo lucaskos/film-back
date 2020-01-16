@@ -1,23 +1,23 @@
 package com.luke.filmdb.application.services;
 
 import com.luke.filmdb.application.DTO.RegisterDTO;
-import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.Role;
+import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.RoleRepo;
 import com.luke.filmdb.application.repository.UserRepository;
-import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.resource.filter.UserNotFoundException;
 import com.luke.filmdb.commons.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,16 +37,16 @@ import static com.luke.filmdb.security.Roles.USER;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository userDao;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bcryptEncoder;
     private final UserMapper userMapper;
-    private final RoleRepo roleRepo;
+    private final RoleRepo roleRepository;
     private final SecurityUtil securityUtil;
 
     @Secured(ADMIN)
     public List<UserDTO> findAll() {
         List<UserDTO> list = new ArrayList<>();
-        userDao.findAll().stream().forEach(user -> {
+        userRepository.findAll().stream().forEach(user -> {
             list.add(userMapper.userToUserDto(user));
         });
         return list;
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         User userToRemove = findById(id);
 
         if (isActualUserLoggedOrAdmin(userToRemove)) {
-            userDao.delete(userToRemove);
+            userRepository.delete(userToRemove);
         } else {
             throw new AuthenticationServiceException("You're cannot perform this operation");
         }
@@ -77,20 +77,17 @@ public class UserServiceImpl implements UserService {
         return username.equals(loggedUser.getUsername()) || hasAdminAuthority;
     }
 
-    public User findOne(String username) {
-        return userDao.findByUsername(username).get();
-    }
-
     public User findById(Long id) {
-        Optional<User> optionalUser = userDao.findById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.orElse(null);
     }
 
     public UserDTO update(UserDTO UserDTO) {
         User user = findById(UserDTO.getId());
+
         if (user != null) {
             BeanUtils.copyProperties(UserDTO, user, "password");
-            userDao.save(user);
+            userRepository.save(user);
         }
         return UserDTO;
     }
@@ -101,45 +98,41 @@ public class UserServiceImpl implements UserService {
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList()) : null;
     }
 
-    public User saveUser(RegisterDTO user) {
+    public User saveNewUser(RegisterDTO user) {
         Role defaultRole = getDefaultRole();
 
         User userEntity = userMapper.userDtoToUser(user);
 
-        if (isActualUserLoggedOrAdmin(userEntity) || user.getPassword() == null) {
-            userEntity.setRoles(Collections.singletonList(defaultRole));
-            userEntity.setPassword(bcryptEncoder.encode(user.getPassword()));
-            userDao.save(userEntity);
-            //todo update user
-        } else {
-            //todo save new userEntity
-            userEntity.setPassword(bcryptEncoder.encode(user.getPassword()));
-            userEntity.setRoles(Collections.singletonList(roleRepo.findRoleByRoleName(USER)));
+        userEntity.setRoles(Collections.singletonList(defaultRole));
+        userEntity.setPassword(bcryptEncoder.encode(user.getPassword()));
+
+        if (!isActualUserLoggedOrAdmin(userEntity) || user.getPassword() == null) {
+            throw new AuthorizationServiceException("Error in authorization");
         }
-        return userDao.save(userEntity);
+        return userRepository.save(userEntity);
     }
 
 
     Role getDefaultRole() {
-        Role role_user = roleRepo.findRoleByRoleName(USER);
+        Role role_user = roleRepository.findRoleByRoleName(USER);
         return role_user;
     }
 
-    public User findByEmail(String email) throws UserNotFoundException {
-        return userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
-    }
-
-    public User findByUserName(String username) throws UserNotFoundException {
-        return userDao.findByUsername(username).orElseThrow(UserNotFoundException::new);
-    }
+//    public User findByEmail(String email) throws UserNotFoundException {
+//        return userDao.findByEmail(email).orElseThrow(UserNotFoundException::new);
+//    }
+//
+//    public User findByUserName(String username) throws UserNotFoundException {
+//        return userDao.findByUsername(username).orElseThrow(UserNotFoundException::new);
+//    }
 
     public User getCurrentlyLoggedUser() throws UserNotFoundException {
-        String username = securityUtil.getCurrentlyLoggedUser().getUsername();
+        org.springframework.security.core.userdetails.User currentlyLoggedUser = securityUtil.getCurrentlyLoggedUser();
 
-        if (username == null) {
-            throw new UsernameNotFoundException("Cannot find currently logged user");
+        if (currentlyLoggedUser == null) {
+            throw new AuthorizationServiceException("Unauthorized user");
         }
 
-        return userDao.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        return userRepository.findByUsername(currentlyLoggedUser.getUsername()).orElseThrow(UserNotFoundException::new);
     }
 }

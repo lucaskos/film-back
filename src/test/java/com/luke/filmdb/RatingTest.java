@@ -3,7 +3,6 @@ package com.luke.filmdb;
 import com.luke.filmdb.application.DTO.RatingDTO;
 import com.luke.filmdb.application.commands.ObjectType;
 import com.luke.filmdb.application.model.Film;
-import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.repository.PersonRepo;
 import com.luke.filmdb.application.repository.RatingRepo;
@@ -62,7 +61,7 @@ public class RatingTest {
         SecurityContextHolder.setContext(securityContext);
         //end test
 //        Mockito.when(securityUtil.getCurrentlyLoggedUser()).thenReturn(getUser());
-        Mockito.when(userService.findOne(any())).thenReturn(User.getInstance());
+//        Mockito.when(userService.findOne(any())).thenReturn(User.getInstance());
         Mockito.when(filmRepo.getOne(any())).thenReturn(getFilm());
 
         ratingService.addRating(getRatingDTO());

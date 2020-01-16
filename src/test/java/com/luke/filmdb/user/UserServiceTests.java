@@ -4,16 +4,20 @@ import com.luke.filmdb.application.DTO.RegisterDTO;
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
 import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
+import com.luke.filmdb.application.repository.RoleRepo;
 import com.luke.filmdb.application.repository.UserRepository;
 import com.luke.filmdb.application.resource.filter.UserNotFoundException;
-import com.luke.filmdb.application.services.UserService;
+import com.luke.filmdb.application.services.UserServiceImpl;
+import com.luke.filmdb.commons.SecurityUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +26,16 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -32,49 +45,67 @@ public class UserServiceTests {
 
     private static final String USER_PASSWORD = "USERNAME_TEST";
     private static final String USERNAME = "USERNAME_TEST";
-    private static final String FIRSTNAME = "FIRSTNAME";
+    private static final String FIRST_NAME = "FIRSTNAME";
     private static final String USERNAME_CHANGED_TEST = "NEWUSERNAME";
     private static final Long USER_ID = 1L;
+    private static final String EMAIL_ADDRESS = "EMAIL_ADDRESS";
 
-    @Autowired
-    UserService userService;
+    private static final String ROLE_USER = "ROLE_USER";
+
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Mock
     UserMapper userMapper;
     @Mock
     UserRepository userRepository;
+    @Mock
+    SecurityUtil securityUtil;
+    @Mock
+    RoleRepo roleRepo;
+    @InjectMocks
+    UserServiceImpl userService;
 
     private RegisterDTO getRegisterDTO() {
         RegisterDTO registerDTO = new RegisterDTO();
         registerDTO.setPassword(USER_PASSWORD);
         registerDTO.setUsername(USERNAME);
+        registerDTO.setId(USER_ID);
         return registerDTO;
     }
 
     @Test
-    @WithMockUser(username = ADMIN_USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
     public void updateUserWithMockAdminUser() {
-        Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn(USER_PASSWORD);
-        Mockito.when(userMapper.userDtoToUser(getRegisterDTO())).thenReturn(new User(ADMIN_USERNAME, USER_PASSWORD, null));
+        when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn(USER_PASSWORD);
+        when(userMapper.userDtoToUser(getRegisterDTO())).thenReturn(new User(ADMIN_USERNAME, USER_PASSWORD, null));
+        when(userRepository.save(any(User.class))).thenReturn(getUser());
+
+        org.springframework.security.core.userdetails.User user =
+                new org.springframework.security.core.userdetails.User(ADMIN_USERNAME, USER_PASSWORD, new ArrayList<>());
+        when(securityUtil.getCurrentlyLoggedUser()).thenReturn(user);
 
         RegisterDTO registerDTO = getRegisterDTO();
         registerDTO.setUsername(ADMIN_USERNAME);
 
-        User user = userService.saveUser(registerDTO);
-        Assert.assertTrue( "User has been updated.", user.getId() > 0);
+        User userUpdated = userService.saveNewUser(registerDTO);
+
+        Assert.assertNotNull(userUpdated);
+        verify(userRepository, times(1)).save(any());
+        verify(roleRepo, times(1)).findRoleByRoleName(ROLE_USER);
     }
 
     @Test
-    @WithAnonymousUser
     public void saveNewUser() {
-        Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
 
-        User user = userService.saveUser(getRegisterDTO());
-        Assert.assertTrue("New user saved.", user.getId() > 0);
+        User userToBeSaved = getUser();
+
+        when(userRepository.findById(userToBeSaved.getId())).thenReturn(Optional.of(userToBeSaved));
+
+        UserDTO user = userService.update(getRegisterDTO());
+
+        Assert.assertNotNull(user);
+
+        verify(userRepository, times(1)).save(userToBeSaved);
+        verify(userRepository, times(1)).findById(userToBeSaved.getId());
     }
 
     @Test
@@ -83,31 +114,79 @@ public class UserServiceTests {
         UserDTO userDTO = getUserDTO();
         Assert.assertTrue("UserDTO.username != USERNAME_TEST.", !userDTO.getUsername().equals(USERNAME));
 
-        Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.of(getUser()));
+        when(userRepository.findById(any())).thenReturn(Optional.of(getUser()));
 
         UserDTO update = userService.update(userDTO);
         Assert.assertTrue("Username equals changed value.", update.getUsername().equals(USERNAME_CHANGED_TEST));
     }
 
-    @Test(expected = UserNotFoundException.class)
-    @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
-    public void getUserThrowUserNotfoundException() throws UserNotFoundException {
+    @Test(expected = AuthorizationServiceException.class)
+    public void getUserThrowAuthorizationServiceException() throws UserNotFoundException {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+       userService.getCurrentlyLoggedUser();
+    }
+
+    @Test
+    public void getCurrentlyLoggedUsernameAndCheckName() throws UserNotFoundException {
+        org.springframework.security.core.userdetails.User user =
+                new org.springframework.security.core.userdetails.User(ADMIN_USERNAME, USER_PASSWORD, new ArrayList<>());
+        when(securityUtil.getCurrentlyLoggedUser()).thenReturn(user);
+
+        User simpleUser = getUser();
+
+        when(userRepository.findByUsername(ADMIN_USERNAME)).thenReturn(Optional.ofNullable(simpleUser));
+
         User currentlyLoggedUser = userService.getCurrentlyLoggedUser();
+
+        Assert.assertEquals(USERNAME, currentlyLoggedUser.getUsername());
+        verify(userRepository, times(1)).findByUsername(ADMIN_USERNAME);
+
     }
 
     @Test
     @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
-    public void getCurrentlyLoggedUsernameAndCheckName() throws UserNotFoundException {
+    public void getCurrentlyLoggedUsersRoles() {
+        Collection<String> loggedUserRoles = userService.findLoggedUserRoles();
+        Assert.assertNotNull(loggedUserRoles);
+        Assert.assertEquals(2, loggedUserRoles.size());
+    }
 
-        Mockito.when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(getUser()));
+    @Test
+    @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
+    public void findUserAndDeleteUser() {
+        org.springframework.security.core.userdetails.User user =
+                new org.springframework.security.core.userdetails.User(USERNAME, USER_PASSWORD, new ArrayList<>());
+        when(securityUtil.getCurrentlyLoggedUser()).thenReturn(user);
+        when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(getUser()));
 
-        User currentlyLoggedUser = userService.getCurrentlyLoggedUser();
-        Assert.assertEquals(USERNAME, currentlyLoggedUser.getUsername());
+        userService.delete(USER_ID);
+
+        verify(userRepository, times(1)).delete(getUser());
+    }
+
+    @Test(expected = AuthenticationServiceException.class)
+    @WithAnonymousUser
+    public void findUserAndDelete_throwAuthenticationServiceException() {
+        userService.delete(USER_ID);
+        verify(userRepository, times(1)).delete(getUser());
+    }
+
+    @Test
+    public void findAllUsers() {
+
+        when(userRepository.findAll()).thenReturn(Collections.singletonList(getUser()));
+
+        List<UserDTO> allUsers = userService.findAll();
+        Assert.assertTrue(allUsers.size() > 0);
     }
 
     private UserDTO getUserDTO() {
         UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName(FIRSTNAME);
+        userDTO.setFirstName(FIRST_NAME);
         userDTO.setUsername(USERNAME_CHANGED_TEST);
         userDTO.setId(USER_ID);
         return userDTO;
