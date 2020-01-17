@@ -5,6 +5,7 @@ import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.repository.FilmCommentsRepo;
 import com.luke.filmdb.application.repository.FilmRepo;
+import com.luke.filmdb.mapper.MapperTest;
 import org.hibernate.LazyInitializationException;
 import org.junit.Assert;
 import org.junit.Test;

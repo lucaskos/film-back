@@ -32,6 +32,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.luke.filmdb.commons.UserCommons.ADMIN_USERNAME;
+import static com.luke.filmdb.commons.UserCommons.ROLE_USER;
+import static com.luke.filmdb.commons.UserCommons.USERNAME;
+import static com.luke.filmdb.commons.UserCommons.USERNAME_CHANGED_TEST;
+import static com.luke.filmdb.commons.UserCommons.USER_ID;
+import static com.luke.filmdb.commons.UserCommons.USER_PASSWORD;
+import static com.luke.filmdb.commons.UserCommons.getRegisterDTO;
+import static com.luke.filmdb.commons.UserCommons.getUser;
+import static com.luke.filmdb.commons.UserCommons.getUserDTO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,16 +50,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class UserServiceTests {
 
-    private static final String ADMIN_USERNAME = "ADMIN_USERNAME";
-
-    private static final String USER_PASSWORD = "USERNAME_TEST";
-    private static final String USERNAME = "USERNAME_TEST";
-    private static final String FIRST_NAME = "FIRSTNAME";
-    private static final String USERNAME_CHANGED_TEST = "NEWUSERNAME";
-    private static final Long USER_ID = 1L;
-    private static final String EMAIL_ADDRESS = "EMAIL_ADDRESS";
-
-    private static final String ROLE_USER = "ROLE_USER";
 
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -65,13 +64,6 @@ public class UserServiceTests {
     @InjectMocks
     UserServiceImpl userService;
 
-    private RegisterDTO getRegisterDTO() {
-        RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setPassword(USER_PASSWORD);
-        registerDTO.setUsername(USERNAME);
-        registerDTO.setId(USER_ID);
-        return registerDTO;
-    }
 
     @Test
     public void updateUserWithMockAdminUser() {
@@ -127,7 +119,7 @@ public class UserServiceTests {
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
 
-       userService.getCurrentlyLoggedUser();
+        userService.getCurrentlyLoggedUser();
     }
 
     @Test
@@ -184,19 +176,5 @@ public class UserServiceTests {
         Assert.assertTrue(allUsers.size() > 0);
     }
 
-    private UserDTO getUserDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName(FIRST_NAME);
-        userDTO.setUsername(USERNAME_CHANGED_TEST);
-        userDTO.setId(USER_ID);
-        return userDTO;
-    }
-
-    public User getUser() {
-        User user = User.getInstance();
-        user.setId(USER_ID);
-        user.setUsername(USERNAME);
-        return user;
-    }
 
 }

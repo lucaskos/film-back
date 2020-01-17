@@ -44,7 +44,7 @@ public class TokenProviderAuthenticationTest {
 
     @Test
     public void generateToken() {
-        Role role = new Role();
+        Role role = Role.getRoleInstance();
         role.setRoleName(USER_ROLE_NAME);
         Privilege privilege = new Privilege();
         privilege.setName(USER_PRIVILEGE_TEST);

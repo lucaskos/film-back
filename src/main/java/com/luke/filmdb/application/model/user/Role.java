@@ -33,16 +33,22 @@ public class Role {
             inverseJoinColumns = @JoinColumn(
                     name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
-//	private User user;
 
-
+    //	private User user;
     public Role() {
+        //todo fix problem in mapper must have public constructor
     }
 
-    public Role(String role) {
-        this.roleName = role;
+    public static Role getRoleInstance() {
+        return new Role();
     }
 
+    public static Role getRoleWithNameAndId(Long id, String roleName) {
+        Role roleInstance = getRoleInstance();
+        roleInstance.setId(id);
+        roleInstance.setRoleName(roleName);
+        return roleInstance;
+    }
 
 //	@ManyToOne(cascade= CascadeType.MERGE)
 //	@JoinTable(name="users_roles",

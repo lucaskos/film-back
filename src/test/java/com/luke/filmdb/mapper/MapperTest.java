@@ -1,4 +1,4 @@
-package com.luke.filmdb.film;
+package com.luke.filmdb.mapper;
 
 import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.DTO.FilmDTO;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.luke.filmdb.commons.PersonMapperCommons.getSimplePerson;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -124,7 +123,7 @@ public class MapperTest extends FilmMapperCommons {
 
     @Test
     public void personToPersonDTOMapping() {
-        Person person = getSimplePerson();
+        Person person = getPerson();
 
         PersonDTO mappedPersonDTO = entityMapper.personToPersonDTO(person);
 
