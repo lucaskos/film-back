@@ -18,7 +18,7 @@ public class CommentsCommon extends FilmMapperCommons {
     public static Long FILM_ID = 1L;
     public static Long USER_ID = 1L;
 
-    public FilmComment getFilmComment() {
+    public static FilmComment getFilmComment() {
         FilmComment filmComment = new FilmComment();
         filmComment.setOwner(new User());//todo fix
         filmComment.setText(COMMENT_TEXT);
@@ -40,7 +40,7 @@ public class CommentsCommon extends FilmMapperCommons {
         return person;
     }
 
-    public CommentDTO getCommentsDTO() {
+    public static CommentDTO getCommentsDTO() {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setUser(new LoginUserDTO());
         commentDTO.setText(COMMENT_TEXT);
@@ -51,7 +51,7 @@ public class CommentsCommon extends FilmMapperCommons {
         return commentDTO;
     }
 
-    public CommentDTO getFilmCommentType() {
+    public static CommentDTO getFilmCommentType() {
         CommentDTO commentDTO = getCommentsDTO();
         commentDTO.setEntityType("FILM");
         return commentDTO;

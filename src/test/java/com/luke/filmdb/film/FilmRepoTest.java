@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FilmDatabaseApplication.class)
-public class FilmRepoTest extends FilmMapperTest {
+public class FilmRepoTest extends MapperTest {
 
     @Autowired
     private FilmRepo filmRepo;

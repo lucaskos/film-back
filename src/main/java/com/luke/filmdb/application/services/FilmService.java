@@ -2,8 +2,7 @@ package com.luke.filmdb.application.services;
 
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
-import com.luke.filmdb.application.DTO.mapper.FilmMapper;
-import com.luke.filmdb.application.DTO.mapper.PersonMapper;
+import com.luke.filmdb.application.DTO.mapper.EntityMapper;
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.FilmRelations;
 import com.luke.filmdb.application.repository.FilmRepo;
@@ -29,26 +28,25 @@ public class FilmService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private final FilmRepo filmDao;
-    private final FilmMapper filmMapper;
-    private final PersonMapper personMapper;
+    private final EntityMapper entityMapper;
 
     public List<FilmDTO> getAllFilms() {
         List<FilmDTO> filmList = new ArrayList<>();
-        filmDao.findAll().forEach(film -> filmList.add(filmMapper.filmToFilmDTO(film)));
+        filmDao.findAll().forEach(film -> filmList.add(entityMapper.filmToFilmDTO(film)));
         return filmList;
     }
 
     public FilmDTO getFilmDetails(Long id) {
         Film film = filmDao.getFilmDetails(id).orElseThrow(() -> new NotFoundException("Film not found id: " + id));
-        FilmDTO filmDTO = filmMapper.filmToFilmDTO(film);
+        FilmDTO filmDTO = entityMapper.filmToFilmDTO(film);
         return filmDTO;
     }
 
     @PreAuthorize("hasAuthority('ADMIN') OR hasAuthority('EDITOR')")
     public FilmDTO addFilm(FilmDTO film) {
-        Film simpleFilm = filmMapper.filmDTOToFilm(film);
+        Film simpleFilm = entityMapper.filmDTOToFilm(film);
         Film save = filmDao.save(simpleFilm);
-        return filmMapper.filmToFilmDTO(save);
+        return entityMapper.filmToFilmDTO(save);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -69,7 +67,7 @@ public class FilmService {
             filmToUpdate = filmDao.getOne(film.getFilmId());
             film.setModificationDate(LocalDate.now());
         } else {
-            filmToUpdate = filmMapper.filmDTOToFilm(film);
+            filmToUpdate = entityMapper.filmDTOToFilm(film);
             filmToUpdate.setCreationDate(LocalDate.now());
             filmToUpdate.setModificationDate(LocalDate.now());
         }
@@ -77,7 +75,7 @@ public class FilmService {
         filmToUpdate.setFilmRelations(createAndUpdateFilmRelations(filmToUpdate, film));
 
         Film updatedFilm = filmDao.saveAndFlush(filmToUpdate);
-        return Optional.of(filmMapper.filmToFilmDTO(updatedFilm));
+        return Optional.of(entityMapper.filmToFilmDTO(updatedFilm));
     }
 
     public List<Film> getFilmsByTitle(String title) {
@@ -87,7 +85,7 @@ public class FilmService {
     }
 
     public List<FilmDTO> mapFilmListToFilmDTOList(List<Film> list) {
-        return list.stream().map(film -> filmMapper.filmToFilmDTO(film)).collect(Collectors.toList());
+        return list.stream().map(film -> entityMapper.filmToFilmDTO(film)).collect(Collectors.toList());
     }
 
     public List<FilmDTO> getFilmDTOByTitle(String title) {
@@ -105,12 +103,12 @@ public class FilmService {
             peopleList.forEach(personDTO -> filmRelations.stream().forEach(filmRelation -> {
                 if (filmRelation.getPerson() != null && personDTO.getId().equals(filmRelation.getPerson().getId())) {
                     logger.info("Updating relation for person: " + personDTO.getId());
-                    filmRelation.setPerson(personMapper.personDTOToPerson(personDTO));
+                    filmRelation.setPerson(entityMapper.personDTOToPerson(personDTO));
                     filmRelationsAfterUpdate.add(filmRelation);
                 } else {
                     logger.info("Adding new relation for person: " + personDTO.getId());
                     FilmRelations newRelation = new FilmRelations();
-                    newRelation.setPerson(personMapper.personDTOToPerson(personDTO));
+                    newRelation.setPerson(entityMapper.personDTOToPerson(personDTO));
                     newRelation.setRole(personDTO.getRole());
                     newRelation.setFilm(oldFilm);
                     filmRelationsAfterUpdate.add(newRelation);

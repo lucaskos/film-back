@@ -2,8 +2,7 @@ package com.luke.filmdb.film;
 
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
-import com.luke.filmdb.application.DTO.mapper.FilmMapper;
-import com.luke.filmdb.application.DTO.mapper.PersonMapper;
+import com.luke.filmdb.application.DTO.mapper.EntityMapper;
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.FilmRelations;
 import com.luke.filmdb.application.model.Person;
@@ -39,7 +38,6 @@ public class FilmServiceTest extends FilmMapperCommons {
     private final static String EDITED_ROLE = "EDITED_ROLE";
     private final static Long EDITED_FILM = 1L;
     private final static Long ADDITIONAL_PERSON = 2L;
-    private final static Long ADDITIONAL_FILM_ID = 2L;
 
     @InjectMocks
     private FilmService filmService;
@@ -48,10 +46,7 @@ public class FilmServiceTest extends FilmMapperCommons {
     private FilmRepo filmRepo;
 
     @Mock
-    private PersonMapper personMapper;
-
-    @Mock
-    private FilmMapper filmMapper;
+    private EntityMapper entityMapper;
 
     @Before
     public void init() {
@@ -66,8 +61,8 @@ public class FilmServiceTest extends FilmMapperCommons {
         film.setTitle(FILM_TITLE);
 
         when(filmRepo.save(any(Film.class))).thenReturn(film);
-        when(filmMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(film);
-        when(filmMapper.filmToFilmDTO(any(Film.class))).thenReturn(filmDTO);
+        when(entityMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(film);
+        when(entityMapper.filmToFilmDTO(any(Film.class))).thenReturn(filmDTO);
 
         FilmDTO filmDTO1 = filmService.addFilm(filmDTO);
 
@@ -80,8 +75,8 @@ public class FilmServiceTest extends FilmMapperCommons {
         Film savedFilm = new Film();
 
         when(filmRepo.saveAndFlush(any(Film.class))).thenReturn(savedFilm);
-        when(filmMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(savedFilm);
-        when(filmMapper.filmToFilmDTO(any(Film.class))).thenReturn(film);
+        when(entityMapper.filmDTOToFilm(any(FilmDTO.class))).thenReturn(savedFilm);
+        when(entityMapper.filmToFilmDTO(any(Film.class))).thenReturn(film);
 
         FilmDTO filmDTO = filmService.saveFilm(film).get();
 
@@ -122,8 +117,8 @@ public class FilmServiceTest extends FilmMapperCommons {
         filmRelations.setFilm(updatedRelations.getFilmRelations().iterator().next().getFilm());
         updatedRelations.getFilmRelations().add(filmRelations);
 
-        when(personMapper.personDTOToPerson(getPersonDtoTest(PERSON_ID))).thenReturn(getPerson());
-        when(filmMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(FILM_ID));
+        when(entityMapper.personDTOToPerson(getPersonDtoTest(PERSON_ID))).thenReturn(getPerson());
+        when(entityMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(FILM_ID));
         when(filmRepo.saveAndFlush(any())).thenReturn(updatedRelations);
         when(filmRepo.getOne(FILM_ID)).thenReturn(film);
 
@@ -144,10 +139,10 @@ public class FilmServiceTest extends FilmMapperCommons {
     @Test
     public void filmWithEditedRelation() {
 
-        when(filmMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(EDITED_FILM));
+        when(entityMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(EDITED_FILM));
         when(filmRepo.saveAndFlush(any())).thenReturn(getFilm(EDITED_FILM));
         when(filmRepo.getOne(EDITED_FILM)).thenReturn(getFilm(EDITED_FILM));
-        when(personMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
+        when(entityMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
 
         FilmDTO filmDTO = getSimpleDTOFilm();
         filmDTO.setFilmId(EDITED_FILM);
@@ -181,7 +176,7 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         when(filmRepo.saveAndFlush(any())).thenReturn(film);
         when(filmRepo.getOne(FILM_ID)).thenReturn(getFilm(FILM_ID));
-        when(filmMapper.filmDTOToFilm(any())).thenReturn(getFilm(FILM_ID));
+        when(entityMapper.filmDTOToFilm(any())).thenReturn(getFilm(FILM_ID));
 
         FilmDTO filmDTO = getSimpleDTOFilm();
 
@@ -195,10 +190,10 @@ public class FilmServiceTest extends FilmMapperCommons {
 
         filmDTO.setPeopleList(personDTOList);
 
-        when(personMapper.personDTOToPerson(personDtoTest)).thenReturn(firstPerson);
-        when(personMapper.personDTOToPerson(personDtoTestSecond)).thenReturn(secondPerson);
+        when(entityMapper.personDTOToPerson(personDtoTest)).thenReturn(firstPerson);
+        when(entityMapper.personDTOToPerson(personDtoTestSecond)).thenReturn(secondPerson);
 
-        when(filmMapper.filmToFilmDTO(any())).thenReturn(filmDTO);
+        when(entityMapper.filmToFilmDTO(any())).thenReturn(filmDTO);
 
         FilmDTO filmDTO1 = filmService.saveFilm(filmDTO).get();
 
@@ -232,14 +227,6 @@ public class FilmServiceTest extends FilmMapperCommons {
         film.setFilmRelations(filmRelations);
 
         return film;
-    }
-
-    private Person getPerson() {
-        Person person = new Person();
-        person.setFirstName(PERSON_FIRST_NAME);
-        person.setLastName(PERSON_LAST_NAME);
-        person.setId(PERSON_ID);
-        return person;
     }
 
     private Person getSecondPerson() {
@@ -285,7 +272,7 @@ public class FilmServiceTest extends FilmMapperCommons {
     @Test
     public void getFilmDetails() {
         when(filmRepo.getFilmDetails(FILM_ID)).thenReturn(Optional.ofNullable(getSimpleFilm()));
-        when(filmMapper.filmToFilmDTO(getSimpleFilm())).thenReturn(getSimpleDTOFilm());
+        when(entityMapper.filmToFilmDTO(getSimpleFilm())).thenReturn(getSimpleDTOFilm());
 
         FilmDTO filmDetails = filmService.getFilmDetails(FILM_ID);
 

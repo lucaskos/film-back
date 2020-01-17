@@ -1,8 +1,8 @@
 package com.luke.filmdb.application.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.luke.filmdb.application.model.comments.PersonComment;
 import com.luke.filmdb.application.model.generic.DataModelObject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -12,7 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +28,9 @@ public class Person extends DataModelObject implements Serializable {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "born_date")
-    private Date bornDate;
+    private LocalDate bornDate;
     @Column(name = "died_date")
-    private Date diedDate;
+    private LocalDate diedDate;
     @Column(name = "biography", columnDefinition = "text")
     private String bio;
     @JsonBackReference
