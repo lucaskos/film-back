@@ -7,7 +7,7 @@ import com.luke.filmdb.application.model.Person;
 
 import java.time.LocalDate;
 
-public abstract class FilmMapperCommons {
+public abstract class MapperCommons {
 
     protected static final LocalDate MODIFICATION_DATE = LocalDate.of(1900, 01, 01);
     protected static final LocalDate CREATION_DATE = LocalDate.of(1901, 01, 01);

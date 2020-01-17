@@ -3,7 +3,7 @@ package com.luke.filmdb.film;
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.services.FilmService;
 import com.luke.filmdb.application.services.UserService;
-import com.luke.filmdb.commons.FilmMapperCommons;
+import com.luke.filmdb.commons.MapperCommons;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 //@ContextConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ServicesSecurityTest extends FilmMapperCommons {
+public class ServicesSecurityTest extends MapperCommons {
 
     @Autowired
     private FilmService filmService;

@@ -1,4 +1,4 @@
-package com.luke.filmdb.film;
+package com.luke.filmdb.services;
 
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
@@ -8,7 +8,7 @@ import com.luke.filmdb.application.model.FilmRelations;
 import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.services.FilmService;
-import com.luke.filmdb.commons.FilmMapperCommons;
+import com.luke.filmdb.commons.MapperCommons;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class FilmServiceTest extends FilmMapperCommons {
+public class ServiceTest extends MapperCommons {
 
     private final static String EDITED_ROLE = "EDITED_ROLE";
     private final static Long EDITED_FILM = 1L;

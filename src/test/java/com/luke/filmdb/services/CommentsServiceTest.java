@@ -1,4 +1,4 @@
-package com.luke.filmdb.comments;
+package com.luke.filmdb.services;
 
 import com.luke.filmdb.application.DTO.CommentDTO;
 import com.luke.filmdb.application.DTO.mapper.CommentMapper;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FilmCommentsServiceTest extends CommentsCommon {
+public class CommentsServiceTest extends CommentsCommon {
 
     @Mock
     private FilmRepo filmRepo;

@@ -13,7 +13,7 @@ import com.luke.filmdb.application.model.user.User;
 import java.time.LocalDate;
 import java.util.Collections;
 
-public class CommentsCommon extends FilmMapperCommons {
+public class CommentsCommon extends MapperCommons {
     public static String COMMENT_TEXT = "TEST_COMMENT";
     public static Long FILM_ID = 1L;
     public static Long USER_ID = 1L;

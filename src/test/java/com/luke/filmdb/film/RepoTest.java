@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FilmDatabaseApplication.class)
-public class FilmRepoTest extends MapperTest {
+public class RepoTest extends MapperTest {
 
     @Autowired
     private FilmRepo filmRepo;

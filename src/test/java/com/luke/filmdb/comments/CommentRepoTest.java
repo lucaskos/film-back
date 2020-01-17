@@ -20,7 +20,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FilmDatabaseApplication.class)
-public class FilmCommentRepoTest extends CommentsCommon {
+public class CommentRepoTest extends CommentsCommon {
 
     @Autowired
     private FilmCommentsRepo filmCommentsRepo;

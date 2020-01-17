@@ -9,7 +9,7 @@ import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.commons.CommentsCommon;
-import com.luke.filmdb.commons.FilmMapperCommons;
+import com.luke.filmdb.commons.MapperCommons;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MapperTest extends FilmMapperCommons {
+public class MapperTest extends MapperCommons {
 
     @Autowired
     private EntityMapper entityMapper;

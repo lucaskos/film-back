@@ -21,7 +21,7 @@ public interface EntityMapper {
 
     Person personDTOToPerson(PersonDTO filmDTO);
 
-    PersonDTO personToPersonDTO(Person film);
+    PersonDTO personToPersonDTO(Person person);
 
     //    @Mapping(source = "film", target = "peopleList", qualifiedByName = "peopleRolesMap")
     @Mapping(target = "filmId", source = "id")
