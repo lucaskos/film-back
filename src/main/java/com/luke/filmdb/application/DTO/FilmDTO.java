@@ -1,13 +1,15 @@
 package com.luke.filmdb.application.DTO;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Data
+@Getter
+@Setter
 public class FilmDTO {
 
     private Long filmId;
@@ -20,15 +22,15 @@ public class FilmDTO {
     private List<PersonDTO> peopleList = new ArrayList<>();
     private List<CommentDTO> filmCommentsList = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "FilmDTO{" +
-                "filmId=" + filmId +
-                ", title='" + title + '\'' +
-                ", year=" + year +
-                ", description='" + description + '\'' +
-                ", creationDate=" + creationDate +
-                ", modificationDate=" + modificationDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "FilmDTO{" +
+//                "filmId=" + filmId +
+//                ", title='" + title + '\'' +
+//                ", year=" + year +
+//                ", description='" + description + '\'' +
+//                ", creationDate=" + creationDate +
+//                ", modificationDate=" + modificationDate +
+//                '}';
+//    }
 }

@@ -1,9 +1,11 @@
 package com.luke.filmdb.application.DTO;
 
 import com.luke.filmdb.application.DTO.user.UserDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class RegisterDTO extends UserDTO {
     private String password;
 }

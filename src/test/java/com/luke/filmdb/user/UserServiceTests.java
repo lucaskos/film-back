@@ -3,6 +3,7 @@ package com.luke.filmdb.user;
 import com.luke.filmdb.application.DTO.RegisterDTO;
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
 import com.luke.filmdb.application.DTO.user.UserDTO;
+import com.luke.filmdb.application.model.user.Role;
 import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.RoleRepo;
 import com.luke.filmdb.application.repository.UserRepository;
@@ -34,6 +35,7 @@ import java.util.Optional;
 
 import static com.luke.filmdb.commons.UserCommons.ADMIN_USERNAME;
 import static com.luke.filmdb.commons.UserCommons.ROLE_USER;
+import static com.luke.filmdb.commons.UserCommons.ROLE_USER_ID;
 import static com.luke.filmdb.commons.UserCommons.USERNAME;
 import static com.luke.filmdb.commons.UserCommons.USERNAME_CHANGED_TEST;
 import static com.luke.filmdb.commons.UserCommons.USER_ID;
@@ -68,7 +70,7 @@ public class UserServiceTests {
     @Test
     public void updateUserWithMockAdminUser() {
         when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn(USER_PASSWORD);
-        when(userMapper.userDtoToUser(getRegisterDTO())).thenReturn(new User(ADMIN_USERNAME, USER_PASSWORD, null));
+        when(userMapper.userDtoToUser(any())).thenReturn(new User(ADMIN_USERNAME, USER_PASSWORD, null));
         when(userRepository.save(any(User.class))).thenReturn(getUser());
 
         org.springframework.security.core.userdetails.User user =
@@ -77,6 +79,8 @@ public class UserServiceTests {
 
         RegisterDTO registerDTO = getRegisterDTO();
         registerDTO.setUsername(ADMIN_USERNAME);
+
+        when(roleRepo.findRoleByRoleName(any())).thenReturn(Role.getRoleWithNameAndId(ROLE_USER_ID, ROLE_USER));
 
         User userUpdated = userService.saveNewUser(registerDTO);
 

@@ -1,15 +1,15 @@
 package com.luke.filmdb.application.DTO;
 
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@ToString
+@Getter
+@Setter
 public class PersonDTO {
     private Long id;
     private String firstName;
