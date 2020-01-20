@@ -13,7 +13,7 @@ public abstract class MapperCommons {
     protected static final LocalDate CREATION_DATE = LocalDate.of(1901, 01, 01);
 
     protected static final Long FILM_ID = 9999L;
-    protected static final String FILM_TITLE = "FILM_TITLE";
+    public static final String FILM_TITLE = "FILM_TITLE";
     protected static final String FILM_DESCRIPTION = "FILM_DESCRIPTION";
     protected static int FILM_YEAR = 2000;
 
@@ -27,7 +27,7 @@ public abstract class MapperCommons {
     protected static final LocalDate PERSON_BORN_DATE = LocalDate.of(2000, 01, 01);
     protected static final LocalDate PERSON_DIED_DATE = LocalDate.of(2100, 01, 01);
 
-    public FilmDTO getSimpleDTOFilm() {
+    public static FilmDTO getSimpleDTOFilm() {
         FilmDTO filmDTO = new FilmDTO();
         filmDTO.setTitle(FILM_TITLE);
         filmDTO.setFilmId(FILM_ID);
