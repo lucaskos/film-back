@@ -35,7 +35,7 @@ public class PersonServiceTest extends MapperCommons {
 
     @Test
     public void saveNewPerson() {
-        PersonDTO personDTO = getPersonDtoTest(PERSON_ID);
+        PersonDTO personDTO = getPersonDtoTest();
 
         Person person = getPerson();
 

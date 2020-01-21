@@ -117,7 +117,7 @@ public class ServiceTest extends MapperCommons {
         filmRelations.setFilm(updatedRelations.getFilmRelations().iterator().next().getFilm());
         updatedRelations.getFilmRelations().add(filmRelations);
 
-        when(entityMapper.personDTOToPerson(getPersonDtoTest(PERSON_ID))).thenReturn(getPerson());
+        when(entityMapper.personDTOToPerson(getPersonDtoTest())).thenReturn(getPerson());
         when(entityMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(FILM_ID));
         when(filmRepo.saveAndFlush(any())).thenReturn(updatedRelations);
         when(filmRepo.getOne(FILM_ID)).thenReturn(film);
@@ -125,7 +125,7 @@ public class ServiceTest extends MapperCommons {
         FilmDTO filmDTO = getSimpleDTOFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
-        PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
+        PersonDTO personDtoTest = getPersonDtoTest();
         personDtoTest.getFilmList().add(filmDTO);
         personDTOList.add(personDtoTest);
 
@@ -142,13 +142,15 @@ public class ServiceTest extends MapperCommons {
         when(entityMapper.filmToFilmDTO(any())).thenReturn(getFilmDTOAfterUpdate(EDITED_FILM));
         when(filmRepo.saveAndFlush(any())).thenReturn(getFilm(EDITED_FILM));
         when(filmRepo.getOne(EDITED_FILM)).thenReturn(getFilm(EDITED_FILM));
-        when(entityMapper.personDTOToPerson(getPersonDtoTest(ADDITIONAL_PERSON))).thenReturn(getSecondPerson());
+        PersonDTO personDtoTestSecond = getPersonDtoTest();
+        personDtoTestSecond.setId(ADDITIONAL_PERSON);
+        when(entityMapper.personDTOToPerson(personDtoTestSecond)).thenReturn(getSecondPerson());
 
         FilmDTO filmDTO = getSimpleDTOFilm();
         filmDTO.setFilmId(EDITED_FILM);
 
         List<PersonDTO> personDTOList = new ArrayList<>();
-        PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
+        PersonDTO personDtoTest = getPersonDtoTest();
         personDtoTest.getFilmList().add(filmDTO);
         personDTOList.add(personDtoTest);
         personDTOList.get(0).setRole(EDITED_ROLE);
@@ -181,10 +183,11 @@ public class ServiceTest extends MapperCommons {
         FilmDTO filmDTO = getSimpleDTOFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
-        PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
+        PersonDTO personDtoTest = getPersonDtoTest();
         personDtoTest.getFilmList().add(filmDTO);
         personDTOList.add(personDtoTest);
-        PersonDTO personDtoTestSecond = getPersonDtoTest(ADDITIONAL_PERSON);
+        PersonDTO personDtoTestSecond = getPersonDtoTest();
+        personDtoTestSecond.setId(ADDITIONAL_PERSON);
         personDtoTestSecond.getFilmList().add(filmDTO);
         personDTOList.add(personDtoTestSecond);
 

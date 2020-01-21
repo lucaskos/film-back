@@ -61,7 +61,7 @@ public class MapperTest extends MapperCommons {
 
     @Test
     public void mapPersonDtoToPersonAndAssertEquals() {
-        PersonDTO personDTO = getPersonDtoTest(PERSON_ID);
+        PersonDTO personDTO = getPersonDtoTest();
 
         Person person = entityMapper.personDTOToPerson(personDTO);
 
@@ -78,7 +78,7 @@ public class MapperTest extends MapperCommons {
         FilmDTO filmDTO = getSimpleDTOFilm();
 
         List<PersonDTO> personDTOList = new ArrayList<>();
-        PersonDTO personDtoTest = getPersonDtoTest(PERSON_ID);
+        PersonDTO personDtoTest = getPersonDtoTest();
         personDtoTest.getFilmList().add(filmDTO);
         personDTOList.add(personDtoTest);
 

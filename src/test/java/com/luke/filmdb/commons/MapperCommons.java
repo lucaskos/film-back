@@ -21,9 +21,9 @@ public abstract class MapperCommons {
     protected static final String PERSON_BIOGRAPHY = "PERSON_BIOGRAPHY";
     //    protected static final Date BORN_DATE = Date.from()
     //    protected static final DATE PERSON_BIOGRAPHY = "PERSON_BIOGRAPHY";
-    protected static final String PERSON_FIRST_NAME = "PERSON_FIRST_NAME";
+    public static final String PERSON_FIRST_NAME = "PERSON_FIRST_NAME";
     protected static final String PERSON_LAST_NAME = "PERSON_LAST_NAME";
-    protected static final Long PERSON_ID = 1L;
+    public static final Long PERSON_ID = 1L;
     protected static final LocalDate PERSON_BORN_DATE = LocalDate.of(2000, 01, 01);
     protected static final LocalDate PERSON_DIED_DATE = LocalDate.of(2100, 01, 01);
 
@@ -39,8 +39,9 @@ public abstract class MapperCommons {
         return filmDTO;
     }
 
-    public PersonDTO getPersonDtoTest(Long personId) {
+    public static PersonDTO getPersonDtoTest() {
         PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(PERSON_ID);
         personDTO.setRole(PERSON_ROLE);
         personDTO.setBiography(PERSON_BIOGRAPHY);
         personDTO.setBornDate(PERSON_BORN_DATE);
@@ -49,7 +50,6 @@ public abstract class MapperCommons {
         personDTO.setModificationDate(MODIFICATION_DATE);
         personDTO.setFirstName(PERSON_FIRST_NAME);
         personDTO.setLastName(PERSON_LAST_NAME);
-        personDTO.setId(personId);
 
         return personDTO;
     }
@@ -64,7 +64,7 @@ public abstract class MapperCommons {
         return film;
     }
 
-    protected Person getPerson() {
+    public Person getPerson() {
         Person person = new Person();
         person.setFirstName(PERSON_FIRST_NAME);
         person.setLastName(PERSON_LAST_NAME);

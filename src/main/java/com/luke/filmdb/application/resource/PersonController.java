@@ -24,7 +24,7 @@ public class PersonController {
 
     private PersonService personService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
         return new ResponseEntity<List<PersonDTO>>(personService.getAllPeople(), HttpStatus.OK);
     }

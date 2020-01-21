@@ -74,6 +74,7 @@ public class UserController {
 
     @GetMapping("/register/checkEmail/{email}")
     public ResponseEntity<Boolean> checkEmailAddress(@PathVariable("email") String email) {
+        //todo
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 

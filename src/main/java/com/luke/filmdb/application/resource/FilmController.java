@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/film")
-//@CrossOrigin
 @AllArgsConstructor
 public class FilmController {
 
@@ -56,7 +55,5 @@ public class FilmController {
 
         return filmService.saveFilm(filmDTO).map(film -> new ResponseEntity(film, HttpStatus.CREATED))
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-
-//        return new ResponseEntity<FilmDTO>(filmDTO, HttpStatus.CREATED);
     }
 }
