@@ -1,12 +1,14 @@
 package com.luke.filmdb.security.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 import static com.luke.filmdb.config.SecurityConstants.TOKEN_PREFIX;
 
-@Data
+@Getter
+@Setter
 public class AuthToken {
 
     private String token;

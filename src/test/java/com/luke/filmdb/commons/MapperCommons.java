@@ -12,7 +12,7 @@ public abstract class MapperCommons {
     protected static final LocalDate MODIFICATION_DATE = LocalDate.of(1900, 01, 01);
     protected static final LocalDate CREATION_DATE = LocalDate.of(1901, 01, 01);
 
-    protected static final Long FILM_ID = 9999L;
+    public static final Long FILM_ID = 9999L;
     public static final String FILM_TITLE = "FILM_TITLE";
     protected static final String FILM_DESCRIPTION = "FILM_DESCRIPTION";
     protected static int FILM_YEAR = 2000;

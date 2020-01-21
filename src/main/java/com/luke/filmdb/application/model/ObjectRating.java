@@ -3,7 +3,8 @@ package com.luke.filmdb.application.model;
 
 import com.luke.filmdb.application.model.generic.DataModelObject;
 import com.luke.filmdb.application.model.user.User;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "OBJECT_RATING")
-@Data
+@Getter
+@Setter
 public class ObjectRating extends DataModelObject {
 
     @Column(name = "rating")

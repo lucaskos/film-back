@@ -3,7 +3,8 @@ package com.luke.filmdb.application.model.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luke.filmdb.application.model.ObjectRating;
 import com.luke.filmdb.application.model.comments.PersonComment;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -26,7 +27,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class User {
 
     @Id

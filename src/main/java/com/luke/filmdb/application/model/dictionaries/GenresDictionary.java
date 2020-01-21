@@ -1,6 +1,7 @@
 package com.luke.filmdb.application.model.dictionaries;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SL_GENRES")
-@Data
+@Getter
+@Setter
 public class GenresDictionary{
 
     @Id

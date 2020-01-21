@@ -1,24 +1,19 @@
 package com.luke.filmdb.application.model.comments;
 
 import com.luke.filmdb.application.model.Film;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "FILM_COMMENT")
-@Data
+@Getter
+@Setter
 public class FilmComment extends Comment {
 
     @ManyToOne

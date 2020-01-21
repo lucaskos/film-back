@@ -3,7 +3,8 @@ package com.luke.filmdb.application.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.luke.filmdb.application.model.comments.PersonComment;
 import com.luke.filmdb.application.model.generic.DataModelObject;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +19,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "person")
-@Data
+@Getter
+@Setter
 public class Person extends DataModelObject implements Serializable {
 
     private static final long serialVersionUID = 5650070241555490348L;

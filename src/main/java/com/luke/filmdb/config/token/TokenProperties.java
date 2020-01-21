@@ -1,12 +1,14 @@
 package com.luke.filmdb.config.token;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Created by Luke on 24.10.2018.
  */
-@Data
+@Getter
+@Setter
 public class TokenProperties {
 
     @Value("${security.token.maxAgeSeconds}")

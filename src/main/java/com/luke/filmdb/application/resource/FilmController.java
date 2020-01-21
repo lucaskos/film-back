@@ -37,7 +37,7 @@ public class FilmController {
 
     @PutMapping()
     public ResponseEntity updateFilm(@RequestBody FilmDTO filmDTO) {
-        return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.OK);
+        return new ResponseEntity(filmService.saveFilm(filmDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -54,8 +54,9 @@ public class FilmController {
     @PostMapping("/add")
     public ResponseEntity<FilmDTO> addNewFilm(@RequestBody FilmDTO filmDTO) {
 
-        return filmService.saveFilm(filmDTO).map(film -> ResponseEntity.ok(film))
+        return filmService.saveFilm(filmDTO).map(film -> new ResponseEntity(film, HttpStatus.CREATED))
                 .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
 
+//        return new ResponseEntity<FilmDTO>(filmDTO, HttpStatus.CREATED);
     }
 }
