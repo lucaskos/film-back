@@ -1,8 +1,5 @@
 package resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.resource.FilmController;
 import com.luke.filmdb.application.services.FilmService;
@@ -42,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableWebMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FilmControllerTest {
+public class FilmControllerTest extends ControllerTest{
 
     private MockMvc mockMvc;
 
@@ -103,6 +100,7 @@ public class FilmControllerTest {
                 .content(convertToJsonString(getSimpleDTOFilm()))
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isCreated());
     }
 
@@ -114,6 +112,7 @@ public class FilmControllerTest {
                 .content(convertToJsonString(getSimpleDTOFilm()))
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filmId").exists());
     }
@@ -123,17 +122,9 @@ public class FilmControllerTest {
         this.mockMvc.perform(delete("/film/{id}", FILM_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
-    private static String convertToJsonString(final Object obj) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

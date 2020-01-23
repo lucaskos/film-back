@@ -5,8 +5,6 @@ import com.luke.filmdb.application.model.ObjectRating;
 import com.luke.filmdb.application.model.comments.PersonComment;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,17 +33,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Long id;
-    @NotBlank
+//    @NotBlank
     @Size(min = 5, max = 45)
     @Column(name = "username")
     public String username;
-    @NotBlank
+//    @NotBlank
     @Size(min = 5, max = 80)
     @Column(name = "password")
     public String password;
     @Column(name = "enabled")
     public boolean enabled;
-    @Email
+//    @Email
     @Column(name = "email")
     public String email;
     @JsonIgnore

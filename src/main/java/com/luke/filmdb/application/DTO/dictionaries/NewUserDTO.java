@@ -8,16 +8,16 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class NewUserDTO {
-	private Long id;
-	@NotNull
-	private String firstName;
-	@NotNull
-	private String lastName;
-	@NotNull
-	private String username;
-	@NotNull
-	private String password;
-	private boolean enabled;
-	@NotNull
-	private String email;
+    private Long id;
+    @NotNull
+    private String firstName;
+    @NotNull
+    private String lastName;
+    @NotNull
+    private String username;
+    @NotNull
+    private String password;
+    private boolean enabled;
+    @NotNull
+    private String email;
 }
