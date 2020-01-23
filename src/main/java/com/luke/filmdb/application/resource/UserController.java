@@ -39,8 +39,8 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterDTO user) {
-        return new ResponseEntity<>(userService.saveNewUser(user), HttpStatus.CREATED);
-//        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        User user1 = userService.saveNewUser(user);
+        return new ResponseEntity<>(user1, HttpStatus.CREATED);
     }
 
     @GetMapping("/list")

@@ -1,5 +1,6 @@
 package resources;
 
+import com.luke.filmdb.application.DTO.RegisterDTO;
 import com.luke.filmdb.application.resource.UserController;
 import com.luke.filmdb.application.services.UserService;
 import com.luke.filmdb.security.jwt.TokenProvider;
@@ -22,11 +23,13 @@ import java.util.Collections;
 import static com.luke.filmdb.commons.UserCommons.EMAIL_ADDRESS;
 import static com.luke.filmdb.commons.UserCommons.FIRST_NAME;
 import static com.luke.filmdb.commons.UserCommons.ROLE_USER;
+import static com.luke.filmdb.commons.UserCommons.USERNAME;
 import static com.luke.filmdb.commons.UserCommons.getRegisterDTO;
 import static com.luke.filmdb.commons.UserCommons.getUser;
 import static com.luke.filmdb.commons.UserCommons.getUserDTO;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -91,7 +94,7 @@ public class UserControllerTest extends ControllerTest{
 
     @Test
     public void registerTest() throws Exception {
-        when(userService.saveNewUser(getRegisterDTO())).thenReturn(getUser());
+        when(userService.saveNewUser(any(RegisterDTO.class))).thenReturn(getUser());
 
         mockMvc.perform(post("/user/register")
                 .content(convertToJsonString(getRegisterDTO()))
@@ -99,8 +102,8 @@ public class UserControllerTest extends ControllerTest{
                 .contentType(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andDo(print());
-//                .andExpect(jsonPath("$", hasProperty("login")));
+                .andExpect(jsonPath("$.username").value(USERNAME));
+
     }
     @Test
     public void updateUserTest() throws Exception {

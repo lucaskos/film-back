@@ -34,7 +34,7 @@ public class User {
     @Column(name = "id")
     public Long id;
 //    @NotBlank
-    @Size(min = 5, max = 45)
+//    @Size(min = 5, max = 45)
     @Column(name = "username")
     public String username;
 //    @NotBlank
