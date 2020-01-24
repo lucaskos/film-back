@@ -1,6 +1,7 @@
 package resources;
 
 import com.luke.filmdb.application.DTO.RegisterDTO;
+import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.resource.UserController;
 import com.luke.filmdb.application.services.UserService;
 import com.luke.filmdb.security.jwt.TokenProvider;
@@ -107,10 +108,15 @@ public class UserControllerTest extends ControllerTest{
     }
     @Test
     public void updateUserTest() throws Exception {
-        mockMvc.perform(put("/user/update"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", hasProperty("login")))
-                .andDo(print());
+        when(userService.update(any(UserDTO.class))).thenReturn(getUserDTO());
+
+        mockMvc.perform(put("/user/update")
+                .content(convertToJsonString(getUserDTO()))
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME));
     }
 
     public void getAuthToken() throws Exception {
