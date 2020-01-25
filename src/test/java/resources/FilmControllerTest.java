@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableWebMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FilmControllerTest extends ControllerTest{
+public class FilmControllerTest extends ControllerTest {
 
     private MockMvc mockMvc;
 

@@ -17,6 +17,7 @@ public class UserCommons {
     public static final String USERNAME_CHANGED_TEST = "NEWUSERNAME";
     public static final Long USER_ID = 1L;
     public static final String EMAIL_ADDRESS = "EMAIL_ADDRESS";
+    public static final String TOKEN = "TOKEN";
 
     public static final String ROLE_USER = "ROLE_USER";
     public static final Long ROLE_USER_ID = 1L;
@@ -26,7 +27,7 @@ public class UserCommons {
     public static UserDTO getUserDTO() {
         UserDTO userDTO = new UserDTO();
         userDTO.setFirstName(FIRST_NAME);
-        userDTO.setUsername(USERNAME_CHANGED_TEST);
+        userDTO.setUsername(USERNAME);
         userDTO.setId(USER_ID);
         return userDTO;
     }

@@ -9,10 +9,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorMessage {
+public class ErrorMessage extends Throwable {
 
     private Integer code;
     private String message;
+
+    public ErrorMessage(String global_error_test) {
+        this.message = global_error_test;
+    }
 
     @Override
     public int hashCode() {

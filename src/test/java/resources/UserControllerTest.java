@@ -5,6 +5,7 @@ import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.resource.UserController;
 import com.luke.filmdb.application.services.UserService;
 import com.luke.filmdb.security.jwt.TokenProvider;
+import com.luke.filmdb.security.model.AuthToken;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,11 +27,12 @@ import java.util.Collections;
 import static com.luke.filmdb.commons.UserCommons.EMAIL_ADDRESS;
 import static com.luke.filmdb.commons.UserCommons.FIRST_NAME;
 import static com.luke.filmdb.commons.UserCommons.ROLE_USER;
+import static com.luke.filmdb.commons.UserCommons.TOKEN;
 import static com.luke.filmdb.commons.UserCommons.USERNAME;
+import static com.luke.filmdb.commons.UserCommons.USER_PASSWORD;
 import static com.luke.filmdb.commons.UserCommons.getRegisterDTO;
 import static com.luke.filmdb.commons.UserCommons.getUser;
 import static com.luke.filmdb.commons.UserCommons.getUserDTO;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -119,10 +123,19 @@ public class UserControllerTest extends ControllerTest{
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME));
     }
 
+    @Test
     public void getAuthToken() throws Exception {
-        mockMvc.perform(post("/user/signin"))
+        when(authenticationManager.authenticate(any())).thenReturn(new UsernamePasswordAuthenticationToken(USERNAME, USER_PASSWORD));
+        when(jwtTokenUtil.generateToken(any(Authentication.class))).thenReturn(TOKEN);
+        AuthToken authToken = new AuthToken("", USERNAME, Collections.singletonList(""));
+
+        mockMvc.perform(post("/user/signin")
+                .content(convertToJsonString(getUserDTO()))
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", hasProperty("login")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value(USERNAME))
+                .andExpect(jsonPath("$.token").value("Bearer " + TOKEN));
     }
 }

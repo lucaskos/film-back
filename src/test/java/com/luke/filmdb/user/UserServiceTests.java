@@ -52,7 +52,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class UserServiceTests {
 
-
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Mock
@@ -108,7 +107,7 @@ public class UserServiceTests {
     @WithMockUser(username = USERNAME, password = USER_PASSWORD, authorities = {"ADMIN", "USER"})
     public void updateUser() {
         UserDTO userDTO = getUserDTO();
-        Assert.assertTrue("UserDTO.username != USERNAME_TEST.", !userDTO.getUsername().equals(USERNAME));
+        userDTO.setUsername(USERNAME_CHANGED_TEST);
 
         when(userRepository.findById(any())).thenReturn(Optional.of(getUser()));
 
