@@ -80,27 +80,10 @@ public class User {
         return user;
     }
 
-
     public User(String username, String password, List<Role> role) {
         this.username = username;
         this.password = password;
         this.roles = role;
-    }
-
-    public User(String username, Long id, String password, boolean enabled, String email, List<Role> roles) {
-        this.username = username;
-        this.id = id;
-        this.password = password;
-        this.enabled = enabled;
-        this.email = email;
-        this.roles = roles;
-    }
-
-    public <T> User(String email, String username, String encode, boolean b, List<T> ts) {
-        this.email = email;
-        this.username = username;
-        this.enabled = b;
-        this.roles = (List<Role>) ts;
     }
 
     //    @JsonManagedReference
