@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ServiceTest extends MapperCommons {
+public class FilmServiceTest extends MapperCommons {
 
     private final static String EDITED_ROLE = "EDITED_ROLE";
     private final static Long EDITED_FILM = 1L;
@@ -98,8 +98,10 @@ public class ServiceTest extends MapperCommons {
         Optional<List<Film>> films = Optional.of(Collections.singletonList(film));
 
         Mockito.doReturn(films).when(filmRepo).findFilmsByTitleContainingIgnoreCase(FILM_TITLE);
+        Mockito.doReturn(getSimpleDTOFilm()).when(entityMapper).filmToFilmDTO(any());
 
-        List<Film> filmsByTitle = filmService.getFilmsByTitle(FILM_TITLE);
+        List<FilmDTO> filmsByTitle = filmService.getFilmDTOByTitle(FILM_TITLE);
+
 
         Assert.assertEquals(filmsByTitle.get(0).getTitle(), film.getTitle());
 
