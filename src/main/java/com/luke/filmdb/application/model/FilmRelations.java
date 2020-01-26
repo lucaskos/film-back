@@ -44,4 +44,12 @@ public class FilmRelations implements Serializable {
     private PersonRole personRoleDictionary;
 
     //todo toString?
+
+
+    public FilmRelations() {
+    }
+
+    public FilmRelations(long id) {
+        this.id = id;
+    }
 }

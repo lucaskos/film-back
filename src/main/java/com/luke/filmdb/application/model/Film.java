@@ -76,23 +76,13 @@ public class Film extends DataModelObject {
     }
 
     @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (year != null ? year.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
-    }
-
-    @Override
     public String toString() {
         return "Film{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", year=" + year +
                 ", description='" + description + '\'' +
-                ", filmRelations=" + filmRelations +
                 '}';
     }
+
 }

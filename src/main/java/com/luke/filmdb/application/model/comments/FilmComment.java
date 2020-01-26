@@ -28,6 +28,13 @@ public class FilmComment extends Comment {
 //    private Set<FilmComment> subComments = new HashSet<>();
 
 
+    public FilmComment() {
+    }
+
+    public FilmComment(Film film) {
+        this.film = film;
+    }
+
     @Override
     public String toString() {
         return "FilmComment{" +
