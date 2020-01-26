@@ -1,4 +1,4 @@
-package resources;
+package com.luke.filmdb.resources;
 
 import com.luke.filmdb.application.resource.CustomExceptionHandler;
 import com.luke.filmdb.application.resource.ErrorMessage;

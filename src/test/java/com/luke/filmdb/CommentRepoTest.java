@@ -1,6 +1,5 @@
-package com.luke.filmdb.comments;
+package com.luke.filmdb;
 
-import com.luke.filmdb.FilmDatabaseApplication;
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.repository.FilmCommentsRepo;

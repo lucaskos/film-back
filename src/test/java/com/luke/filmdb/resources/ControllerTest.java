@@ -1,4 +1,4 @@
-package resources;
+package com.luke.filmdb.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

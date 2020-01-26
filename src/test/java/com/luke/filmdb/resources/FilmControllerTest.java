@@ -1,4 +1,4 @@
-package resources;
+package com.luke.filmdb.resources;
 
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.resource.FilmController;

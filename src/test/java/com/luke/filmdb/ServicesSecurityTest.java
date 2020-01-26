@@ -1,4 +1,4 @@
-package com.luke.filmdb.film;
+package com.luke.filmdb;
 
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.services.FilmService;

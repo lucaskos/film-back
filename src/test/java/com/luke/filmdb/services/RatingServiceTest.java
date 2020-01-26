@@ -1,5 +1,6 @@
-package com.luke.filmdb;
+package com.luke.filmdb.services;
 
+import com.luke.filmdb.FilmDatabaseApplication;
 import com.luke.filmdb.application.DTO.RatingDTO;
 import com.luke.filmdb.application.commands.ObjectType;
 import com.luke.filmdb.application.model.Film;
@@ -27,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FilmDatabaseApplication.class)
-public class RatingTest {
+public class RatingServiceTest {
 
 
     @Mock
