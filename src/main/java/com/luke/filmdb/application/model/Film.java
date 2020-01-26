@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -85,4 +86,21 @@ public class Film extends DataModelObject {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Film)) return false;
+        if (!super.equals(o)) return false;
+        Film film = (Film) o;
+        return Objects.equals(title, film.title) &&
+                Objects.equals(description, film.description) &&
+                Objects.equals(year, film.year) &&
+                Objects.equals(filmRelations, film.filmRelations) &&
+                Objects.equals(filmComments, film.filmComments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), title, year, description, filmRelations, filmComments);
+    }
 }
