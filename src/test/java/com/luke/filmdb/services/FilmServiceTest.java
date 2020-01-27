@@ -283,4 +283,13 @@ public class FilmServiceTest extends MapperCommons {
 
         Assert.assertNotNull(filmDetails);
     }
+
+    @Test(expected = NotFoundException.class)
+    public void getFilmDetailsThrowNotFoundException() {
+        when(filmRepo.getFilmDetails(FILM_ID)).thenReturn(Optional.ofNullable(null));
+
+        FilmDTO filmDetails = filmService.getFilmDetails(FILM_ID);
+
+        Assert.assertNotNull(filmDetails);
+    }
 }

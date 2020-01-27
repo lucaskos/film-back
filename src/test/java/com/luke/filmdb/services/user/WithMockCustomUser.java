@@ -1,4 +1,4 @@
-package com.luke.filmdb.user;
+package com.luke.filmdb.services.user;
 
 import org.springframework.security.test.context.support.WithSecurityContext;
 

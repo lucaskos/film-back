@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,6 +48,17 @@ public class PersonServiceTest extends MapperCommons {
 
         Mockito.verify(personRepo, Mockito.times(1)).save(person);
         Assert.assertEquals(personDTO.getFirstName(), savedPerson.getFirstName());
+    }
+
+    @Test
+    public void getPersonById() {
+        Person person = getPerson();
+        when(personRepo.findById(any())).thenReturn(java.util.Optional.ofNullable(person));
+        when(entityMapper.personToPersonDTO(person)).thenReturn(getPersonDtoTest());
+
+        PersonDTO personDTO = entityMapper.personToPersonDTO(person);
+
+        Assert.assertEquals(person.getFirstName(), personDTO.getFirstName());
     }
 
     @Test

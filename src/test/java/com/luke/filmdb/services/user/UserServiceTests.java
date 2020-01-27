@@ -1,4 +1,4 @@
-package com.luke.filmdb.user;
+package com.luke.filmdb.services.user;
 
 import com.luke.filmdb.application.DTO.RegisterDTO;
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
