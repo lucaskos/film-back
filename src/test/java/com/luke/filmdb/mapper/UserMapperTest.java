@@ -1,6 +1,7 @@
 package com.luke.filmdb.mapper;
 
 import com.luke.filmdb.application.DTO.mapper.UserMapper;
+import com.luke.filmdb.application.DTO.user.LoginUserDTO;
 import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
 import org.junit.Assert;
@@ -10,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.luke.filmdb.commons.UserCommons.getUserAndAdminRoles;
 import static com.luke.filmdb.commons.UserCommons.getUser;
+import static com.luke.filmdb.commons.UserCommons.getUserAndAdminRoles;
 import static com.luke.filmdb.commons.UserCommons.getUserAndAdminRolesDto;
 import static com.luke.filmdb.commons.UserCommons.getUserDTO;
 
@@ -61,6 +62,16 @@ public class UserMapperTest {
         Assert.assertEquals(userDTO.getRoles().get(0).getRoleName(), user.getRoles().get(0).getRoleName());
         Assert.assertEquals(userDTO.getRoles().get(0).getId(), user.getRoles().get(0).getId());
 
+    }
+
+    @Test
+    public void loginUserDtoToUserTest() {
+        User user = getUser();
+
+        LoginUserDTO loginUserDTO = userMapper.userToLoginUserDTO(user);
+
+        Assert.assertEquals(user.getId(), loginUserDTO.getId());
+        Assert.assertEquals(user.getUsername(), loginUserDTO.getUsername());
     }
 
 }
