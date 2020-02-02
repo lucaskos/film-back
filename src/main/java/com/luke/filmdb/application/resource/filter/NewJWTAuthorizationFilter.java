@@ -1,5 +1,6 @@
 package com.luke.filmdb.application.resource.filter;
 
+import com.luke.filmdb.security.jwt.TokenProvider;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,9 +23,14 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 public class NewJWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public NewJWTAuthorizationFilter(AuthenticationManager authManager) {
-        super(authManager);
+    private TokenProvider tokenProvider;
+
+    public NewJWTAuthorizationFilter(AuthenticationManager authenticationManager,
+                                     TokenProvider tokenProvider) {
+        super(authenticationManager);
+        this.tokenProvider = tokenProvider;
     }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
@@ -46,10 +52,6 @@ public class NewJWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING).replace("\"", "");
         if (token != null) {
             // parse the token.
-//            String user = JWT.require(Algorithm.HMAC512(TokenProperties.getSecret().getBytes()))
-//                    .build()
-//                    .verify(token.replace(TOKEN_PREFIX, ""))
-//                    .getSubject();
 
             String user = Jwts.builder()
                     .signWith(HS256, SIGNING_KEY)

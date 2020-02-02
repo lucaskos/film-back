@@ -1,68 +1,64 @@
 package com.luke.filmdb;
 
-import com.luke.filmdb.config.SecurityConstants;
+import com.luke.filmdb.security.AuthoritiesConstants;
 import com.luke.filmdb.security.jwt.JWTAuthorizationFilter;
 import com.luke.filmdb.security.jwt.TokenProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Collections;
 
-import static com.luke.filmdb.config.SecurityConstants.HEADER_STRING;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@AutoConfigureMockMvc
+@ContextConfiguration(classes = {JWTAuthorizationFilter.class})
 public class FilterTest {
 
-    @Mock
+    @MockBean
     UserDetailsService userDetailsService;
-    @Mock
+    @MockBean
     AuthenticationManager authManager;
-    @Autowired
+    @InjectMocks
     TokenProvider tokenProvider;
 
-    @InjectMocks
-    JWTAuthorizationFilter filterUnderTest;
-
-    String token;
+    String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LXVzZXIiLCJzY29wZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE1ODA2NjU0NzgsImV4cCI6MTU4MDY4MzQ3OH0.YhsVpvYMCmuNtLwv0MUT6jJwbfNpoBggWarVvcqd4k0";
+    String username = "test-user";
 
     @Before
     public void generateToken() {
-        Authentication authentication = Mockito.mock(Authentication.class);
-        authentication.setAuthenticated(true);
-        token = tokenProvider.generateToken(authentication);
     }
 
     @Test
-    public void testSomethingAboutDoFilter() throws ServletException, IOException {
-        // create the objects to be mocked
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
-        FilterChain filterChain = mock(FilterChain.class);
-        // mock the getRequestURI() response
-        when(httpServletRequest.getRequestURI()).thenReturn("/otherurl.jsp");
-        when(httpServletRequest.getHeader(HEADER_STRING)).thenReturn(SecurityConstants.TOKEN_PREFIX + "test");
+    public void generateTokenAssertNotNull() {
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                this.username,
+                "test-password",
+                Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+        );
 
-        filterUnderTest.doFilter(httpServletRequest, httpServletResponse,
-                filterChain);
+        String token = this.tokenProvider.generateToken(authentication);
 
-        // verify if a sendRedirect() was performed with the expected value
-        verify(httpServletResponse).sendRedirect("/maintenance.jsp");
+        assertNotNull(token);
+    }
+
+    @Test
+    public void getUsernameFromTokenAndAssertEqual() {
+        String usernameFromToken = this.tokenProvider.getUsernameFromToken(token);
+
+        assertEquals(this.username, usernameFromToken);
     }
 }

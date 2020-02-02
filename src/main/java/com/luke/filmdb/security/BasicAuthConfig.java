@@ -4,8 +4,10 @@ import com.luke.filmdb.application.resource.filter.JWTAuthenticationFilter;
 import com.luke.filmdb.application.resource.filter.JwtAuthenticationEntryPoint;
 import com.luke.filmdb.application.resource.filter.NewJWTAuthorizationFilter;
 import com.luke.filmdb.application.services.CustomUserServiceImpl;
+import com.luke.filmdb.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,18 +21,21 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.inject.Inject;
+
 /**
  * Created by Luke on 24.10.2018.
  */
+@Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableWebMvc
 @AllArgsConstructor
-//@Order(1)
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
     private CustomUserServiceImpl customUserService;
     private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Inject
+    private TokenProvider tokenProvider;
 
 //    @Override
     @Bean
@@ -57,9 +62,13 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/**").authenticated()
+//                .and()
+//                .logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessHandler(httpLogoutHandler)
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new NewJWTAuthorizationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), tokenProvider))
+                .addFilter(new NewJWTAuthorizationFilter(authenticationManager(), tokenProvider))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
