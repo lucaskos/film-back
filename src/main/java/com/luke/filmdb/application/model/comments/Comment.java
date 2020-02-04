@@ -1,18 +1,16 @@
 package com.luke.filmdb.application.model.comments;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luke.filmdb.application.model.generic.DataModelObject;
 import com.luke.filmdb.application.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -24,6 +22,7 @@ public class Comment extends DataModelObject implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner", nullable = true)
     private User owner;

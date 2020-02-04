@@ -10,7 +10,7 @@ import com.luke.filmdb.application.repository.FilmRepo;
 import com.luke.filmdb.application.repository.PersonRepo;
 import com.luke.filmdb.application.repository.RatingRepo;
 import com.luke.filmdb.application.resource.filter.UserNotFoundException;
-import com.luke.filmdb.commons.SecurityUtil;
+import com.luke.filmdb.commons.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class RatingService {
     private final RatingRepo ratingRepo;
     private final FilmRepo filmRepo;
     private final PersonRepo personRepo;
-    private final SecurityUtil securityUtil;
+    private final SecurityUtils securityUtils;
     private final UserService userService;
 
 

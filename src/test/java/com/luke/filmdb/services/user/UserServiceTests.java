@@ -9,7 +9,7 @@ import com.luke.filmdb.application.repository.RoleRepo;
 import com.luke.filmdb.application.repository.UserRepository;
 import com.luke.filmdb.application.resource.filter.UserNotFoundException;
 import com.luke.filmdb.application.services.UserServiceImpl;
-import com.luke.filmdb.commons.SecurityUtil;
+import com.luke.filmdb.commons.SecurityUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,7 +59,7 @@ public class UserServiceTests {
     @Mock
     UserRepository userRepository;
     @Mock
-    SecurityUtil securityUtil;
+    SecurityUtils securityUtils;
     @Mock
     RoleRepo roleRepo;
     @InjectMocks
@@ -74,7 +74,7 @@ public class UserServiceTests {
 
         org.springframework.security.core.userdetails.User user =
                 new org.springframework.security.core.userdetails.User(ADMIN_USERNAME, USER_PASSWORD, new ArrayList<>());
-        when(securityUtil.getCurrentlyLoggedUser()).thenReturn(user);
+        when(securityUtils.getCurrentlyLoggedUser()).thenReturn(user);
 
         RegisterDTO registerDTO = getRegisterDTO();
         registerDTO.setUsername(ADMIN_USERNAME);
@@ -129,7 +129,7 @@ public class UserServiceTests {
     public void getCurrentlyLoggedUsernameAndCheckName() throws UserNotFoundException {
         org.springframework.security.core.userdetails.User user =
                 new org.springframework.security.core.userdetails.User(ADMIN_USERNAME, USER_PASSWORD, new ArrayList<>());
-        when(securityUtil.getCurrentlyLoggedUser()).thenReturn(user);
+        when(securityUtils.getCurrentlyLoggedUser()).thenReturn(user);
 
         User simpleUser = getUser();
 
@@ -155,7 +155,7 @@ public class UserServiceTests {
     public void findUserAndDeleteUser() {
         org.springframework.security.core.userdetails.User user =
                 new org.springframework.security.core.userdetails.User(USERNAME, USER_PASSWORD, new ArrayList<>());
-        when(securityUtil.getCurrentlyLoggedUser()).thenReturn(user);
+        when(securityUtils.getCurrentlyLoggedUser()).thenReturn(user);
         when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(getUser()));
 
         userService.delete(USER_ID);

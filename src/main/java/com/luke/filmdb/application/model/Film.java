@@ -94,9 +94,7 @@ public class Film extends DataModelObject {
         Film film = (Film) o;
         return Objects.equals(title, film.title) &&
                 Objects.equals(description, film.description) &&
-                Objects.equals(year, film.year) &&
-                Objects.equals(filmRelations, film.filmRelations) &&
-                Objects.equals(filmComments, film.filmComments);
+                Objects.equals(year, film.year);
     }
 
     @Override

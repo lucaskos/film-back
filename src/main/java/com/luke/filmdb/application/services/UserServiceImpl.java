@@ -8,7 +8,7 @@ import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.repository.RoleRepo;
 import com.luke.filmdb.application.repository.UserRepository;
 import com.luke.filmdb.application.resource.filter.UserNotFoundException;
-import com.luke.filmdb.commons.SecurityUtil;
+import com.luke.filmdb.commons.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bcryptEncoder;
     private final UserMapper userMapper;
     private final RoleRepo roleRepository;
-    private final SecurityUtil securityUtil;
+    private final SecurityUtils securityUtils;
 
     @Secured(ADMIN)
     public List<UserDTO> findAll() {
@@ -68,11 +68,11 @@ public class UserServiceImpl implements UserService {
         if (loggedUser == null || loggedUser.getUsername() == null)
             return false;
 
-        if (this.securityUtil.getCurrentlyLoggedUser() == null)
+        if (this.securityUtils.getCurrentlyLoggedUser() == null)
             return false;
 
-        String username = this.securityUtil.getCurrentlyLoggedUser().getUsername();
-        boolean hasAdminAuthority = this.securityUtil.hasUserAuthority(ADMIN);
+        String username = this.securityUtils.getCurrentlyLoggedUser().getUsername();
+        boolean hasAdminAuthority = this.securityUtils.hasUserAuthority(ADMIN);
 
         return username.equals(loggedUser.getUsername()) || hasAdminAuthority;
     }
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 //    }
 
     public User getCurrentlyLoggedUser() throws UserNotFoundException {
-        org.springframework.security.core.userdetails.User currentlyLoggedUser = securityUtil.getCurrentlyLoggedUser();
+        org.springframework.security.core.userdetails.User currentlyLoggedUser = securityUtils.getCurrentlyLoggedUser();
 
         if (currentlyLoggedUser == null) {
             throw new AuthorizationServiceException("Unauthorized user");

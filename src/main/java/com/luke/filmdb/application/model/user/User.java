@@ -1,7 +1,6 @@
 package com.luke.filmdb.application.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.luke.filmdb.application.model.ObjectRating;
 import com.luke.filmdb.application.model.comments.PersonComment;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -59,8 +57,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "rating")
-    public Set<ObjectRating> rating = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "OWNER")
     private Set<PersonComment> personComments;

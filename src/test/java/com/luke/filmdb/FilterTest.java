@@ -3,6 +3,7 @@ package com.luke.filmdb;
 import com.luke.filmdb.security.AuthoritiesConstants;
 import com.luke.filmdb.security.jwt.JWTAuthorizationFilter;
 import com.luke.filmdb.security.jwt.TokenProvider;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,29 +36,44 @@ public class FilterTest {
     @InjectMocks
     TokenProvider tokenProvider;
 
-    String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LXVzZXIiLCJzY29wZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE1ODA2NjU0NzgsImV4cCI6MTU4MDY4MzQ3OH0.YhsVpvYMCmuNtLwv0MUT6jJwbfNpoBggWarVvcqd4k0";
+    final String OLD_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LXVzZXIiLCJzY29wZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE1ODA2NjU0NzgsImV4cCI6MTU4MDY4MzQ3OH0.YhsVpvYMCmuNtLwv0MUT6jJwbfNpoBggWarVvcqd4k0";
     String username = "test-user";
+    String password = "test-password";
+    String freshToken;
 
     @Before
-    public void generateToken() {
+    public void init() {
+        freshToken = this.tokenProvider.generateToken(new UsernamePasswordAuthenticationToken(
+                this.username,
+                this.password,
+                Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))));
     }
 
     @Test
     public void generateTokenAssertNotNull() {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 this.username,
-                "test-password",
+                this.password,
                 Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
         );
 
         String token = this.tokenProvider.generateToken(authentication);
 
         assertNotNull(token);
+
+        assertEquals(this.freshToken, token);
+    }
+
+    @Test(expected = ExpiredJwtException.class)
+    public void getTokenExpired() {
+        String usernameFromToken = this.tokenProvider.getUsernameFromToken(OLD_TOKEN);
+
+        assertEquals(this.username, usernameFromToken);
     }
 
     @Test
     public void getUsernameFromTokenAndAssertEqual() {
-        String usernameFromToken = this.tokenProvider.getUsernameFromToken(token);
+        String usernameFromToken = this.tokenProvider.getUsernameFromToken(freshToken);
 
         assertEquals(this.username, usernameFromToken);
     }

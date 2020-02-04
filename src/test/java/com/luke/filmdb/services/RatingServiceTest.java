@@ -9,7 +9,7 @@ import com.luke.filmdb.application.repository.PersonRepo;
 import com.luke.filmdb.application.repository.RatingRepo;
 import com.luke.filmdb.application.services.RatingService;
 import com.luke.filmdb.application.services.UserService;
-import com.luke.filmdb.commons.SecurityUtil;
+import com.luke.filmdb.commons.SecurityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -41,7 +41,7 @@ public class RatingServiceTest {
     private RatingRepo ratingRepo;
 
     @Mock
-    private SecurityUtil securityUtil;
+    private SecurityUtils securityUtils;
 
     @Mock
     private UserService userService;

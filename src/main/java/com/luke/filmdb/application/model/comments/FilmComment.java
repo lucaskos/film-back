@@ -1,5 +1,6 @@
 package com.luke.filmdb.application.model.comments;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luke.filmdb.application.model.Film;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.Objects;
 @Table(name = "FILM_COMMENT")
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class FilmComment extends Comment {
 
     @ManyToOne

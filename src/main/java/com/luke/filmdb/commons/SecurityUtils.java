@@ -7,14 +7,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Component
-public class SecurityUtil {
+public class SecurityUtils {
     private final static String ROLE_PREFIX = "ROLE";
 
     public User getCurrentlyLoggedUser() {
