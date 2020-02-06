@@ -4,6 +4,7 @@ import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.repository.FilmCommentsRepo;
 import com.luke.filmdb.application.repository.FilmRepo;
+import com.luke.filmdb.application.repository.UserRepository;
 import com.luke.filmdb.commons.CommentsCommon;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +26,8 @@ public class CommentRepoTest extends CommentsCommon {
     private FilmCommentsRepo filmCommentsRepo;
     @Autowired
     private FilmRepo filmRepo;
+    @Autowired
+    private UserRepository userRepository;
 
     private Long filmIdToDelete;
     /** CommentId to check when we delete film */
@@ -40,6 +43,7 @@ public class CommentRepoTest extends CommentsCommon {
         filmComment.setFilm(film);
         filmComment.setText("PARENT_COMMENT_TEXT");
         filmComment.setTitle("PARENT_COMMENT_TITLE");
+
         film.getFilmComments().add(filmComment);
         Film save = filmRepo.save(film);
         List<FilmComment> filmComments = save.getFilmComments();
@@ -58,11 +62,13 @@ public class CommentRepoTest extends CommentsCommon {
         filmComment.setFilm(film);
         filmComment.setText("PARENT_COMMENT_TEXT");
         filmComment.setTitle("PARENT_COMMENT_TITLE");
+        filmComment.setOwner(userRepository.getOne(1L));
 
         FilmComment save = filmCommentsRepo.save(filmComment);
 
         Assert.assertNotNull(save);
         Assert.assertNotNull(save.getId());
+        Assert.assertNotNull(save.getOwner());
 
         //first sub comment of freshly added filmComment
         FilmComment newFilmComment = new FilmComment();

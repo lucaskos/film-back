@@ -1,6 +1,6 @@
 package com.luke.filmdb.application.model.comments;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luke.filmdb.application.model.generic.DataModelObject;
 import com.luke.filmdb.application.model.user.User;
 import lombok.Getter;
@@ -16,6 +16,7 @@ import java.io.Serializable;
 @Setter
 @MappedSuperclass
 //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Comment extends DataModelObject implements Serializable {
     @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;

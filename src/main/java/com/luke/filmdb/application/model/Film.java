@@ -1,8 +1,10 @@
 package com.luke.filmdb.application.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.model.generic.DataModelObject;
 import lombok.Getter;
@@ -28,6 +30,7 @@ import java.util.Set;
 @Setter
 @JsonIgnoreProperties(value = {"creationDate", "modificationDate"},
         allowGetters = true)
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Film extends DataModelObject {
 
     @Size(max = 60)

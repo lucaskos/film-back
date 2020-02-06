@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.luke.filmdb.commons.UserCommons.getUser;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -51,6 +52,13 @@ public class CommentsServiceTest extends CommentsCommon {
 
     @Mock
     private UserService userService;
+
+    @Test
+    public void getFilmWithCommentAndUser() {
+        Film film = getSimpleFilmWithSingleComment();
+        Assert.assertNotNull(film.getFilmComments().get(0).getOwner());
+        Assert.assertEquals(film.getFilmComments().get(0).getOwner(), getUser());
+    }
 
     @Test
     public void filmCommentExistsTest() throws UserNotFoundException {
@@ -80,7 +88,7 @@ public class CommentsServiceTest extends CommentsCommon {
     }
 
     @Test
-    public void getSingleFilmComment() {
+    public void getSingleFilmCommentDTO() {
         CommentDTO commentDTO = getFilmCommentDTO();
 
         when(filmCommentsRepo.findByFilmId(FILM_ID)).thenReturn(Optional.of(Collections.singletonList(getFilmComment())));

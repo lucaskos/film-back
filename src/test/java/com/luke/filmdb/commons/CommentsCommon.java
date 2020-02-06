@@ -13,6 +13,8 @@ import com.luke.filmdb.application.model.user.User;
 import java.time.LocalDate;
 import java.util.Collections;
 
+import static com.luke.filmdb.commons.UserCommons.getUser;
+
 public class CommentsCommon extends MapperCommons {
     public static String COMMENT_TEXT = "TEST_COMMENT";
     public static Long FILM_ID = 1L;
@@ -20,12 +22,21 @@ public class CommentsCommon extends MapperCommons {
 
     public static FilmComment getFilmComment() {
         FilmComment filmComment = new FilmComment();
-        filmComment.setOwner(new User());//todo fix
+        User user = getUser();
+        filmComment.setOwner(user);//todo fix
         filmComment.setText(COMMENT_TEXT);
+        Film film = getFilm();
+        filmComment.setFilm(film);
+        film.setFilmComments(Collections.singletonList(filmComment));
         return filmComment;
     }
 
-    public PersonComment getPersonComment() {
+    private static Film getFilm() {
+        Film film = new Film();
+        return film;
+    }
+
+    public static PersonComment getPersonComment() {
         PersonComment personComment = new PersonComment();
         personComment.setOwner(new User()); //todo fix
         personComment.setText(COMMENT_TEXT);
