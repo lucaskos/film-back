@@ -1,11 +1,9 @@
 package com.luke.filmdb.application.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.luke.filmdb.application.model.comments.PersonComment;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,11 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -57,9 +53,8 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "OWNER")
-    private Set<PersonComment> personComments;
+//    @JoinColumn(name = "OWNER")
+//    private List<PersonComment> personComments;
 
     public User() {
     }

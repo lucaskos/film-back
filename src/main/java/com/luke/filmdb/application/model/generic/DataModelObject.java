@@ -43,11 +43,12 @@ public abstract class DataModelObject implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         DataModelObject that = (DataModelObject) o;
         return Objects.equals(getCreationDate(), that.getCreationDate()) &&
-                Objects.equals(getModificationDate(), that.getModificationDate());
+                Objects.equals(getModificationDate(), that.getModificationDate()) &&
+                Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCreationDate(), getModificationDate());
+        return Objects.hash(getCreationDate(), getModificationDate(), getId());
     }
 }

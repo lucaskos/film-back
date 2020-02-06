@@ -54,7 +54,7 @@ public abstract class MapperCommons {
         return personDTO;
     }
 
-    public Film getSimpleFilm() {
+    public static Film getSimpleFilm() {
         Film film = new Film();
         film.setTitle(FILM_TITLE);
         film.setCreationDate(CREATION_DATE);

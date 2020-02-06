@@ -22,7 +22,6 @@ public class Comment extends DataModelObject implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner", nullable = true)
     private User owner;
