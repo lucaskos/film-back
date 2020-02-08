@@ -17,6 +17,7 @@ import static com.luke.filmdb.commons.UserCommons.getUser;
 
 public class CommentsCommon extends MapperCommons {
     public static String COMMENT_TEXT = "TEST_COMMENT";
+    public static String TEST_COMMENT = "TEST_COMMENT";
     public static Long FILM_ID = 1L;
     public static Long USER_ID = 1L;
 
@@ -40,6 +41,7 @@ public class CommentsCommon extends MapperCommons {
         PersonComment personComment = new PersonComment();
         personComment.setOwner(new User()); //todo fix
         personComment.setText(COMMENT_TEXT);
+        personComment.setTitle(TEST_COMMENT);
         return personComment;
     }
 

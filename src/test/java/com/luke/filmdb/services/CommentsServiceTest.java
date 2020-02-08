@@ -110,7 +110,8 @@ public class CommentsServiceTest extends CommentsCommon {
         List<CommentDTO> entityComments = commentService.findEntityComments(commentDTO);
 
         Assert.assertTrue(entityComments.size() > 0);
-        Assert.assertEquals(getFilmComment().getText(), entityComments.get(0).getText());
+        Assert.assertEquals(getPersonComment().getText(), entityComments.get(0).getText());
+        Assert.assertEquals(getPersonComment().getTitle(), entityComments.get(0).getTitle());
     }
 
 

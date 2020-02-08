@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "FILM_COMMENT")
@@ -33,5 +34,23 @@ public class FilmComment extends Comment {
         return "FilmComment{" +
                 "film=" + film +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        FilmComment that = (FilmComment) o;
+
+        return Objects.equals(film, that.film);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (film != null ? film.hashCode() : 0);
+        return result;
     }
 }

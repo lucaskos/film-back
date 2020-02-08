@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class EqualsHashCodeTest extends MapperCommons {
 
 
-    @Test
+//    @Test
     public void dataObjectEqualHashCodeTest() {
         EqualsVerifier.forClass(DataModelObject.class)
                 .usingGetClass()
