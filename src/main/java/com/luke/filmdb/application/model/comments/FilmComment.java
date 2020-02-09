@@ -44,7 +44,9 @@ public class FilmComment extends Comment {
 
         FilmComment that = (FilmComment) o;
 
-        return Objects.equals(film, that.film);
+        return Objects.equals(film.getTitle(), that.film.getTitle()) &&
+                Objects.equals(film.getId(), that.film.getId()) &&
+                Objects.equals(film.getYear(), that.film.getYear());
     }
 
     @Override
