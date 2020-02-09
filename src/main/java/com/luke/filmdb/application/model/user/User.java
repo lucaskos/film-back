@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -104,34 +105,30 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + (enabled ? 1231 : 1237);
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (enabled != user.enabled) {
+            return false;
+        }
+        if (!Objects.equals(username, user.username)) return false;
+        if (!Objects.equals(email, user.email)) return false;
+        if (!Objects.equals(roles, user.roles)) return false;
+        if (!Objects.equals(firstName, user.firstName)) return false;
+        return Objects.equals(lastName, user.lastName);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (enabled != other.enabled)
-            return false;
-        if (username == null) {
-            return other.username == null;
-        } else return username.equals(other.username);
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (enabled ? 1 : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        return result;
     }
-
 }

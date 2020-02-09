@@ -4,6 +4,8 @@ import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.FilmRelations;
 import com.luke.filmdb.application.model.comments.FilmComment;
 import com.luke.filmdb.application.model.generic.DataModelObject;
+import com.luke.filmdb.application.model.user.Role;
+import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.commons.MapperCommons;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
@@ -16,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class EqualsHashCodeTest extends MapperCommons {
 
 
-//    @Test
+    @Test
     public void dataObjectEqualHashCodeTest() {
         EqualsVerifier.forClass(DataModelObject.class)
                 .usingGetClass()
@@ -34,6 +36,17 @@ public class EqualsHashCodeTest extends MapperCommons {
                         new FilmComment(Film.getFilmWithTitleYear("TEST1", 1)))
                 .verify();
 
+    }
+
+    @Test
+    public void userEqualHashCode() {
+        EqualsVerifier.forClass(User.class)
+                .withRedefinedSuperclass()
+                .usingGetClass()
+//                .withIgnoredFields("id")
+                .withIgnoredFields("password")
+                .withPrefabValues(Role.class, Role.getRoleWithNameAndId(1L, "TEST1"), Role.getRoleWithNameAndId(2L, "TEST2"))
+                .verify();
     }
 
 }

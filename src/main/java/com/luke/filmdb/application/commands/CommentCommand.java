@@ -1,13 +1,15 @@
 package com.luke.filmdb.application.commands;
 
 import com.luke.filmdb.application.DTO.CommentDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CommentCommand {
 
-	private long id;
-	private String entityType;
-	private CommentDTO commentDTO;
+    private long id;
+    private String entityType;
+    private CommentDTO commentDTO;
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
@@ -64,4 +65,20 @@ public class Role {
 //	public void setUser(User user) {
 //		this.user = user;
 //	}
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        return Objects.equals(roleName, role.roleName);
+    }
+
+    @Override
+    public int hashCode() {
+        return roleName != null ? roleName.hashCode() : 0;
+    }
 }

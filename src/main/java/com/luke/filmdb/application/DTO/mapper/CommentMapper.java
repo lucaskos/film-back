@@ -13,7 +13,6 @@ public interface CommentMapper {
 
     FilmComment commentCommandToFilmCommentEntity(CommentDTO commentDTO);
 
-
     @Mappings({
             @Mapping(target = "entityId", ignore = true),
             @Mapping(target = "user", source = "owner")

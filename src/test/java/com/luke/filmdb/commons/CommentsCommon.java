@@ -83,9 +83,7 @@ public class CommentsCommon extends MapperCommons {
         return simpleFilm;
     }
 
-
-
-    private CommentCommand getFilmCommand() {
+    public static CommentCommand getFilmCommand() {
         CommentCommand commentCommand = new CommentCommand();
         commentCommand.setEntityType("FILM");
 
@@ -110,7 +108,7 @@ public class CommentsCommon extends MapperCommons {
         return commentDTO;
     }
 
-    protected CommentDTO getFilmCommentDTO() {
+    public static CommentDTO getFilmCommentDTO() {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setText(COMMENT_TEXT);
         commentDTO.setUser(new UserDTO());
