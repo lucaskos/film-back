@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-//@ContextConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ServicesSecurityTest extends MapperCommons {
 

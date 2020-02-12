@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.luke.filmdb.security.jwt.TokenProvider.getSigningKey;
+
+
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UserDetailsService userDetailsService;
@@ -52,7 +55,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         if (token != null) {
             // parse the token.
             String user = Jwts.parser()
-                    .setSigningKey(SecurityConstants.SECRET.getBytes())
+//                    .setSigningKey(SecurityConstants.SECRET.getBytes())
+                    .setSigningKey(getSigningKey())
                     .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();

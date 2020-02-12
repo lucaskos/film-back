@@ -18,7 +18,7 @@ import java.util.Date;
 import static com.luke.filmdb.config.SecurityConstants.HEADER_STRING;
 import static com.luke.filmdb.config.SecurityConstants.TOKEN_PREFIX;
 import static com.luke.filmdb.security.jwt.TokenProvider.ACCESS_TOKEN_VALIDITY_SECONDS;
-import static com.luke.filmdb.security.jwt.TokenProvider.SIGNING_KEY;
+import static com.luke.filmdb.security.jwt.TokenProvider.getSigningKey;
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 public class NewJWTAuthorizationFilter extends BasicAuthenticationFilter {
@@ -54,7 +54,7 @@ public class NewJWTAuthorizationFilter extends BasicAuthenticationFilter {
             // parse the token.
 
             String user = Jwts.builder()
-                    .signWith(HS256, SIGNING_KEY)
+                    .signWith(HS256, getSigningKey())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                     .compact();

@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -37,7 +39,7 @@ public class TokenProvider implements Serializable {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(SIGNING_KEY)
+                .setSigningKey(getSigningKey())
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -49,16 +51,20 @@ public class TokenProvider implements Serializable {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .signWith(SignatureAlgorithm.HS256, getSigningKey())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .compact();
     }
 
+    public static byte[] getSigningKey() {
+        return SIGNING_KEY.getBytes(StandardCharsets.UTF_8);
+        return null;
+    }
 
     public UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
 
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(getSigningKey());
 
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
 
