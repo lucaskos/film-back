@@ -1,4 +1,4 @@
-package com.luke.filmdb.application.resource.filter;
+package com.luke.filmdb.security.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

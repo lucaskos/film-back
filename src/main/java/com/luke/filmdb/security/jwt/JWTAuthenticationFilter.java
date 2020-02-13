@@ -1,8 +1,7 @@
-package com.luke.filmdb.application.resource.filter;
+package com.luke.filmdb.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luke.filmdb.application.DTO.user.AuthorizationCredentials;
-import com.luke.filmdb.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,8 +1,8 @@
 package com.luke.filmdb.security;
 
-import com.luke.filmdb.application.resource.filter.JWTAuthenticationFilter;
-import com.luke.filmdb.application.resource.filter.JwtAuthenticationEntryPoint;
-import com.luke.filmdb.application.resource.filter.NewJWTAuthorizationFilter;
+import com.luke.filmdb.security.jwt.JWTAuthenticationFilter;
+import com.luke.filmdb.security.jwt.JwtAuthenticationEntryPoint;
+import com.luke.filmdb.security.jwt.NewJWTAuthorizationFilter;
 import com.luke.filmdb.application.services.CustomUserServiceImpl;
 import com.luke.filmdb.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;

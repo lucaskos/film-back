@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,7 +58,6 @@ public class TokenProvider implements Serializable {
 
     public static byte[] getSigningKey() {
         return SIGNING_KEY.getBytes(StandardCharsets.UTF_8);
-        return null;
     }
 
     public UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
