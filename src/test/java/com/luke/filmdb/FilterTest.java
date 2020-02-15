@@ -17,7 +17,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.User;
@@ -62,6 +64,7 @@ public class FilterTest {
     String username = "test-user";
     String password = "test-password";
     String freshToken;
+    String role = "test-role";
 
     @Before
     public void init() {
@@ -110,7 +113,29 @@ public class FilterTest {
         verify(filterChain).doFilter(any(HttpServletRequest.class), any(HttpServletResponse.class));
     }
 
-    private String getToken()  {
+    @Test
+    public void mockAuthorization() {
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
+        request.addParameter(
+                JWTAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY,
+                password
+        );
+        request.addParameter(
+                JWTAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY,
+                username
+        );
+        JWTAuthenticationFilter jwtAuthorizationFilter = new JWTAuthenticationFilter(authManager, tokenProvider);
+        Authentication authentication = new TestingAuthenticationToken(username, null, role);
+        when(this.authManager.authenticate(any())).thenReturn(authentication);
+
+        Authentication result = jwtAuthorizationFilter.attemptAuthentication(request,
+                new MockHttpServletResponse());
+
+        assertNotNull(result);
+        assertEquals(result.getName(), username);
+    }
+
+    private String getToken() {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 this.username,
                 this.password,
@@ -122,5 +147,10 @@ public class FilterTest {
 
     public User getUser() {
         return new User(username, password, null);
+    }
+
+    private AuthenticationManager createAuthenticationManager() {
+        AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+        return authenticationManager;
     }
 }

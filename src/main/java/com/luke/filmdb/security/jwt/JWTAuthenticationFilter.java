@@ -1,6 +1,5 @@
 package com.luke.filmdb.security.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luke.filmdb.application.DTO.user.AuthorizationCredentials;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +28,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            AuthorizationCredentials creds = getUserCreds(req);
+            AuthorizationCredentials creds = getUserAuthorizationCredentials(req);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -42,9 +41,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
-    private AuthorizationCredentials getUserCreds(HttpServletRequest req) throws IOException {
-        return new ObjectMapper()
-                .readValue(req.getInputStream(), AuthorizationCredentials.class);
+    private AuthorizationCredentials getUserAuthorizationCredentials(HttpServletRequest req) throws IOException {
+            return new AuthorizationCredentials(req.getParameter(SPRING_SECURITY_FORM_USERNAME_KEY),
+                    req.getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
     }
 
     @Override
