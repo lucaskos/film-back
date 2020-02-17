@@ -51,15 +51,15 @@ public class PersonComment extends Comment {
 
         PersonComment that = (PersonComment) o;
 
-        return Objects.equals(getPerson().getFirstName(), that.getPerson().getLastName())
-                && Objects.equals(getPerson().getLastName(), that.getPerson().getLastName())
-                && Objects.equals(getPerson().getBornDate(), that.getPerson().getBornDate());
+        return Objects.equals(getText(), that.getText())
+                && Objects.equals(getTitle(), that.getTitle());
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (getPerson() != null ? getPerson().hashCode() : 0);
+        result = 31 * result + (getText() != null ? getText().hashCode() : 0);
+        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         return result;
     }
 }
