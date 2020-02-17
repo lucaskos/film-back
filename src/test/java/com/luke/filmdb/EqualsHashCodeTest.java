@@ -26,7 +26,7 @@ public class EqualsHashCodeTest extends MapperCommons {
     }
 
     @Test
-    public void filmEuqalHashCodeTest() {
+    public void filmEqualHashCodeTest() {
         EqualsVerifier.forClass(Film.class)
                 .withRedefinedSuperclass()
                 .usingGetClass()
@@ -48,5 +48,19 @@ public class EqualsHashCodeTest extends MapperCommons {
                 .withPrefabValues(Role.class, Role.getRoleWithNameAndId(1L, "TEST1"), Role.getRoleWithNameAndId(2L, "TEST2"))
                 .verify();
     }
+
+//    @Test
+//    public void personCommentsEqualHashCode() {
+//        EqualsVerifier.forClass(PersonComment.class)
+//                .withRedefinedSuperclass()
+//                .usingGetClass()
+//                .withIgnoredFields("id")
+//                .withIgnoredFields("owner")
+//                .withPrefabValues(FilmRelations.class, new FilmRelations(1L), new FilmRelations(2L))
+//                .withPrefabValues(PersonComment.class,
+//                        new PersonComment(Person.getPersonWithFirstAndLastName("TEST", "TEST")),
+//                        new PersonComment(Person.getPersonWithFirstAndLastName("TEST1", "TEST1")))
+//                .verify();
+//    }
 
 }

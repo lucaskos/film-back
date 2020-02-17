@@ -28,6 +28,14 @@ public class PersonComment extends Comment {
 //    @OneToMany(mappedBy = "parentComment")
 //    private Set<PersonComment> subComments = new HashSet<>();
 
+
+    public PersonComment() {
+    }
+
+    public PersonComment(Person person) {
+        this.person = person;
+    }
+
     @Override
     public String toString() {
         return "PersonComment{" +
@@ -38,10 +46,14 @@ public class PersonComment extends Comment {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonComment)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
+
         PersonComment that = (PersonComment) o;
-        return Objects.equals(getPerson(), that.getPerson());
+
+        return Objects.equals(getPerson().getFirstName(), that.getPerson().getLastName())
+                && Objects.equals(getPerson().getLastName(), that.getPerson().getLastName())
+                && Objects.equals(getPerson().getBornDate(), that.getPerson().getBornDate());
     }
 
     @Override

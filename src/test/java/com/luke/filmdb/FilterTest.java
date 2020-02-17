@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,6 +50,12 @@ public class FilterTest {
 
     @Captor
     private ArgumentCaptor<SecurityContext> contextCaptor;
+    @Mock
+    private HttpServletRequest request;
+    @Mock
+    private HttpServletResponse response;
+    @Mock
+    private FilterChain chain;
 
     @MockBean
     UserDetailsService userDetailsService;
@@ -114,7 +121,7 @@ public class FilterTest {
     }
 
     @Test
-    public void mockAuthorization() {
+    public void mockAuthorizationAndSuccess() {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
         request.addParameter(
                 JWTAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY,
@@ -124,6 +131,10 @@ public class FilterTest {
                 JWTAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY,
                 username
         );
+
+        String body = "{\"username\":\"test\",\"password\":\"test\"}";
+        request.setContent(body.getBytes());
+
         JWTAuthenticationFilter jwtAuthorizationFilter = new JWTAuthenticationFilter(authManager, tokenProvider);
         Authentication authentication = new TestingAuthenticationToken(username, null, role);
         when(this.authManager.authenticate(any())).thenReturn(authentication);
@@ -133,6 +144,15 @@ public class FilterTest {
 
         assertNotNull(result);
         assertEquals(result.getName(), username);
+    }
+
+    @Test
+    public void callsFilterChainIfSuccessfulAuthentication() throws Exception {
+        Authentication authentication = mock(Authentication.class);
+        JWTAuthenticationFilter jwtAuthorizationFilter = new JWTAuthenticationFilter(authManager, tokenProvider);
+        jwtAuthorizationFilter.successfulAuthentication(request, response, chain, authentication);
+
+        verify(chain).doFilter(request, response);
     }
 
     private String getToken() {
@@ -147,10 +167,5 @@ public class FilterTest {
 
     public User getUser() {
         return new User(username, password, null);
-    }
-
-    private AuthenticationManager createAuthenticationManager() {
-        AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
-        return authenticationManager;
     }
 }

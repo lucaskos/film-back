@@ -54,6 +54,17 @@ public class Person extends DataModelObject implements Serializable {
 //    }
 
 
+    public Person() {
+    }
+
+    public static Person getPersonWithFirstAndLastName(String firstName,
+                                                       String lastName) {
+        Person person = new Person();
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        return person;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -66,5 +77,31 @@ public class Person extends DataModelObject implements Serializable {
                 ", modificationDate=" + modificationDate +
                 ", bio='" + bio + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Person person = (Person) o;
+
+        if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
+        if (bornDate != null ? !bornDate.equals(person.bornDate) : person.bornDate != null) return false;
+        if (diedDate != null ? !diedDate.equals(person.diedDate) : person.diedDate != null) return false;
+        return bio != null ? bio.equals(person.bio) : person.bio == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (bornDate != null ? bornDate.hashCode() : 0);
+        result = 31 * result + (diedDate != null ? diedDate.hashCode() : 0);
+        result = 31 * result + (bio != null ? bio.hashCode() : 0);
+        return result;
     }
 }

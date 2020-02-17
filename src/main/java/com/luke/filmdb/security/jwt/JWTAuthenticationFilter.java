@@ -1,22 +1,22 @@
 package com.luke.filmdb.security.jwt;
 
-import com.luke.filmdb.application.DTO.user.AuthorizationCredentials;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luke.filmdb.application.DTO.LoginDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.luke.filmdb.config.SecurityConstants.HEADER_STRING;
-import static com.luke.filmdb.config.SecurityConstants.TOKEN_PREFIX;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -27,40 +27,41 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
-        try {
-            AuthorizationCredentials creds = getUserAuthorizationCredentials(req);
+        LoginDTO object = null;
+        object = getObject(req);
 
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
-                            creds.getPassword(),
-                            new ArrayList<>())
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        object.getUsername(),
+                        object.getPassword(),
+                        new ArrayList<>())
+        );
     }
 
-    private AuthorizationCredentials getUserAuthorizationCredentials(HttpServletRequest req) throws IOException {
-            return new AuthorizationCredentials(req.getParameter(SPRING_SECURITY_FORM_USERNAME_KEY),
-                    req.getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
+    private LoginDTO getObject(HttpServletRequest req) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        LoginDTO loginDTO = null;
+
+        try {
+            String collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            loginDTO = objectMapper.readValue(collect, LoginDTO.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            logger.error("Error in parsing login request.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return loginDTO;
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req,
-                                            HttpServletResponse res,
-                                            FilterChain chain,
-                                            Authentication auth) {
-        try {
-            SecurityContextHolder.getContext().setAuthentication(auth);
+    public void successfulAuthentication(HttpServletRequest req,
+                                         HttpServletResponse res,
+                                         FilterChain chain,
+                                         Authentication auth) throws IOException, ServletException {
+            super.successfulAuthentication(req, res, chain, auth);
 
-            String accessToken = tokenProvider.generateToken(auth);
-
-            res.addHeader(HEADER_STRING, TOKEN_PREFIX + accessToken);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            chain.doFilter(req, res);
     }
 
 }
