@@ -6,6 +6,7 @@ import com.luke.filmdb.security.jwt.JWTAuthorizationFilter;
 import com.luke.filmdb.security.jwt.JwtAuthenticationEntryPoint;
 import com.luke.filmdb.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,8 +22,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import javax.inject.Inject;
-
 /**
  * Created by Luke on 24.10.2018.
  */
@@ -34,7 +33,7 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
     private CustomUserServiceImpl customUserService;
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Inject
+    @Autowired
     private TokenProvider tokenProvider;
 
 //    @Override

@@ -14,28 +14,6 @@ public class ErrorMessage extends Throwable {
     private Integer code;
     private String message;
 
-    public ErrorMessage(String global_error_test) {
-        this.message = global_error_test;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = code != null ? code.hashCode() : 0;
-        result = 31 * result + (message != null ? message.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ErrorMessage)) return false;
-
-        ErrorMessage that = (ErrorMessage) o;
-
-        if (!getCode().equals(that.getCode())) return false;
-        return getMessage().equals(that.getMessage());
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

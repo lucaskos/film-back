@@ -4,7 +4,6 @@ import com.luke.filmdb.application.DTO.RegisterDTO;
 import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
 import com.luke.filmdb.application.services.UserService;
-import com.luke.filmdb.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +28,6 @@ public class UserController {
 
     private UserService userService;
     private AuthenticationManager authenticationManager;
-    private TokenProvider jwtTokenUtil;
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterDTO user) {

@@ -56,7 +56,7 @@ public class PersonServiceTest extends MapperCommons {
         when(personRepo.findById(any())).thenReturn(java.util.Optional.ofNullable(person));
         when(entityMapper.personToPersonDTO(person)).thenReturn(getPersonDtoTest());
 
-        PersonDTO personDTO = entityMapper.personToPersonDTO(person);
+        PersonDTO personDTO = personService.getPerson(person.getId());
 
         Assert.assertEquals(person.getFirstName(), personDTO.getFirstName());
     }

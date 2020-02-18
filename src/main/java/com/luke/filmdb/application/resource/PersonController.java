@@ -26,7 +26,7 @@ public class PersonController {
 
     @GetMapping
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
-        return new ResponseEntity<List<PersonDTO>>(personService.getAllPeople(), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getAllPeople(), HttpStatus.OK);
     }
 
     @GetMapping("/id/{id}")
