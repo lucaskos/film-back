@@ -94,7 +94,9 @@ public class Film extends DataModelObject {
         if (this == o) return true;
         if (!(o instanceof Film)) return false;
         if (!super.equals(o)) return false;
+
         Film film = (Film) o;
+
         return Objects.equals(title, film.title) &&
                 Objects.equals(description, film.description) &&
                 Objects.equals(year, film.year) &&

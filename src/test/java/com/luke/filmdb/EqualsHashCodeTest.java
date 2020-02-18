@@ -2,7 +2,9 @@ package com.luke.filmdb;
 
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.FilmRelations;
+import com.luke.filmdb.application.model.Person;
 import com.luke.filmdb.application.model.comments.FilmComment;
+import com.luke.filmdb.application.model.comments.PersonComment;
 import com.luke.filmdb.application.model.generic.DataModelObject;
 import com.luke.filmdb.application.model.user.Role;
 import com.luke.filmdb.application.model.user.User;
@@ -35,7 +37,22 @@ public class EqualsHashCodeTest extends MapperCommons {
                 .withPrefabValues(FilmComment.class, new FilmComment(Film.getFilmWithTitleYear("TEST", 0)),
                         new FilmComment(Film.getFilmWithTitleYear("TEST1", 1)))
                 .verify();
+    }
 
+    @Test
+    public void personEqualHashCodeTest() {
+
+        PersonComment personCommentA = PersonComment.getPersonCommentWithTitleTextAndPerson(Person.getPersonWithFirstAndLastName("test", "test"),
+                "TEST", "TEST");
+        PersonComment personCommentB = PersonComment.getPersonCommentWithTitleTextAndPerson(Person.getPersonWithFirstAndLastName("test1", "test1"),
+                "TEST1", "TEST1");
+        EqualsVerifier.forClass(Person.class)
+                .withRedefinedSuperclass()
+                .usingGetClass()
+                .withIgnoredFields("id", "filmRelations")//todo do usuniecia filmRelations
+                .withPrefabValues(FilmRelations.class, new FilmRelations(1L), new FilmRelations(2L))
+                .withPrefabValues(PersonComment.class, personCommentA, personCommentB)
+                .verify();
     }
 
     @Test

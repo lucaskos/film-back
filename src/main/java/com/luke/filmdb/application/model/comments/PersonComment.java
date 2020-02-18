@@ -32,8 +32,12 @@ public class PersonComment extends Comment {
     public PersonComment() {
     }
 
-    public PersonComment(Person person) {
-        this.person = person;
+    public static PersonComment getPersonCommentWithTitleTextAndPerson(Person person, String title, String text) {
+        PersonComment personComment = new PersonComment();
+        personComment.setText(text);
+        personComment.setTitle(title);
+        personComment.setPerson(person);
+        return personComment;
     }
 
     @Override
@@ -53,6 +57,7 @@ public class PersonComment extends Comment {
 
         return Objects.equals(getText(), that.getText())
                 && Objects.equals(getTitle(), that.getTitle());
+//                && Objects.equals(getPerson().getFirstName(), that.getPerson().getFirstName());
     }
 
     @Override
@@ -60,6 +65,7 @@ public class PersonComment extends Comment {
         int result = super.hashCode();
         result = 31 * result + (getText() != null ? getText().hashCode() : 0);
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
+//        result = 31 * result + (getPerson() != null ? getPerson().hashCode() : 0);
         return result;
     }
 }
