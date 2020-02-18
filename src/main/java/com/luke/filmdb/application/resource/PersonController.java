@@ -41,6 +41,6 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonDTO personDTO) {
-        return new ResponseEntity<PersonDTO>(this.personService.addNewPerson(personDTO), HttpStatus.OK);
+        return new ResponseEntity<>(this.personService.addNewPerson(personDTO), HttpStatus.CREATED);
     }
 }
