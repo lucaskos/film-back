@@ -7,11 +7,11 @@ import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.FilmRelations;
 import com.luke.filmdb.application.repository.FilmRepo;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.ws.rs.NotFoundException;
 import java.time.LocalDate;
