@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProfile name="prod">
+    </springProfile>
+    <springProfile name="dev">
+    </springProfile>
     <logger name="org.springframework.web" level="WARN"/>
     <logger name="liquibase" level="WARN" />
     <logger name="hibernate" level="WARN" />

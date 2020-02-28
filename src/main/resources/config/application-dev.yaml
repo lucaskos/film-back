@@ -1,23 +1,11 @@
+server:
+  port: 8085
 spring:
-  application:
-    name: film data base
-  profiles:
-    active: dev
   jpa:
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-  logging:
-    level:
-      ROOT: DEBUG
-      liquibase: DEBUG
-      com.example.demo: DEBUG
-      org.hibernate: DEBUG
-      org.springframework.web: DEBUG
-    pattern:
-      console: %d{yyyy-MM-dd HH:mm:ss} - %msg%n
-      file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
 ---
 security:
   token:
@@ -40,5 +28,3 @@ spring:
   devtools:
     remote:
       secret: secret
-server:
-  port: 8085
