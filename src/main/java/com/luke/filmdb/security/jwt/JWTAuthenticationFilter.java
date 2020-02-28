@@ -27,7 +27,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
-        LoginDTO object = null;
+        LoginDTO object;
         object = getObject(req);
 
         return authenticationManager.authenticate(
@@ -59,9 +59,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                          HttpServletResponse res,
                                          FilterChain chain,
                                          Authentication auth) throws IOException, ServletException {
-            super.successfulAuthentication(req, res, chain, auth);
+        super.successfulAuthentication(req, res, chain, auth);
 
-            chain.doFilter(req, res);
+        chain.doFilter(req, res);
     }
 
 }

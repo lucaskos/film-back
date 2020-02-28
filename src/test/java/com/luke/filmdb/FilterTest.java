@@ -1,6 +1,6 @@
 package com.luke.filmdb;
 
-import com.luke.filmdb.security.AuthoritiesConstants;
+import com.luke.filmdb.security.Roles;
 import com.luke.filmdb.security.jwt.JWTAuthenticationFilter;
 import com.luke.filmdb.security.jwt.JWTAuthorizationFilter;
 import com.luke.filmdb.security.jwt.TokenProvider;
@@ -38,9 +38,7 @@ import java.util.Collections;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -78,7 +76,7 @@ public class FilterTest {
         freshToken = this.tokenProvider.generateToken(new UsernamePasswordAuthenticationToken(
                 this.username,
                 this.password,
-                Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))));
+                Collections.singletonList(new SimpleGrantedAuthority(Roles.USER))));
     }
 
     @Test
@@ -159,7 +157,7 @@ public class FilterTest {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 this.username,
                 this.password,
-                Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+                Collections.singletonList(new SimpleGrantedAuthority(Roles.USER))
         );
 
         return this.tokenProvider.generateToken(authentication);

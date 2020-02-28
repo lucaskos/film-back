@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: demo-app
@@ -12,57 +15,3 @@ security:
   token:
     secret: mySecret
     maxAgeSeconds: 86400 #1 day
----
-server:
-  port: 8083
----
-logging.level.org.hibernate.validator.internal: DEBUG
-logging.level.org.hibernate.jpa.internal: DEBUG
-logging.level.org.hibernate.integrator.internal: DEBUG
-logging.level.org.hibernate.boot.registry.internal: DEBUG
-logging.level.org.hibernate.id.factory.internal: DEBUG  #id generation info
-logging.level.org.hibernate.internal: DEBUG  #Display properties of the session factory
-logging.level.org.event.internal: DEBUG  #Display properties of the session factory
-
----
-spring:
-  profiles: test
-  datasource:
-    url: jdbc:h2:mem:testdb
-    platform: h2
-    username: sa
-    password: ""
-    driverClassName: org.h2.Driver
-  h2:
-    console:
-      enabled: true
-  liquibase:
-    contexts: dev, test
-  devtools:
-    remote:
-      secret: secret
----
-spring:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    password: lucas7
-    url: "jdbc:mysql://localhost:3306/test"
-    username: lucaskos
-  jpa:
-    generate-ddl: true
-    hibernate.ddl-auto: update
-    show-sql: true
-  profiles: prod
----
-spring:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    #todo change this!
-    url: "jdbc:mysql://localhost:3306/test"
-    username: lucaskos
-    password: lucas7
-  jpa:
-    hibernate.ddl-auto: update
-    generate-ddl: true
-    show-sql: true
-  profiles: dev

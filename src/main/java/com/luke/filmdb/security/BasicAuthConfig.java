@@ -3,10 +3,8 @@ package com.luke.filmdb.security;
 import com.luke.filmdb.application.services.CustomUserServiceImpl;
 import com.luke.filmdb.security.jwt.JWTAuthenticationFilter;
 import com.luke.filmdb.security.jwt.JWTAuthorizationFilter;
-import com.luke.filmdb.security.jwt.JwtAuthenticationEntryPoint;
 import com.luke.filmdb.security.jwt.TokenProvider;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,9 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Created by Luke on 24.10.2018.
@@ -31,28 +26,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
 
     private CustomUserServiceImpl customUserService;
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-    @Autowired
     private TokenProvider tokenProvider;
 
-//    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-//    @Autowired
-//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(customUserService)
-//                .passwordEncoder(getPasswordEncoder());
-//    }
-
-//    @Bean
-//    public JWTAuthorizationFilter authenticationTokenFilterBean() throws Exception {
-//        return new JWTAuthorizationFilter();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
@@ -73,25 +52,15 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    @Bean
-    public BCryptPasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/h2-console/**");
-        web.ignoring().antMatchers("/token/**");
+//        web.ignoring().antMatchers("/token/**");
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-            }
-        };
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
