@@ -3,7 +3,7 @@ package com.luke.filmdb.application.services;
 import com.luke.filmdb.application.DTO.RegisterDTO;
 import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.User;
-import com.luke.filmdb.application.resource.filter.UserNotFoundException;
+import com.luke.filmdb.application.resources.filter.UserNotFoundException;
 
 import java.util.Collection;
 import java.util.List;

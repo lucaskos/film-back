@@ -5,7 +5,7 @@ spring:
   application:
     name: demo-app
   profiles:
-    active: test
+    active: prod
   jpa:
     properties:
       hibernate:

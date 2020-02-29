@@ -1,0 +1,25 @@
+server:
+  port: 8089
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+    username: root
+    password: lucas7
+    driverClassName: com.mysql.jdbc.Driver
+  h2:
+    console:
+      enabled: false
+  devtools:
+    remote:
+      secret: secret
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+
+security:
+  token:
+    secret: Test
+    maxAgeSeconds: 86400 #1 day

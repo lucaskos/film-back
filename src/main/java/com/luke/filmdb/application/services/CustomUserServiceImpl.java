@@ -2,7 +2,7 @@ package com.luke.filmdb.application.services;
 
 import com.luke.filmdb.application.model.user.Role;
 import com.luke.filmdb.application.model.user.User;
-import com.luke.filmdb.application.repository.UserRepository;
+import com.luke.filmdb.application.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

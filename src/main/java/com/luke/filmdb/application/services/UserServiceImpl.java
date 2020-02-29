@@ -1,13 +1,13 @@
 package com.luke.filmdb.application.services;
 
 import com.luke.filmdb.application.DTO.RegisterDTO;
-import com.luke.filmdb.application.DTO.mapper.UserMapper;
+import com.luke.filmdb.application.DTO.mappers.UserMapper;
 import com.luke.filmdb.application.DTO.user.UserDTO;
 import com.luke.filmdb.application.model.user.Role;
 import com.luke.filmdb.application.model.user.User;
-import com.luke.filmdb.application.repository.RoleRepo;
-import com.luke.filmdb.application.repository.UserRepository;
-import com.luke.filmdb.application.resource.filter.UserNotFoundException;
+import com.luke.filmdb.application.repositories.RoleRepo;
+import com.luke.filmdb.application.repositories.UserRepository;
+import com.luke.filmdb.application.resources.filter.UserNotFoundException;
 import com.luke.filmdb.commons.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -21,11 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.luke.filmdb.security.Roles.ADMIN;

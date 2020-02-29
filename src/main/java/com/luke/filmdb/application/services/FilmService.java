@@ -2,10 +2,10 @@ package com.luke.filmdb.application.services;
 
 import com.luke.filmdb.application.DTO.FilmDTO;
 import com.luke.filmdb.application.DTO.PersonDTO;
-import com.luke.filmdb.application.DTO.mapper.EntityMapper;
+import com.luke.filmdb.application.DTO.mappers.EntityMapper;
 import com.luke.filmdb.application.model.Film;
 import com.luke.filmdb.application.model.FilmRelations;
-import com.luke.filmdb.application.repository.FilmRepo;
+import com.luke.filmdb.application.repositories.FilmRepo;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +15,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.ws.rs.NotFoundException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service

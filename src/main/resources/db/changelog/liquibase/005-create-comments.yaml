@@ -46,8 +46,10 @@ databaseChangeLog:
     - createTable:
         columns:
         - column:
+            constraints:
+              primaryKey: true
             name: id
-            type: long
+            type: int
         - column:
             name: film
             type: int
@@ -78,7 +80,7 @@ databaseChangeLog:
     author: Luke
     changes:
     - addAutoIncrement:
-        columnDataType: long
+        columnDataType: int
         columnName: id
         startWith: 1
         tableName: film_comment
@@ -87,7 +89,7 @@ databaseChangeLog:
     author: Luke
     changes:
     - addAutoIncrement:
-        columnDataType: long
+        columnDataType: int
         columnName: id
         startWith: 1
         tableName: person_comment
@@ -121,7 +123,6 @@ databaseChangeLog:
         constraintName: film
         deferrable: false
         initiallyDeferred: false
-        onDelete: set null
         onDelete: cascade
         onUpdate: no action
         referencedColumnNames: id
@@ -137,7 +138,6 @@ databaseChangeLog:
         constraintName: owner_film_comment
         deferrable: false
         initiallyDeferred: false
-        onDelete: set null
         onDelete: cascade
         onUpdate: no action
         referencedColumnNames: id
@@ -153,7 +153,6 @@ databaseChangeLog:
         constraintName: parent_comment_film
         deferrable: false
         initiallyDeferred: false
-        onDelete: set null
         onDelete: cascade
         onUpdate: no action
         referencedColumnNames: id

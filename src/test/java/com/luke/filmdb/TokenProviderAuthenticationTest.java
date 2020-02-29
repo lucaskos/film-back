@@ -3,7 +3,7 @@ package com.luke.filmdb;
 import com.luke.filmdb.application.model.user.Privilege;
 import com.luke.filmdb.application.model.user.Role;
 import com.luke.filmdb.application.model.user.User;
-import com.luke.filmdb.application.repository.UserRepository;
+import com.luke.filmdb.application.repositories.UserRepository;
 import com.luke.filmdb.security.jwt.TokenProvider;
 import io.jsonwebtoken.lang.Assert;
 import org.junit.Test;
@@ -18,11 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
