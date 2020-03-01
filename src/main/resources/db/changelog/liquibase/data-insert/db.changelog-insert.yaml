@@ -1,16 +1,23 @@
 databaseChangeLog:
   #DATA INSERT
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/001-user-data.yaml
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/002-privilages-roles.yml
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/002-insert-film-data.yaml
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/003-insert-person-data.yaml
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/004-insert-film-person-relations.yaml
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/005-insert-film-comments.yaml
   - include:
+      context: dev
       file: db/changelog/liquibase/data-insert/005-insert-person-comment.yaml
