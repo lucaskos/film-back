@@ -98,3 +98,22 @@ databaseChangeLog:
             name: users_id
             value: 2
         tableName: user_role
+- changeSet:
+    id: insert rating data
+    author: lkosmala
+    changes:
+    - insert:
+        columns:
+        - column:
+            name: user
+            value: 1
+        - column:
+            name: rating
+            value: 1
+        - column:
+            name: object_id
+            value: 1
+        - column:
+            name: object_type
+            value: 'FILM'
+        tableName: object_rating

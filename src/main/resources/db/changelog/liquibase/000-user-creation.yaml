@@ -21,7 +21,7 @@ databaseChangeLog:
             type: varchar(255)
         - column:
             name: enabled
-            type: bit(1)
+            type: tinyint(1)
         - column:
             constraints:
               nullable: false
